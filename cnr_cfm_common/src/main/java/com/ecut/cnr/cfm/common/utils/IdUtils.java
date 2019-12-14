@@ -7,4 +7,5 @@ package com.ecut.cnr.cfm.common.utils;
  * @Create by fangming_chen
  */
 public class IdUtils {
+
 }
