@@ -3,7 +3,7 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     driverClassName: com.mysql.jdbc.Driver
     druid:
-      url: jdbc:mysql://localhost:3306/cnr?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+      url: jdbc:mysql://localhost:3306/cnr_core?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
       username: root
       password: mrchen124578
       initial-size: 10
@@ -48,3 +48,8 @@ mybatis-plus:
   global-config:
     #刷新Mapper，只在开发环境打开
     refresh: true
+
+elasticjob:
+    zookeeper:
+     server-lists: 127.0.0.1:2181
+     name-space: cnr-elasticjob

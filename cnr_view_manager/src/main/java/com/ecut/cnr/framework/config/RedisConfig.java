@@ -1,4 +1,4 @@
-package com.ecut.cnr.framework.common.config;
+package com.ecut.cnr.framework.config;
 
 import com.ecut.cnr.framework.common.constants.RedisNameConstants;
 import org.springframework.cache.CacheManager;

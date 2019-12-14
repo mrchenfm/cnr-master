@@ -38,7 +38,7 @@
         <lombok.version>1.18.4</lombok.version>
         <mysql.version>5.1.39</mysql.version>
         <druid.version>1.1.10</druid.version>
-        <elastic-job.version>2.0.1</elastic-job.version>
+        <elastic-job.version>2.1.5</elastic-job.version>
     </properties>
 
     <dependencies>
@@ -129,7 +129,12 @@
         <!--定时任务管理-->
         <dependency>
             <groupId>com.dangdang</groupId>
-            <artifactId>elastic-job-core</artifactId>
+            <artifactId>elastic-job-lite-core</artifactId>
+            <version>${elastic-job.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.dangdang</groupId>
+            <artifactId>elastic-job-lite-spring</artifactId>
             <version>${elastic-job.version}</version>
         </dependency>
     </dependencies>
