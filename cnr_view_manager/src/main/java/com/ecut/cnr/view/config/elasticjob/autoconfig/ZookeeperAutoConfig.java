@@ -1,4 +1,4 @@
-package com.ecut.cnr.framework.config.elasticjob.autoconfig;
+package com.ecut.cnr.view.config.elasticjob.autoconfig;
 
 import com.dangdang.ddframe.job.reg.base.CoordinatorRegistryCenter;
 import com.dangdang.ddframe.job.reg.zookeeper.ZookeeperConfiguration;

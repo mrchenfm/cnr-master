@@ -1,4 +1,4 @@
-package com.ecut.cnr.framework.config.elasticjob.autoconfig;
+package com.ecut.cnr.view.config.elasticjob.autoconfig;
 
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.stereotype.Component;

@@ -10,12 +10,24 @@ server:
   connection-timeout: 5000ms
   servlet:
     #映射项目路径
-    context-path: /dbblog
+    context-path: /cnr
 
 spring:
       profiles:
         # 环境 开发dev，测试test，生产prod
         active: dev
+      #前端配置
+      thymeleaf:
+        #缓冲的配置
+        cache: false
+        check-template: true
+        check-template-location: true
+        #开启MVC thymeleaf 视图解析
+        enabled: true
+        encoding: utf-8
+        mode: HTML5
+        prefix: classpath:/templates/
+        suffix: .html
       jackson:
         serialization:
           # jackson返回时间戳
@@ -38,7 +50,7 @@ mybatis-plus:
   #mapper文件
   mapper-locations: classpath:mapper/**/*.xml
   #实体扫描，多个package用逗号或者分号分隔
-  type-aliases-package: cn.dblearn.blog.entity.*
+  type-aliases-package: com.ecut.cnr.framework.entity.*
   global-config:
     # 数据库相关配置
     db-config:
