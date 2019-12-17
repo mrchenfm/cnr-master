@@ -2,7 +2,10 @@ package com.ecut.cnr.view.test;
 
 import com.dangdang.ddframe.job.api.ShardingContext;
 import com.dangdang.ddframe.job.api.simple.SimpleJob;
-import com.ecut.cnr.view.config.elasticjob.autoconfig.ElasticSimpleJob;
+import com.ecut.cnr.framework.common.task.anno.ElasticSimpleJob;
+import com.ecut.cnr.view.service.ISysUserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
@@ -18,7 +21,11 @@ import java.util.Date;
         shardingTotalCount = 1,
         overwrite = true
 )
+@Component
 public class Task1 implements SimpleJob {
+
+    @Autowired
+    private ISysUserService sysUserService;
     @Override
     public void execute(ShardingContext shardingContext) {
         task();
@@ -27,7 +34,7 @@ public class Task1 implements SimpleJob {
 
 
     public void task(){
-        System.out.println(new Date());
+        System.out.println(new Date()+"=="+sysUserService);
     }
 
 

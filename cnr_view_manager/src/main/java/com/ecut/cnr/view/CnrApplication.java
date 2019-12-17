@@ -1,7 +1,9 @@
 package com.ecut.cnr.view;
 
+import com.ecut.cnr.view.config.elasticjob.JobInitializeBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -24,6 +26,11 @@ public class CnrApplication extends WebMvcConfigurationSupport {
         //这是是配置静态资源文件的路径
         registry.addResourceHandler("/static/**").addResourceLocations(ResourceUtils.CLASSPATH_URL_PREFIX + "/static/");
         super.addResourceHandlers(registry);
+    }
+
+    @Bean
+    public JobInitializeBean getJobInitializeBean(){
+        return new JobInitializeBean();
     }
 
     public static void main(String[] args){

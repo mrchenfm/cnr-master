@@ -9,14 +9,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @Classname ZookeeperAutoConfig
+ * @Classname ZookeeperRegistryCente
  * @Description
- * @Date 2019/12/14 17:37
+ * @Date 2019/12/17 20:47
  * @Create by fangming_chen
  */
 @Configuration
 @ConditionalOnProperty("elasticjob.zookeeper.server-lists")
-public class ZookeeperAutoConfig {
+public class ZookeeperRegistryConfig {
     @Autowired
     private ZookeeperProperties zookeeperProperties;
 
@@ -27,16 +27,16 @@ public class ZookeeperAutoConfig {
      * @date 2019/10/29
      **/
     @Bean(initMethod = "init")
-    public  CoordinatorRegistryCenter coordinatorRegistryCenter(){
+    public CoordinatorRegistryCenter zkCenter(){
         String serverList = zookeeperProperties.getServerLists();
         String nameSpace = zookeeperProperties.getNameSpace();
+
         ZookeeperConfiguration zc = new ZookeeperConfiguration(serverList, nameSpace);
 
         CoordinatorRegistryCenter crc = new ZookeeperRegistryCenter(zc);
 
         // 注册中心初始化 使用initMethod = "init" 代替
-        //crc.init();
-
+        // crc.init();
         return crc;
     }
 }
