@@ -17,7 +17,7 @@ public interface IShiroService {
      * @param userId
      * @return
      */
-    Set<String> getUserPermissions(Integer userId);
+    Set<String> getUserPermissions(String userId);
 
     /**
      * 查询token
@@ -31,12 +31,12 @@ public interface IShiroService {
      * @param userId
      * @return
      */
-    SysUser queryUser(Integer userId);
+    SysUser queryUser(String userId);
 
     /**
      * 续期
      * @param userId
      * @param accessToken
      */
-    void refreshToken(Integer userId, String accessToken);
+    void refreshToken(String userId, String accessToken);
 }

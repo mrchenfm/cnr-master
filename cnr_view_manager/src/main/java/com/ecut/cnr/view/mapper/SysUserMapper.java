@@ -5,6 +5,8 @@ import com.ecut.cnr.framework.entity.sys.SysUser;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /**
  * @Classname SysUserMapper
  * @Description
@@ -15,4 +17,11 @@ import org.springframework.stereotype.Component;
 @Component
 public interface SysUserMapper extends BaseMapper<SysUser>{
 
+
+    /**
+     * 查询用户
+     * @param username
+     * @return
+     */
+    SysUser selectByUsername(String username);
 }

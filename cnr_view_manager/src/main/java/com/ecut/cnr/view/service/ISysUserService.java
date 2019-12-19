@@ -2,6 +2,7 @@ package com.ecut.cnr.view.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ecut.cnr.framework.entity.sys.SysUser;
+import com.ecut.cnr.framework.entity.sys.bo.UserInfoBO;
 
 /**
  * @Classname ISysUserServcie
@@ -10,5 +11,7 @@ import com.ecut.cnr.framework.entity.sys.SysUser;
  * @Create by fangming_chen
  */
 public interface ISysUserService extends IService<SysUser> {
+
+    UserInfoBO selectUserByUsername(String username);
 
 }

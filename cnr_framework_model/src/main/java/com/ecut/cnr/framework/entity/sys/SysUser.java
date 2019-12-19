@@ -47,6 +47,9 @@ public class SysUser implements Serializable {
     @ApiModelProperty(value = "邮箱")
     private String email;
 
+    @ApiModelProperty(value = "电话")
+    private String phone;
+
     @ApiModelProperty(value = "用户头像地址")
     private String userface;
 

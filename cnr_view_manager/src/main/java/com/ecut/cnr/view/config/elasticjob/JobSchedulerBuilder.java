@@ -58,13 +58,10 @@ public class JobSchedulerBuilder {
         // appendEventTraceRdbDataSource();
     }
 
-    void appendConstructorArgValue(List<BeanDefinition> elasticJobListeners) {
+    public void appendConstructorArgValue(List<BeanDefinition> elasticJobListeners) {
         jobScheduler.addConstructorArgValue(elasticJobListeners);
     }
 
-    private void appendEventTraceRdbDataSource() {
-
-    }
 
     private LiteJobConfiguration buildLiteJobConfiguration(JobTypeConfiguration typeConfig) {
         LiteJobConfiguration jobConfig;

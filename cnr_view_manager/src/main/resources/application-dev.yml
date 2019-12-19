@@ -51,5 +51,5 @@ mybatis-plus:
 
 elasticjob:
     zookeeper:
-     server-lists: 127.0.0.1:2181
+     server-lists: 193.112.206.32:2181
      name-space: cnr-elasticjob
