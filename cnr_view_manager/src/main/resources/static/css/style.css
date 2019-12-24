@@ -18,6 +18,22 @@ body {
 .page-container {
     margin: 120px auto 0 auto;
 }
+.captcha {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+.captcha input {
+    flex: 1;
+}
+.captcha img {
+    flex: 1;
+    margin-top: 25px;
+    margin-left: 10px;
+    box-shadow: 0 2px 3px 0 rgba(0,0,0,.1) inset;
+}
+
+
 
 h1 {
     font-size: 30px;

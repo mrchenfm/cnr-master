@@ -1,5 +1,6 @@
-package com.ecut.cnr.framework.common.utils;
+package com.ecut.cnr.view.utils;
 
+import com.ecut.cnr.framework.common.utils.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.*;
 import org.springframework.stereotype.Component;

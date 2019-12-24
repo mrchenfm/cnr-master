@@ -1,13 +1,19 @@
 package com.ecut.cnr.view;
 
 import com.ecut.cnr.view.config.elasticjob.JobInitializeBean;
+import com.google.common.collect.Maps;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+import org.thymeleaf.spring5.view.ThymeleafViewResolver;
+
+import javax.annotation.Resource;
+import java.util.Map;
 
 /**
  * @Classname CnrApplication
@@ -26,6 +32,18 @@ public class CnrApplication extends WebMvcConfigurationSupport {
         //这是是配置静态资源文件的路径
         registry.addResourceHandler("/static/**").addResourceLocations(ResourceUtils.CLASSPATH_URL_PREFIX + "/static/");
         super.addResourceHandlers(registry);
+    }
+
+    @Resource
+    private Environment environment;
+
+    @Resource
+    private void configureThymeleafStaticVars(ThymeleafViewResolver thymeleafViewResolver){
+        if(thymeleafViewResolver != null){
+            Map<String,Object> vars = Maps.newHashMap();
+            vars.put("ctx",environment.getProperty("ctx"));
+            thymeleafViewResolver.setStaticVariables(vars);
+        }
     }
 
     @Bean

@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -19,6 +20,7 @@ import java.util.Date;
  * @Create by fangming_chen
  */
 @Data
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @ApiModel(value = "系统用户对象",description = "用户")

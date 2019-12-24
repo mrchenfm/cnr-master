@@ -3,6 +3,7 @@ package com.ecut.cnr.view.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ecut.cnr.framework.entity.sys.SysUser;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -23,5 +24,5 @@ public interface SysUserMapper extends BaseMapper<SysUser>{
      * @param username
      * @return
      */
-    SysUser selectByUsername(String username);
+    SysUser selectByUsername(@Param("username") String username);
 }

@@ -24,13 +24,13 @@ public class SysMenu implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "menu_id", type = IdType.AUTO)
-    private Integer menuId;
+    private String id;
 
     @ApiModelProperty(value = "父菜单ID，一级菜单为0")
-    private Integer parentId;
+    private String parentId;
 
     @ApiModelProperty(value = "菜单名称")
-    private String name;
+    private String menuName;
 
     @ApiModelProperty(value = "菜单URL")
     private String url;
@@ -49,17 +49,11 @@ public class SysMenu implements Serializable {
     private Integer orderNum;
 
     /**
-     * 父菜单名称
-     */
-    @TableField(exist=false)
-    private String parentName;
-    /**
      * z-tree属性
      */
-    @TableField(exist=false)
-    private Boolean open;
+    private Integer visable;
 
-    @TableField(exist=false)
-    private List<?> list;
+    @ApiModelProperty(value = "删除标志")
+    private Integer delFlag;
 
 }

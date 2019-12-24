@@ -17,7 +17,7 @@ import java.util.Date;
  */
 @ElasticSimpleJob(
         jobName = "test",
-        cron = "*/3 * * * * ?",
+        cron = "0 0 0 * * ?",
         shardingTotalCount = 1,
         overwrite = true
 )

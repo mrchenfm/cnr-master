@@ -5,6 +5,8 @@ import com.ecut.cnr.framework.entity.sys.SysMenu;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /**
  * @Classname SysMenuMapper
  * @Description
@@ -14,4 +16,5 @@ import org.springframework.stereotype.Component;
 @Component
 @Mapper
 public interface SysMenuMapper extends BaseMapper<SysMenu> {
+    List<String> selectByRoleIds(List<String> roleIds);
 }

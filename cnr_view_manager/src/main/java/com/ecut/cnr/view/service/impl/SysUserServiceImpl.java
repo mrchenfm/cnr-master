@@ -7,8 +7,11 @@ import com.ecut.cnr.view.mapper.SysRoleMapper;
 import com.ecut.cnr.view.mapper.SysUserMapper;
 import com.ecut.cnr.view.service.ISysUserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @Classname SysUserServicempl
@@ -29,9 +32,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper,SysUser> imple
     @Override
     public UserInfoBO selectUserByUsername(String username){
         SysUser sysUser = sysUserMapper.selectByUsername(username);
-
-        UserInfoBO userInfoBO = new UserInfoBO(sysUser,null);
-
+        List<String> roleIds = sysRoleMapper.selectByUserId(sysUser.getId());
+        UserInfoBO userInfoBO = new UserInfoBO();
+        BeanUtils.copyProperties(sysUser,userInfoBO);
+        userInfoBO.setRoleIds(roleIds);
         return userInfoBO;
     }
 

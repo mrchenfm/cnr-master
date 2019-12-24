@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ecut.cnr.view.mapper.SysMenuMapper">
+    <resultMap id="BasyResultMap" type="com.ecut.cnr.framework.entity.sys.SysMenu">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="menu_name" property="menuName" jdbcType="VARCHAR"/>
+        <result column="parent_id" property="parentId" jdbcType="VARCHAR"/>
+        <result column="order_num" property="orderNum" jdbcType="VARCHAR"/>
+        <result column="url" property="url" jdbcType="VARCHAR"/>
+        <result column="icon" property="icon" jdbcType="VARCHAR"/>
+        <result column="perms" property="perms" jdbcType="VARCHAR"/>
+        <result column="visable" property="visable" jdbcType="INTEGER"/>
+        <result column="del_flag" property="delFlag" jdbcType="INTEGER"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+    </resultMap>
+    <select id="selectByRoleIds" resultType="java.lang.String">
+        SELECT perms
+        FROM t_sys_menu sm
+        WHERE id EXISTS(
+        SELECT
+         menu_id
+         from t_role_menu rm
+        WHERE
+          role_id IN (
+          <foreach collection="roleIds" item="roleId">
+              #{roleId}
+          </foreach>
+          )
+        AND
+        sm.id = rm.menu_id
+        )
+
+    </select>
+
+
+</mapper>

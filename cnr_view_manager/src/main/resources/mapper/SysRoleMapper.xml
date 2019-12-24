@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ecut.cnr.view.mapper.SysRoleMapper">
+
+    <resultMap id="BaseResultMap" type="com.ecut.cnr.framework.entity.sys.SysRole">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="role_name" property="roleName" jdbcType="VARCHAR"/>
+        <result column="create_user_id" property="createUserId" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="role_identity" property="roleIdentity" jdbcType="VARCHAR"/>
+        <result column="update_time" property="updateTime" jdbcType="DATE"/>
+        <result column="create_time" property="createTime" jdbcType="DATE"/>
+    </resultMap>
+
+    <select id="selectByUserId" resultType="java.lang.String">
+        SELECT role_id from t_user_role WHERE user_id = #{userId}
+    </select>
+</mapper>

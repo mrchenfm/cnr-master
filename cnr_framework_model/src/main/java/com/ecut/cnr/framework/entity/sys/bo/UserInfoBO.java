@@ -3,9 +3,9 @@ package com.ecut.cnr.framework.entity.sys.bo;
 import com.ecut.cnr.framework.entity.sys.SysMenu;
 import com.ecut.cnr.framework.entity.sys.SysUser;
 import lombok.Data;
+import lombok.ToString;
 
-import java.util.Date;
-import java.util.HashMap;
+import java.util.*;
 
 /**
  * @Classname UserInfoBO
@@ -14,6 +14,7 @@ import java.util.HashMap;
  * @Create by fangming_chen
  */
 @Data
+@ToString
 public class UserInfoBO {
 
     private String id;
@@ -38,8 +39,8 @@ public class UserInfoBO {
 
     private Date updateTime;
 
-    private HashMap<String,SysMenu> menus;
+    private List<String> roleIds;
 
-    public UserInfoBO(SysUser sysUser, Object o) {
-    }
+    private Set<String> menus;
+
 }

@@ -22,17 +22,22 @@
         <![endif]-->
 
     </head>
-
     <body>
 
         <div class="page-container">
             <h1>Login</h1>
-            <form action="" method="post">
-                <input type="text" name="username" class="username" placeholder="Username">
-                <input type="password" name="password" class="password" placeholder="Password">
-                <button type="submit">Sign me in</button>
+            <form id="loginForm" method="post">
+                <input class="uuid" type="text" name="uuid" hidden>
+                <input type="text" name="username" class="username" placeholder="用户名">
+                <input type="password" name="password" class="password" placeholder="密码">
+                <div class="captcha">
+                    <input class="captcha-val" name="captcha" type="text" height="44" placeholder="验证码">
+                    <img src=""  class="captcha-msg" height="44" width="95">
+                </div>
+
                 <div class="error"><span>+</span></div>
             </form>
+            <button class="loginSub"></button>
             <div class="connect">
                 <p>Or connect with:</p>
                 <p>
@@ -43,12 +48,13 @@
         </div>
         <div align="center">Collect from <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a></div>
 
-        <!-- Javascript -->
+        <script th:inline="javascript">
+            var ctx = [(${ctx})]
+        </script>
         <script th:src="@{/static/js/jquery-1.8.2.min.js}"></script>
         <script th:src="@{/static/js/supersized.3.2.7.min.js}"></script>
         <script th:src="@{/static/js/supersized-init.js}"></script>
         <script th:src="@{/static/js/scripts.js}"></script>
-
     </body>
 
 </html>

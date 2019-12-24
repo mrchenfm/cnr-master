@@ -34,6 +34,9 @@ public class SysRole implements Serializable {
     @ApiModelProperty(value = "角色标识")
     private String roleIdentity;
 
+    @ApiModelProperty(value = "备注")
+    private String remark;
+
     @ApiModelProperty(value = "创建者")
     private Long createUserId;
 
