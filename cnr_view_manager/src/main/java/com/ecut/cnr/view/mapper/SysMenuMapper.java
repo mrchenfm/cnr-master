@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @Classname SysMenuMapper
@@ -16,5 +17,5 @@ import java.util.List;
 @Component
 @Mapper
 public interface SysMenuMapper extends BaseMapper<SysMenu> {
-    List<String> selectByRoleIds(List<String> roleIds);
+    Set<String> selectByRoleIds(List<String> roleIds);
 }

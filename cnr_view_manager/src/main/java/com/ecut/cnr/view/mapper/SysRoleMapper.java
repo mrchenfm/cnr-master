@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @Classname SysRoleMapper
@@ -25,4 +26,6 @@ public interface SysRoleMapper extends BaseMapper<SysRole> {
      * @return
      */
     List<String> selectByUserId(@Param("userId") String userId);
+
+    Set<String> findRoleNamesByIds(@Param("roleIds") List<String> roleIds);
 }

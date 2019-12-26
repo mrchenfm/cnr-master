@@ -34,18 +34,6 @@ public class CnrApplication extends WebMvcConfigurationSupport {
         super.addResourceHandlers(registry);
     }
 
-    @Resource
-    private Environment environment;
-
-    @Resource
-    private void configureThymeleafStaticVars(ThymeleafViewResolver thymeleafViewResolver){
-        if(thymeleafViewResolver != null){
-            Map<String,Object> vars = Maps.newHashMap();
-            vars.put("ctx",environment.getProperty("ctx"));
-            thymeleafViewResolver.setStaticVariables(vars);
-        }
-    }
-
     @Bean
     public JobInitializeBean getJobInitializeBean(){
         return new JobInitializeBean();

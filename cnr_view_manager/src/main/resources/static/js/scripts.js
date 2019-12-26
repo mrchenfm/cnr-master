@@ -11,7 +11,7 @@ jQuery(document).ready(function() {
         var uuid = $(".uuid").val();
         var loginRequest = {"username": username, "password": password,"captcha":captcha,"uuid":uuid};
         $.ajax({
-            url: "admin/sys/login",
+            url: ctx+"sys/login",
             type: "post",
             data: JSON.stringify(loginRequest),
             dataType: "json",
@@ -20,7 +20,7 @@ jQuery(document).ready(function() {
                 if(data.code == 200){
                     document.cookie = 'token='+data.token;
                     console.log(data.token);
-                    window.location.href = 'admin/index';
+                    window.location.href = ctx+'admin/index';
                 }else {
                     alert(data.msg);
                 }
