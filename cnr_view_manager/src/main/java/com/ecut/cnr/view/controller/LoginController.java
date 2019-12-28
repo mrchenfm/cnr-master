@@ -4,9 +4,11 @@ import com.baomidou.mybatisplus.core.toolkit.IOUtils;
 import com.ecut.cnr.framework.common.Result;
 import com.ecut.cnr.framework.common.base.BaseController;
 import com.ecut.cnr.framework.common.enums.ErrorEnum;
+import com.ecut.cnr.framework.entity.sys.SysMenu;
 import com.ecut.cnr.framework.entity.sys.bo.UserInfoBO;
 import com.ecut.cnr.framework.entity.sys.request.LoginFormRequest;
 import com.ecut.cnr.view.service.ISysCaptchaService;
+import com.ecut.cnr.view.service.ISysMenuService;
 import com.ecut.cnr.view.service.ISysUserService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -16,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
@@ -23,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * @Classname LoginController
@@ -35,7 +39,7 @@ import java.io.IOException;
 public class LoginController extends BaseController {
 
     @Autowired
-    private ISysUserService sysUserService;
+    private ISysMenuService sysMenuService;
 
     @Autowired
     private ISysCaptchaService sysCaptchaService;
@@ -45,21 +49,17 @@ public class LoginController extends BaseController {
         return "login";
     }
     @RequestMapping("/admin/index")
-    public String toIndex(Model model){
-
-        return "index";
+    public ModelAndView toIndex(Model model){
+        Subject subject = SecurityUtils.getSubject();
+        UserInfoBO userInfoBO = (UserInfoBO) subject.getPrincipal();
+        List<SysMenu> sysMenus = sysMenuService.findByPersRoleIds(userInfoBO.getRoleIds());
+        model.addAttribute("sysMenus",sysMenus);
+        return new ModelAndView("index","menuModel",model);
     }
 
-    @RequestMapping("/admin/404")
-    public String toError(Model model){
-
-        return "404";
-    }
-
-    @RequestMapping("/admin/500")
-    public String to505(Model model){
-
-        return "500";
+    @RequestMapping("/admin/mainIndex")
+    public String forMain(){
+        return "main";
     }
 
     @RequestMapping(value = "captcha.jpg",method = RequestMethod.GET)
@@ -80,11 +80,11 @@ public class LoginController extends BaseController {
     @ResponseBody
     @PostMapping(value = "/sys/login")
     public Result login(@RequestBody LoginFormRequest loginRequest) {
-        boolean captcha=sysCaptchaService.validate(loginRequest.getUuid(),loginRequest.getCaptcha());
+        /*boolean captcha=sysCaptchaService.validate(loginRequest.getUuid(),loginRequest.getCaptcha());
         if(!captcha){
             // 验证码不正确
             return Result.error(ErrorEnum.CAPTCHA_WRONG);
-        }
+        }*/
 
         // 用户信息
         UsernamePasswordToken token = new UsernamePasswordToken(loginRequest.getUsername(),loginRequest.getPassword());

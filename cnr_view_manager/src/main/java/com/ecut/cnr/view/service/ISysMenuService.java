@@ -1,5 +1,7 @@
 package com.ecut.cnr.view.service;
 
+import com.ecut.cnr.framework.entity.sys.SysMenu;
+
 import java.util.List;
 import java.util.Set;
 
@@ -15,5 +17,7 @@ public interface ISysMenuService {
      * @param roleIds
      * @return
      */
-    Set<String> finByPersRoleIds(List<String> roleIds);
+    Set<String> findOneByPersRoleIds(List<String> roleIds);
+
+    List<SysMenu> findByPersRoleIds(List<String> roleIds);
 }

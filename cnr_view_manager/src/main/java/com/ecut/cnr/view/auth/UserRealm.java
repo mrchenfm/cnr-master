@@ -49,7 +49,7 @@ public class UserRealm extends AuthorizingRealm {
         //查找角色标识
         Set<String> roles = sysRoleService.findRoleNamesByIds(userInfoBO.getRoleIds());
         //查找权限标识
-        Set<String> permissions = sysMenuService.finByPersRoleIds(userInfoBO.getRoleIds());
+        Set<String> permissions = sysMenuService.findOneByPersRoleIds(userInfoBO.getRoleIds());
         // 将角色名称组成的Set提供给授权info
         log.info("用户id={},角色有={},权限有={}",userInfoBO.getId(), JsonUtils.toJson(roles),JsonUtils.toJson(permissions));
         authorizationInfo.setRoles(roles);

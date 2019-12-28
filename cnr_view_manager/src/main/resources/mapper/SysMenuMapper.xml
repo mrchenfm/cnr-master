@@ -16,7 +16,7 @@
     <select id="selectByRoleIds" resultType="java.lang.String">
         SELECT perms
         FROM t_sys_menu sm
-        WHERE id EXISTS(
+        WHERE EXISTS(
         SELECT
          menu_id
          from t_role_menu rm
@@ -30,6 +30,23 @@
         sm.id = rm.menu_id
         )
 
+    </select>
+    <select id="selectMenuByRoleIds" resultType="com.ecut.cnr.framework.entity.sys.SysMenu">
+        SELECT *
+        FROM t_sys_menu sm
+        WHERE EXISTS(
+        SELECT
+        menu_id
+        from t_role_menu rm
+        WHERE
+        role_id IN (
+        <foreach collection="roleIds" item="roleId">
+            #{roleId}
+        </foreach>
+        )
+        AND
+        sm.id = rm.menu_id
+        )
     </select>
 
 

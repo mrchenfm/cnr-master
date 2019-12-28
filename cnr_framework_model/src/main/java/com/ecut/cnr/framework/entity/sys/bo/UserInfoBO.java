@@ -41,6 +41,4 @@ public class UserInfoBO {
 
     private List<String> roleIds;
 
-    private Set<String> menus;
-
 }

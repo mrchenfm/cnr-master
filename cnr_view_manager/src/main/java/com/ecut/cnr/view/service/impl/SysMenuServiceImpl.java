@@ -24,7 +24,12 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper,SysMenu> imple
     private SysMenuMapper sysMenuMapper;
 
     @Override
-    public Set<String> finByPersRoleIds(List<String> roleIds) {
+    public Set<String> findOneByPersRoleIds(List<String> roleIds) {
         return sysMenuMapper.selectByRoleIds(roleIds);
+    }
+
+    @Override
+    public List<SysMenu> findByPersRoleIds(List<String> roleIds) {
+        return sysMenuMapper.selectMenuByRoleIds(roleIds);
     }
 }
