@@ -1,11 +1,11 @@
 package com.ecut.cnr.view;
 
+import com.ecut.cnr.framework.common.utils.IdUtils;
 import com.ecut.cnr.view.config.elasticjob.JobInitializeBean;
-import com.google.common.collect.Maps;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -25,6 +25,12 @@ import java.util.Map;
 @EnableScheduling
 public class CnrApplication extends WebMvcConfigurationSupport {
 
+    @Value("${workerId}")
+    private Integer workerId;
+
+    @Value("${datacenterId}")
+    private Integer datacenterId;
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
 
@@ -34,6 +40,11 @@ public class CnrApplication extends WebMvcConfigurationSupport {
         super.addResourceHandlers(registry);
     }
 
+
+    @Bean
+    public IdUtils dUtils(){
+        return new IdUtils(workerId,datacenterId);
+    }
     @Bean
     public JobInitializeBean getJobInitializeBean(){
         return new JobInitializeBean();

@@ -65,5 +65,5 @@ mybatis-plus:
     map-underscore-to-camel-case: true
     #不开启二级缓存
     cache-enabled: false
-
-ctx: http://127.0.0.1:8081/cnr/
+workerId: 0
+datacenterId: 0

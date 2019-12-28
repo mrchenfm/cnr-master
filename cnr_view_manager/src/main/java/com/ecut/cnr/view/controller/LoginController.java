@@ -4,8 +4,10 @@ import com.baomidou.mybatisplus.core.toolkit.IOUtils;
 import com.ecut.cnr.framework.common.Result;
 import com.ecut.cnr.framework.common.base.BaseController;
 import com.ecut.cnr.framework.common.enums.ErrorEnum;
+import com.ecut.cnr.framework.common.utils.MenuUtils;
 import com.ecut.cnr.framework.entity.sys.SysMenu;
 import com.ecut.cnr.framework.entity.sys.bo.UserInfoBO;
+import com.ecut.cnr.framework.entity.sys.dto.SysMenuDto;
 import com.ecut.cnr.framework.entity.sys.request.LoginFormRequest;
 import com.ecut.cnr.view.service.ISysCaptchaService;
 import com.ecut.cnr.view.service.ISysMenuService;
@@ -49,12 +51,14 @@ public class LoginController extends BaseController {
         return "login";
     }
     @RequestMapping("/admin/index")
-    public ModelAndView toIndex(Model model){
+    public String toIndex(Model model){
         Subject subject = SecurityUtils.getSubject();
         UserInfoBO userInfoBO = (UserInfoBO) subject.getPrincipal();
         List<SysMenu> sysMenus = sysMenuService.findByPersRoleIds(userInfoBO.getRoleIds());
-        model.addAttribute("sysMenus",sysMenus);
-        return new ModelAndView("index","menuModel",model);
+        List<SysMenuDto> menuTree = MenuUtils.getMenuTree(sysMenus);
+        model.addAttribute("userInfoBO",userInfoBO);
+        model.addAttribute("menuTree",menuTree);
+        return "index";
     }
 
     @RequestMapping("/admin/mainIndex")
