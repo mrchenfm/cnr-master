@@ -1,7 +1,8 @@
-package com.ecut.cnr.view.mapper;
+package com.ecut.cnr.view.mapper.sys;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ecut.cnr.framework.entity.sys.SysUser;
+import com.ecut.cnr.framework.entity.sys.dto.SysUserDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
@@ -25,4 +26,11 @@ public interface SysUserMapper extends BaseMapper<SysUser>{
      * @return
      */
     SysUser selectByUsername(@Param("username") String username);
+
+    /**
+     * 通过id修改账号状态
+     * @param sysUser
+     * @return
+     */
+    Integer updateStatusById(@Param("sysUser") SysUser sysUser);
 }

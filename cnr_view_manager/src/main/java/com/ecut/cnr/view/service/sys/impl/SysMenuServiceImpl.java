@@ -1,9 +1,9 @@
-package com.ecut.cnr.view.service.impl;
+package com.ecut.cnr.view.service.sys.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ecut.cnr.framework.entity.sys.SysMenu;
-import com.ecut.cnr.view.mapper.SysMenuMapper;
-import com.ecut.cnr.view.service.ISysMenuService;
+import com.ecut.cnr.view.mapper.sys.SysMenuMapper;
+import com.ecut.cnr.view.service.sys.ISysMenuService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

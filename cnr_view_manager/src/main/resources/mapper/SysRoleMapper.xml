@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ecut.cnr.view.mapper.SysRoleMapper">
+<mapper namespace="com.ecut.cnr.view.mapper.sys.SysRoleMapper">
 
     <resultMap id="BaseResultMap" type="com.ecut.cnr.framework.entity.sys.SysRole">
         <id column="id" property="id" jdbcType="VARCHAR"/>
@@ -11,6 +11,15 @@
         <result column="update_time" property="updateTime" jdbcType="DATE"/>
         <result column="create_time" property="createTime" jdbcType="DATE"/>
     </resultMap>
+    <insert id="insertUserRole">
+        INSERT INTO t_user_role (user_id,role_id)
+        VALUE (#{userId},#{roleId})
+    </insert>
+    <delete id="deleteUserRole">
+        DELETE
+         FROM t_user_role
+        WHERE user_id = #{id}
+    </delete>
 
     <select id="selectByUserId" resultType="java.lang.String">
         SELECT
@@ -25,5 +34,14 @@
         <foreach collection="roleIds" item="roleId" close=")" open="(" separator=",">
             #{roleId}
         </foreach>
+    </select>
+    <select id="findBuUserId" resultType="java.lang.String">
+        SELECT role_name
+        FROM t_sys_role
+        WHERE id IN(
+        SELECT role_id
+        FROM t_user_role
+        WHERE user_id =#{id}
+        )
     </select>
 </mapper>

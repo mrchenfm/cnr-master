@@ -1,4 +1,7 @@
-package com.ecut.cnr.view.service;
+package com.ecut.cnr.view.service.sys;
+
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.ecut.cnr.framework.entity.sys.SysRole;
 
 import java.util.List;
 import java.util.Set;
@@ -9,7 +12,7 @@ import java.util.Set;
  * @Date 2019/12/26 20:20
  * @Create by fangming_chen
  */
-public interface ISysRoleService {
+public interface ISysRoleService extends IService<SysRole> {
 
     /**
      * 通过id查询角色名称

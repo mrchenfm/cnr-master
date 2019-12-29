@@ -1,10 +1,10 @@
-package com.ecut.cnr.view.service.impl;
+package com.ecut.cnr.view.service.sys.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.ecut.cnr.framework.common.constants.RedisKeyConstants;
 import com.ecut.cnr.framework.common.enums.ErrorEnum;
 import com.ecut.cnr.framework.common.exception.MyException;
-import com.ecut.cnr.view.service.ISysCaptchaService;
+import com.ecut.cnr.view.service.sys.ISysCaptchaService;
 import com.ecut.cnr.view.utils.RedisUtils;
 import com.google.code.kaptcha.Producer;
 import org.springframework.beans.factory.annotation.Autowired;

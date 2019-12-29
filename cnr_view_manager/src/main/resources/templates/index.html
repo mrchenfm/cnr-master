@@ -28,7 +28,7 @@
         <!-- 顶部开始 -->
         <div class="container">
             <div class="logo">
-                <a href="./index.html">X-admin v2.2</a></div>
+                <a th:href="@{/admin/index}">新闻发布系统-后台</a></div>
             <div class="left_open">
                 <a><i title="展开左侧栏" class="iconfont">&#xe699;</i></a>
             </div>
@@ -81,17 +81,17 @@
 
                     <li th:each="menu : ${menuTree}">
                         <a href="javascript:;" th:if="${menu.menuDtos.size()} eq 0">
-                            <i class="iconfont left-nav-li" lay-tips="会员管理" th:utext="${menu.icon}"></i>
+                            <i class="iconfont left-nav-li" th:lay-tips="${menu.menuName}" th:utext="${menu.icon}"></i>
                             <cite th:text="${menu.menuName}"></cite>
                         </a>
                         <a href="javascript:;" th:if="${menu.menuDtos.size()} >0">
-                            <i class="iconfont left-nav-li" lay-tips="会员管理" th:utext="${menu.icon}"></i>
+                            <i class="iconfont left-nav-li" th:lay-tips="${menu.menuName}"  th:utext="${menu.icon}"></i>
                             <cite th:text="${menu.menuName}"></cite>
                             <i class="iconfont nav_right">&#xe697;</i>
                         </a>
                         <ul class="sub-menu" th:if="${menu.menuDtos.size()} > 0">
                             <li th:each="menuchirden1 : ${menu.menuDtos}">
-                                <a onclick="xadmin.add_tab('','welcome1.html')" th:if="${menuchirden1.menuDtos.size()} eq 0">
+                                <a onclick="xadmin.add_tab(this.getAttribute('tile'),this.getAttribute('url'))" th:tile="${menuchirden1.menuName}" th:url="${menuchirden1.url}" th:if="${menuchirden1.menuDtos.size()} eq 0">
                                     <i class="iconfont" th:utext="${menuchirden1.icon}"></i>
                                     <cite th:text="${menuchirden1.menuName}"></cite>
                                 </a>
@@ -102,7 +102,7 @@
                                 </a>
                                 <ul class="sub-menu" th:if="${menuchirden1.menuDtos.size()} >0">
                                     <li th:each="menuchirden2 : ${menuchirden1.menuDtos}">
-                                        <a onclick="xadmin.add_tab('会员删除','member-del.html')">
+                                        <a onclick="xadmin.add_tab(this.getAttribute('tile'),this.getAttribute('url'))" th:tile="${menuchirden1.menuName}" th:url="${menuchirden1.url}" >
                                             <i class="iconfont" th:utext="${menuchirden2.icon}"></i>
                                             <cite th:text="${menuchirden2.menuName}"></cite>
                                         </a>

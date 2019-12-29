@@ -4,7 +4,7 @@ import com.dangdang.ddframe.job.api.ShardingContext;
 import com.dangdang.ddframe.job.api.simple.SimpleJob;
 import com.ecut.cnr.framework.common.task.anno.ElasticSimpleJob;
 import com.ecut.cnr.framework.common.utils.IdUtils;
-import com.ecut.cnr.view.service.ISysUserService;
+import com.ecut.cnr.view.service.sys.ISysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

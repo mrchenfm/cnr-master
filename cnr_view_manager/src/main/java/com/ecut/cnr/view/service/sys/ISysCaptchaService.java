@@ -1,4 +1,4 @@
-package com.ecut.cnr.view.service;
+package com.ecut.cnr.view.service.sys;
 
 import java.awt.image.BufferedImage;
 

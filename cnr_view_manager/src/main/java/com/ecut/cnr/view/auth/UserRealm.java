@@ -2,9 +2,9 @@ package com.ecut.cnr.view.auth;
 
 import com.ecut.cnr.framework.common.utils.JsonUtils;
 import com.ecut.cnr.framework.entity.sys.bo.UserInfoBO;
-import com.ecut.cnr.view.service.ISysMenuService;
-import com.ecut.cnr.view.service.ISysRoleService;
-import com.ecut.cnr.view.service.ISysUserService;
+import com.ecut.cnr.view.service.sys.ISysMenuService;
+import com.ecut.cnr.view.service.sys.ISysRoleService;
+import com.ecut.cnr.view.service.sys.ISysUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -14,7 +14,6 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.HashSet;
 import java.util.Set;
 
 /**

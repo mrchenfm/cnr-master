@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -56,8 +57,10 @@ public class SysUser implements Serializable {
     private String userface;
 
     @ApiModelProperty(value = "创建时间")
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
     @ApiModelProperty(value = "修改时间")
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
 }

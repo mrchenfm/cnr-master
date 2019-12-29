@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.ecut.cnr.view.mapper.SysUserMapper">
+<mapper namespace="com.ecut.cnr.view.mapper.sys.SysUserMapper">
+    <update id="updateStatusById">
+        UPDATE t_sys_user
+        SET enabled = #{sysUser.enabled}
+        where id = #{sysUser.id}
+    </update>
     <select id="selectByUsername" resultType="com.ecut.cnr.framework.entity.sys.SysUser">
         SELECT * FROM t_sys_user WHERE username = #{username}
     </select>

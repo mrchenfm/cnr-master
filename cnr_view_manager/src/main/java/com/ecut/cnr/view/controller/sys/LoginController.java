@@ -1,30 +1,27 @@
-package com.ecut.cnr.view.controller;
+package com.ecut.cnr.view.controller.sys;
 
 import com.baomidou.mybatisplus.core.toolkit.IOUtils;
 import com.ecut.cnr.framework.common.Result;
 import com.ecut.cnr.framework.common.base.BaseController;
-import com.ecut.cnr.framework.common.enums.ErrorEnum;
 import com.ecut.cnr.framework.common.utils.MenuUtils;
 import com.ecut.cnr.framework.entity.sys.SysMenu;
+import com.ecut.cnr.framework.entity.sys.SysRole;
 import com.ecut.cnr.framework.entity.sys.bo.UserInfoBO;
 import com.ecut.cnr.framework.entity.sys.dto.SysMenuDto;
 import com.ecut.cnr.framework.entity.sys.request.LoginFormRequest;
-import com.ecut.cnr.view.service.ISysCaptchaService;
-import com.ecut.cnr.view.service.ISysMenuService;
-import com.ecut.cnr.view.service.ISysUserService;
+import com.ecut.cnr.view.service.sys.ISysCaptchaService;
+import com.ecut.cnr.view.service.sys.ISysMenuService;
+import com.ecut.cnr.view.service.sys.ISysRoleService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.crypto.hash.Sha256Hash;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.IOException;

@@ -1,7 +1,8 @@
-package com.ecut.cnr.view.mapper;
+package com.ecut.cnr.view.mapper.sys;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ecut.cnr.framework.entity.sys.SysMenu;
+import com.ecut.cnr.framework.entity.sys.SysRole;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
@@ -21,4 +22,5 @@ public interface SysMenuMapper extends BaseMapper<SysMenu> {
     Set<String> selectByRoleIds(@Param("roleIds") List<String> roleIds);
 
     List<SysMenu> selectMenuByRoleIds(@Param("roleIds") List<String> roleIds);
+
 }
