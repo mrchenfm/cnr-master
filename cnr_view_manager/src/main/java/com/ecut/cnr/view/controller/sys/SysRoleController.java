@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/admin")
 public class SysRoleController {
 
-    @RequestMapping("/rolelist")
+    @RequestMapping("/roleList")
     public String userList(){
-        return "sys/rolelist";
+        return "sys/role/roleList";
     }
 }

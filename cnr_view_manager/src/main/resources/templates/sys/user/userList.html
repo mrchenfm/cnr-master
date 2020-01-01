@@ -49,9 +49,9 @@
                         </div>
                         <div class="layui-card-header">
                             <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
-                            <button class="layui-btn" onclick="xadmin.open('添加用户',ctx+'/admin/adduser',600,450)"><i class="layui-icon"></i>添加</button>
+                            <button class="layui-btn" onclick="xadmin.open('添加用户',ctx+'/admin/addUser',600,450)"><i class="layui-icon"></i>添加</button>
                         </div>
-                        <div class="layui-card-body ">
+                        <div class="layui-card-body layui-table-body layui-table-main">
                             <table class="layui-table layui-form">
                               <thead>
                                 <tr>
@@ -92,10 +92,10 @@
                                         <a th:if="${user.enabled} eq 1" onclick="member_stop(this,this.getAttribute('userId'))" th:userId="${user.id}" href="javascript:;"  title="停用">
                                             <i class="layui-icon">&#xe62f;</i>
                                         </a>
-                                        <a title="编辑"  onclick="xadmin.open('编辑',ctx+'/admin/updateuser?id='+this.getAttribute('userId'),600,450)" th:userId="${user.id}" href="javascript:;">
+                                        <a title="编辑"  onclick="xadmin.open('编辑',ctx+'/admin/updateUser?id='+this.getAttribute('userId'),600,450)" th:userId="${user.id}" href="javascript:;">
                                             <i class="layui-icon">&#xe642;</i>
                                         </a>
-                                        <a title="删除" onclick="member_del(this,this.getAttribute('userid'))" th:userid="${user.id}" href="javascript:;">
+                                        <a title="删除" onclick="member_del(this,this.getAttribute('userId'))" th:userId="${user.id}" href="javascript:;">
                                             <i class="layui-icon">&#xe640;</i>
                                         </a>
                                    </td>

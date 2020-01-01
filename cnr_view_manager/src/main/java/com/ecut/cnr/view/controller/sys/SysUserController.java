@@ -50,11 +50,11 @@ public class SysUserController {
      * @param model
      * @return
      */
-    @RequestMapping("/userlist")
+    @RequestMapping("/userList")
     public String userList(Model model){
         List<SysUserDto> sysUsers = sysUserService.selectAll();
         model.addAttribute("sysUsers",sysUsers);
-        return "sys/userlist";
+        return "sys/user/userList";
     }
 
     /**
@@ -78,11 +78,11 @@ public class SysUserController {
         return new Result();
     }
 
-    @RequestMapping("/adduser")
+    @RequestMapping("/addUser")
     public String  toAddPage(Model model){
         List<SysRole> allRole = sysRoleService.list(null);
         model.addAttribute("allRole",allRole);
-        return "sys/operateuser";
+        return "sys/user/operateUser";
     }
 
     @RequestMapping("/save/user")
@@ -101,14 +101,14 @@ public class SysUserController {
         return Result.error("管理员添加失败");
     }
 
-    @RequestMapping("/updateuser")
+    @RequestMapping("/updateUser")
     public String  toUpdatePage(Model model,String id){
         try {
             UserInfoBO userInfoBO = sysUserService.findByUserId(id);
             List<SysRole> allRole = sysRoleService.list(null);
             model.addAttribute("allRole",allRole);
             model.addAttribute("userInfoBO",userInfoBO);
-            return "sys/updateuser";
+            return "sys/user/updateUser";
         } catch (Exception e) {
             log.info("转到修改页面出错：{}",e);
             return "common/500";

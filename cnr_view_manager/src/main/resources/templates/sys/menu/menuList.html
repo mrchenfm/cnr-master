@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" class="x-admin-sm" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎页面-X-admin2.2</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="stylesheet" th:href="@{/static/css/font.css}">
+    <link rel="stylesheet" th:href="@{/static/css/xadmin.css}">
+    <script th:src="@{/static/lib/layui/layui.js}" charset="utf-8"></script>
+    <script type="text/javascript" th:src="@{/static/js/xadmin.js}"></script>
+
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+<div class="x-nav">
+            <span class="layui-breadcrumb">
+                <a href="">首页</a>
+                <a href="">演示</a>
+                <a>
+                    <cite>导航元素</cite></a>
+            </span>
+    <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" onclick="location.reload()" title="刷新">
+        <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i>
+    </a>
+</div>
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body ">
+                    <form class="layui-form layui-col-space5">
+                        <div class="layui-input-inline layui-show-xs-block">
+                            <input class="layui-input" placeholder="分类名" name="cate_name"></div>
+                        <div class="layui-input-inline layui-show-xs-block">
+                            <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon"></i>增加</button>
+                        </div>
+                    </form>
+                    <hr>
+                    <blockquote class="layui-elem-quote">每个tr 上有两个属性 cate-id='1' 当前分类id fid='0' 父级id ,顶级分类为 0，有子分类的前面加收缩图标<i class="layui-icon x-show" status='true'>&#xe623;</i></blockquote>
+                </div>
+                <div class="layui-card-header">
+                    <button id="add" onclick="addPermission()" class="layui-btn layui-btn-radius btnys"><i class="layui-icon">&#xe608;</i>添加</button>
+                    <button class="layui-btn" id="btn-expand">全部展开</button>
+                    <button class="layui-btn" id="btn-fold">全部折叠</button>
+                    <button class="layui-btn" id="btn-refresh">刷新表格</button>
+                </div>
+                <div class="layui-card-body layui-table-body layui-table-main">
+                    <table id="permissionTable" class="layui-table" lay-filter="permissionTable"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    /*使用模块加载的方式 加载文件*/
+    layui.config({
+        base: '/cnr/static/lib/'
+    }).extend({
+        treetable: 'treetable-lay/treetable'
+    }).use(['layer', 'table', 'treetable'], function () {
+        var $ = layui.jquery;
+        var table = layui.table;
+        var layer = layui.layer;
+        var treetable = layui.treetable;
+
+        // 渲染表格
+        var renderTable = function () {//树桩表格参考文档：https://gitee.com/whvse/treetable-lay
+            layer.load(3);
+            treetable.render({
+                treeColIndex: 1,//树形图标显示在第几列
+                treeSpid: 0,//最上级的父级id
+                treeIdName: 'id',//id字段的名称
+                treePidName: 'parentId',//pid字段的名称
+                treeDefaultClose: false,//是否默认折叠
+                treeLinkage: false,//父级展开时是否自动展开所有子级
+                elem: '#permissionTable',
+                url: ctx+'admin/menu/menuTree',
+                page: false,
+                cols: [
+                    [
+                        {type: 'numbers', title: '编号'},
+                        {field: 'menuName', title: '资源名称'},
+                        {field: 'url', title: '资源路径'},
+                        {field: 'perms', title: '资源简介'},
+                        {field: 'orderNum', title: '排序'},
+                        {field: 'type', title: '类型',
+                            templet: function(d){
+                                if(d.type==0){
+                                    return '按钮';
+                                }else{
+                                    return '菜单';
+                                }
+                            }
+                        },
+                        {templet: complain, title: '操作'}
+                    ]
+                ],
+                done: function () {
+                    layer.closeAll('loading');
+                }
+            });
+        };
+
+        renderTable();
+
+        //触发三个button按钮
+        $('#btn-expand').click(function () {
+            treetable.expandAll('#permissionTable');
+        });
+
+        $('#btn-fold').click(function () {
+            treetable.foldAll('#permissionTable');
+        });
+
+        $('#btn-refresh').click(function () {
+            renderTable();
+        });
+
+
+        function complain(d){//操作中显示的内容
+            if(d.url!=null){
+                return [
+                    '<a class="operation" lay-event="edit" href="javascript:void(0)" onclick="editDepartment(\''+ d.id + '\')" title="编辑">',
+                    '<i class="layui-icon layui-icon-edit"></i></a>',
+                    '<a class="operation" lay-event="del" href="javascript:void(0)" onclick="delDepartment(\''+ d.id + '\')" title="删除">',
+                    '<i class="layui-icon layui-icon-delete" ></i></a>',
+                ].join('');
+            }else{
+                return '';
+            }
+
+        }
+        //监听工具条
+        table.on('tool(permissionTable)', function (obj) {
+            var data = obj.data;
+            var layEvent = obj.event;
+            if(data.menuName!=null){
+                if (layEvent === 'del') {
+                    layer.msg('删除' + data.id);
+                } else if (layEvent === 'edit') {
+                    layer.msg('修改' + data.id);
+                }
+            }
+        });
+    });
+</script>
+<script>
+    layui.use(['form'], function(){
+        form = layui.form;
+
+    });
+    /*用户-删除*/
+    function member_del(obj,id){
+        layer.confirm('确认要删除吗？',function(index){
+            //发异步删除数据
+            $(obj).parents("tr").remove();
+            layer.msg('已删除!',{icon:1,time:1000});
+        });
+    }
+</script>
+<script th:inline="javascript">
+    var ctx = [[@{/}]]
+</script>
+</body>
+</html>
