@@ -1,8 +1,10 @@
 package com.ecut.cnr.framework.common;
 
+import com.alibaba.fastjson.JSONArray;
 import com.ecut.cnr.framework.common.enums.ErrorEnum;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @Classname Result
@@ -16,6 +18,15 @@ public class Result extends HashMap<String,Object> {
         put("code",200);
         put("msg","success");
     }
+
+    public static Result addMap(Map<String,Object> map){
+        Result result = new Result();
+        for(Map.Entry<String,Object> entry : map.entrySet()){
+            result.put(entry.getKey(), JSONArray.toJSON(entry.getValue()));
+        }
+        return result;
+    }
+
 
     public static Result ok(){
         return error(ErrorEnum.UNKNOWN);

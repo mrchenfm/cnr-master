@@ -88,7 +88,8 @@
                     [
                         {type: 'numbers', title: '编号'},
                         {field: 'menuName', title: '资源名称'},
-                        {field: 'url', title: '资源路径'},
+                        {field: 'url', title: '权限标识'},
+                        {field: 'icon', title: '图标'},
                         {field: 'perms', title: '资源简介'},
                         {field: 'orderNum', title: '排序'},
                         {field: 'type', title: '类型',
@@ -151,20 +152,6 @@
             }
         });
     });
-</script>
-<script>
-    layui.use(['form'], function(){
-        form = layui.form;
-
-    });
-    /*用户-删除*/
-    function member_del(obj,id){
-        layer.confirm('确认要删除吗？',function(index){
-            //发异步删除数据
-            $(obj).parents("tr").remove();
-            layer.msg('已删除!',{icon:1,time:1000});
-        });
-    }
 </script>
 <script th:inline="javascript">
     var ctx = [[@{/}]]

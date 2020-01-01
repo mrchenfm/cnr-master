@@ -1,7 +1,10 @@
 package com.ecut.cnr.view.mapper.sys;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ecut.cnr.framework.entity.sys.SysRole;
+import com.ecut.cnr.framework.entity.sys.bo.RoleInfoBO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
@@ -52,4 +55,24 @@ public   interface SysRoleMapper extends BaseMapper<SysRole> {
      * @param id
      */
     void deleteUserRole(@Param("id") String id);
+
+    /**
+     * 查询角色列表信息
+     * @return
+     */
+    IPage<RoleInfoBO> findAllRoles(Page page);
+
+    /**
+     * 根据roleId删除联合主键
+     * @param id
+     * @return
+     */
+    int deleteUserRoleByRoleId(@Param("id") String id);
+
+    /**
+     * 根据roleId删除目录的联合主键
+     * @param id
+     * @return
+     */
+    int deleteRoleMenuByRoleId(@Param("id") String id);
 }

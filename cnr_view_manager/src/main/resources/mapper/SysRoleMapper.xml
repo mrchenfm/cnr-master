@@ -20,6 +20,16 @@
          FROM t_user_role
         WHERE user_id = #{id}
     </delete>
+    <delete id="deleteUserRoleByRoleId">
+        DELETE
+        FROM t_user_role
+        WHERE role_id = #{id}
+    </delete>
+    <delete id="deleteRoleMenuByRoleId">
+        DELETE
+        FROM t_role_menu
+        WHERE role_id =#{id}
+    </delete>
 
     <select id="selectByUserId" resultType="java.lang.String">
         SELECT
@@ -43,5 +53,11 @@
         FROM t_user_role
         WHERE user_id =#{id}
         )
+    </select>
+    <select id="findAllRoles" resultType="com.ecut.cnr.framework.entity.sys.bo.RoleInfoBO">
+        SELECT
+        tr.id,tr.role_name,tr.remark,tr.create_user_id,tr.create_time,tr.update_time,tr.role_identity,tu.username
+        FROM t_sys_role tr,t_sys_user tu
+        where tr.create_user_id = tu.id
     </select>
 </mapper>
