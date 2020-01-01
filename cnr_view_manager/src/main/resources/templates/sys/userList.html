@@ -79,15 +79,6 @@
                     ,{field: 'username', title: '用户名'}
                     ,{field: 'phone', title: '手机'}
                     ,{field: 'email', title: '邮箱'}
-                    ,{field: 'enabled', title: '状态',
-                    templet: function(d){
-                        if(d.enabled==0){
-                            return '未激活';
-                        }else{
-                            return '已激活';
-                        }
-                    }
-                    }
                     ,{field: 'roleNames', title: '拥有角色'}
                     ,{field: 'createTime', title: '最近登入时间'}
                     ,{field: 'createTime', title: '创建时间'}
@@ -106,10 +97,25 @@
         });
         function complain(d){//操作中显示的内容
             if(d.id!=null){
-                return [
-                    '<button  type="button" class="layui-btn layui-btn-xs update" lay-event="edit">修改</button>',
-                    '<button type="button" class="layui-btn layui-btn-xs layui-btn-danger delete" lay-event="del">删除</button>',
-                ].join('');
+                if(d.enabled == 1){
+                    return [
+                        '<a class="operation" lay-event="edit" href="javascript:void(0)" title="编辑">',
+                        '<i class="layui-icon layui-icon-edit"></i></a>',
+                        '<a class="operation" lay-event="del" href="javascript:void(0)" title="删除">',
+                        '<i class="layui-icon layui-icon-delete" ></i></a>',
+                        '<a class="operation" lay-event="stop" href="javascript:void(0)" title="启用">',
+                        '<i id="stopB" class="layui-icon" >&#xe601;</i></a>',
+                    ].join('');
+                }else {
+                    return [
+                        '<a class="operation" lay-event="edit" href="javascript:void(0)" title="编辑">',
+                        '<i class="layui-icon layui-icon-edit"></i></a>',
+                        '<a class="operation" lay-event="del" href="javascript:void(0)" title="删除">',
+                        '<i class="layui-icon layui-icon-delete" ></i></a>',
+                        '<a id="openB" class="operation" lay-event="open" href="javascript:void(0)" title="启用">',
+                        '<i class="layui-icon" >&#xe601;</i></a>',
+                    ].join('');
+                }
             }else{
                 return '';
             }
@@ -149,6 +155,41 @@
                     });
                 } else if (layEvent === 'edit') {
                     xadmin.open('编辑',ctx+'admin/updateUser?id='+data.id)
+                }else if (layEvent === 'stop') {
+                    //发异步把用户状态进行更改
+                    var enabled = 1;
+                    $.ajax({
+                        url: ctx+"admin/update/status",
+                        type: "post",
+                        data: JSON.stringify({"id":data.id,"enabled":enabled}),
+                        dataType: "json",
+                        contentType: "application/json",
+                        success:function(data) {
+                            if (data.code == 200) {
+                                $('#stopB').attr('title', '停用');
+                                $('#stopB').html('&#xe62f;');
+                                layer.msg('已停用!', {icon: 5, time: 1000});
+                                location.reload();
+                            }
+                        }
+                    });
+                }else if (layEvent === 'open') {
+                    var enabled = 0;
+                    $.ajax({
+                        url: ctx+"admin/update/status",
+                        type: "post",
+                        data: JSON.stringify({"id":data.id,"enabled":enabled}),
+                        dataType: "json",
+                        contentType: "application/json",
+                        success:function(data) {
+                            if (data.code == 200) {
+                                $("#openB").attr('title','启用')
+                                $("#openB").html('&#xe601;');
+                                layer.msg('已启用!',{icon: 5,time:1000});
+                                location.reload();
+                            }
+                        }
+                    });
                 }
             }
         });

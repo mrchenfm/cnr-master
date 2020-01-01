@@ -34,8 +34,8 @@ public class SysRoleMapperTest {
     public void selectByUserId() throws Exception {
        /* List<String> list = sysRoleMapper.selectByUserId("11");
         System.out.println(list.get(0));*/
-        List<SysUserDto> sysUsers = sysUserService.selectAll();
-        System.out.println(Arrays.asList(sysUsers));
+        /*List<SysUserDto> sysUsers = sysUserService.selectAll();
+        System.out.println(Arrays.asList(sysUsers));*/
     }
 
 }

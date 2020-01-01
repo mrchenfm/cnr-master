@@ -1,9 +1,11 @@
 package com.ecut.cnr.view.service.sys;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ecut.cnr.framework.entity.sys.SysUser;
 import com.ecut.cnr.framework.entity.sys.bo.UserInfoBO;
 import com.ecut.cnr.framework.entity.sys.dto.SysUserDto;
+import com.ecut.cnr.framework.entity.sys.request.QueryRequest;
 
 import java.util.List;
 
@@ -21,12 +23,6 @@ public interface ISysUserService extends IService<SysUser> {
      * @return
      */
     UserInfoBO selectUserByUsername(String username);
-
-    /**
-     * 查询所有管理员
-     * @return
-     */
-    List<SysUserDto> selectAll();
 
     Long insertUsersAndRole(SysUser sysUser, List<String> roleIds);
 
@@ -57,5 +53,12 @@ public interface ISysUserService extends IService<SysUser> {
      * @return
      */
     Integer updateStatusBuId(SysUser sysUser);
+
+    /**
+     * 分页查询管理者
+     * @param queryRequest
+     * @return
+     */
+    IPage<SysUserDto> selectAllUsers(QueryRequest queryRequest);
 }
 

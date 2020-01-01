@@ -38,7 +38,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper,SysRole> imple
     @Override
     public IPage<RoleInfoBO> findAllRoles(QueryRequest queryRequest) {
         Page<UserInfoBO> page = new Page<>(queryRequest.getPageNum(), queryRequest.getPageSize());
-        this.baseMapper.findAllRoles(page);
+        //this.baseMapper.findAllRoles(page);
         return this.baseMapper.findAllRoles(page);
     }
 

@@ -1,11 +1,15 @@
 package com.ecut.cnr.view.controller.sys;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.ecut.cnr.framework.common.Result;
+import com.ecut.cnr.framework.common.base.BaseController;
 import com.ecut.cnr.framework.common.utils.IdUtils;
 import com.ecut.cnr.framework.entity.sys.SysRole;
 import com.ecut.cnr.framework.entity.sys.SysUser;
+import com.ecut.cnr.framework.entity.sys.bo.RoleInfoBO;
 import com.ecut.cnr.framework.entity.sys.bo.UserInfoBO;
 import com.ecut.cnr.framework.entity.sys.dto.SysUserDto;
+import com.ecut.cnr.framework.entity.sys.request.QueryRequest;
 import com.ecut.cnr.view.service.sys.ISysRoleService;
 import com.ecut.cnr.view.service.sys.ISysUserService;
 import lombok.extern.slf4j.Slf4j;
@@ -16,13 +20,11 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -34,7 +36,7 @@ import java.util.UUID;
 @Slf4j
 @Controller
 @RequestMapping("/admin")
-public class SysUserController {
+public class SysUserController extends BaseController{
     @Autowired
     private ISysUserService sysUserService;
 
@@ -47,14 +49,23 @@ public class SysUserController {
 
     /**
      * 查询管理员列表
-     * @param model
      * @return
      */
     @RequestMapping("/userList")
-    public String userList(Model model){
-        List<SysUserDto> sysUsers = sysUserService.selectAll();
-        model.addAttribute("sysUsers",sysUsers);
+    public String userList(){
         return "sys/user/userList";
+    }
+
+    @GetMapping("/users")
+    @ResponseBody
+    public Result getRoles(QueryRequest queryRequest){
+        IPage<SysUserDto> allUsers = sysUserService.selectAllUsers(queryRequest);
+        Map<String, Object> dataTable = getDataTable(allUsers);
+
+        //Object roleJson = JSONArray.toJSON(dataTable);
+        Result result = Result.addMap(dataTable);
+
+        return result;
     }
 
     /**

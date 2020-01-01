@@ -1,7 +1,10 @@
 package com.ecut.cnr.view.mapper.sys;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ecut.cnr.framework.entity.sys.SysUser;
+import com.ecut.cnr.framework.entity.sys.bo.UserInfoBO;
 import com.ecut.cnr.framework.entity.sys.dto.SysUserDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -33,4 +36,11 @@ public interface SysUserMapper extends BaseMapper<SysUser>{
      * @return
      */
     Integer updateStatusById(@Param("sysUser") SysUser sysUser);
+
+    /**
+     * 分页查询
+     * @param page
+     * @return
+     */
+    IPage<SysUserDto> findAllUsers(Page<UserInfoBO> page);
 }

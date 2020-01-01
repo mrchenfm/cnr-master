@@ -35,10 +35,19 @@ public class SysMenuController {
 
     @RequestMapping("/menu/menuTree")
     @ResponseBody
-    public Result menuTree1(){
+    public Result menuTree(){
         List<SysMenu> list = sysMenuService.list(null);
         /*List<SysMenuDto> menuTree = MenuUtils.getMenuTree(list);*/
         Object toJSON = com.alibaba.fastjson.JSONArray.toJSON(list);
+        return new Result().put("data",toJSON);
+    }
+
+    @RequestMapping("/menu/tree")
+    @ResponseBody
+    public Result finMenu(){
+        List<SysMenu> list = sysMenuService.list(null);
+        List<SysMenuDto> menuTree = MenuUtils.getMenuTree(list);
+        Object toJSON = com.alibaba.fastjson.JSONArray.toJSON(menuTree);
         return new Result().put("data",toJSON);
     }
 }

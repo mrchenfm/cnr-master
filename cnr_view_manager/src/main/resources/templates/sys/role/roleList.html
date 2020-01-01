@@ -51,7 +51,7 @@
                         </div>
                         <div class="layui-card-header">
                             <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
-                            <button class="layui-btn" onclick="xadmin.open('添加用户','./role-add.html',600,400)"><i class="layui-icon"></i>添加</button>
+                            <button class="layui-btn" onclick="xadmin.open('添加角色',ctx+'admin/roleAdd',600,400)"><i class="layui-icon"></i>添加</button>
                         </div>
                         <div class="layui-card-body layui-table-body layui-table-main">
                             <table id="roleList" lay-filter="roleList"></table>
@@ -97,10 +97,8 @@
             function complain(d){//操作中显示的内容
                 if(d.id!=null){
                     return [
-                        '<a class="operation" lay-event="edit" href="javascript:void(0)" title="编辑">',
-                        '<i class="layui-icon layui-icon-edit"></i></a>',
-                        '<a class="operation" lay-event="del" href="javascript:void(0)" title="删除">',
-                        '<i class="layui-icon layui-icon-delete" ></i></a>',
+                        '<button  type="button" class="layui-btn layui-btn-xs update" lay-event="edit">修改</button>',
+                        '<button type="button" class="layui-btn layui-btn-xs layui-btn-danger delete" lay-event="del">删除</button>',
                     ].join('');
                 }else{
                     return '';
@@ -140,7 +138,7 @@
                             });
                         });
                     } else if (layEvent === 'edit') {
-                        xadmin.open('编辑',ctx+'/admin/update/role?id='+data.id)
+                        xadmin.open('编辑',ctx+'/admin/roleUpdate?id='+data.id)
                     }
                 }
             });

@@ -129,10 +129,8 @@
         function complain(d){//操作中显示的内容
             if(d.url!=null){
                 return [
-                    '<a class="operation" lay-event="edit" href="javascript:void(0)" onclick="editDepartment(\''+ d.id + '\')" title="编辑">',
-                    '<i class="layui-icon layui-icon-edit"></i></a>',
-                    '<a class="operation" lay-event="del" href="javascript:void(0)" onclick="delDepartment(\''+ d.id + '\')" title="删除">',
-                    '<i class="layui-icon layui-icon-delete" ></i></a>',
+                    '<button  type="button" class="layui-btn layui-btn-xs update" lay-event="edit">修改</button>',
+                    '<button type="button" class="layui-btn layui-btn-xs layui-btn-danger delete" lay-event="del">删除</button>',
                 ].join('');
             }else{
                 return '';

@@ -1,11 +1,14 @@
 package com.ecut.cnr.view.service.sys.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ecut.cnr.framework.common.utils.DateUtils;
 import com.ecut.cnr.framework.common.utils.JsonUtils;
 import com.ecut.cnr.framework.entity.sys.SysUser;
 import com.ecut.cnr.framework.entity.sys.bo.UserInfoBO;
 import com.ecut.cnr.framework.entity.sys.dto.SysUserDto;
+import com.ecut.cnr.framework.entity.sys.request.QueryRequest;
 import com.ecut.cnr.view.mapper.sys.SysRoleMapper;
 import com.ecut.cnr.view.mapper.sys.SysUserMapper;
 import com.ecut.cnr.view.service.sys.ISysUserService;
@@ -45,27 +48,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper,SysUser> imple
         userInfoBO.setRoleIds(roleIds);
         log.info("userInfoBO={}", JsonUtils.toJson(userInfoBO));
         return userInfoBO;
-    }
-
-    /**
-     * 查询所用管理员
-     * @return
-     */
-    @Override
-    public List<SysUserDto> selectAll(){
-        List<SysUser> sysUsers = this.baseMapper.selectList(null);
-        log.info("sysUsers={}",JsonUtils.toJson(sysUsers));
-        List<SysUserDto> sysUserDtos = new ArrayList<>(sysUsers.size());
-        for(Iterator iterator = sysUsers.iterator();iterator.hasNext();){
-            SysUserDto sysUserDto = new SysUserDto();
-            SysUser sysUser = (SysUser) iterator.next();
-            BeanUtils.copyProperties(sysUser,sysUserDto);
-            StringBuilder sb = getStringBuilder(sysUserDto.getId());
-            sysUserDto.setRoleNames(sb.toString());
-            sysUserDto.setCreateTime(DateUtils.convert(sysUser.getCreateTime()));
-            sysUserDtos.add(sysUserDto);
-        }
-        return sysUserDtos;
     }
 
     private StringBuilder getStringBuilder(String id) {
@@ -129,6 +111,21 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper,SysUser> imple
     @Override
     public Integer updateStatusBuId(SysUser sysUser) {
         return sysUserMapper.updateStatusById(sysUser);
+    }
+
+    @Override
+    public IPage<SysUserDto> selectAllUsers(QueryRequest queryRequest) {
+        Page<UserInfoBO> page = new Page<>(queryRequest.getPageNum(), queryRequest.getPageSize());
+        //this.baseMapper.findAllUsersPage(page);
+        IPage<SysUserDto> allUsers = this.baseMapper.findAllUsers(page);
+        List<SysUserDto> records = allUsers.getRecords();
+        for (Iterator iterator = records.iterator(); iterator.hasNext(); ) {
+            SysUserDto sysUserDto = (SysUserDto) iterator.next();
+            StringBuilder sb = getStringBuilder(sysUserDto.getId());
+            sysUserDto.setRoleNames(sb.toString());
+        }
+        allUsers.setRecords(records);
+        return allUsers;
     }
 
 }

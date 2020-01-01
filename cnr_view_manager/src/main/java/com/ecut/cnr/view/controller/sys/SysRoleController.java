@@ -118,6 +118,15 @@ public class SysRoleController extends BaseController {
         return new Result();
     }
 
+    @GetMapping("/roleAdd")
+    public String toRoleAdd(){
+        return "sys/role/roleAdd";
+    }
+
+    @GetMapping("/roleUpdate")
+    public String toRoleUpdate(){
+        return "sys/role/roleUpdate";
+    }
 
 
 }

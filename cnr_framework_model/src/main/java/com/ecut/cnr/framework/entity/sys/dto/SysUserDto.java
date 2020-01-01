@@ -2,10 +2,8 @@ package com.ecut.cnr.framework.entity.sys.dto;
 
 import lombok.Data;
 import lombok.ToString;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * @Classname SysUserDto
@@ -34,7 +32,7 @@ public class SysUserDto {
 
     private String userface;
 
-    private String createTime;
+    private Date createTime;
 
     private String roleNames;
 }

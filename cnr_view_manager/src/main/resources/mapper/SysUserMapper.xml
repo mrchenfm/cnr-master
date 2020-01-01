@@ -9,4 +9,8 @@
     <select id="selectByUsername" resultType="com.ecut.cnr.framework.entity.sys.SysUser">
         SELECT * FROM t_sys_user WHERE username = #{username}
     </select>
+    <select id="findAllUsers" resultType="com.ecut.cnr.framework.entity.sys.dto.SysUserDto">
+        SELECT *
+        FROM t_sys_user
+    </select>
 </mapper>
