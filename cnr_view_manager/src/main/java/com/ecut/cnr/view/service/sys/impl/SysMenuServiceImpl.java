@@ -5,6 +5,7 @@ import com.ecut.cnr.framework.entity.sys.SysMenu;
 import com.ecut.cnr.view.mapper.sys.SysMenuMapper;
 import com.ecut.cnr.view.service.sys.ISysMenuService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,5 +32,23 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper,SysMenu> imple
     @Override
     public List<SysMenu> findByPersRoleIds(List<String> roleIds) {
         return sysMenuMapper.selectMenuByRoleIds(roleIds);
+    }
+
+    @Override
+    public boolean deleteById(String id) {
+        List<String> sysMenus = sysMenuMapper.findByParentId(id);
+        if(CollectionUtils.isEmpty(sysMenus)){
+            int i = this.baseMapper.deleteById(id);
+            if(i<1){
+                return false;
+            }
+            return true;
+        }
+        sysMenus.add(id);
+        int i = this.baseMapper.deleteBatchIds(sysMenus);
+        if(i<1){
+            return false;
+        }
+        return true;
     }
 }

@@ -4,13 +4,11 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ecut.cnr.framework.entity.sys.SysUser;
-import com.ecut.cnr.framework.entity.sys.bo.UserInfoBO;
-import com.ecut.cnr.framework.entity.sys.dto.SysUserDto;
+import com.ecut.cnr.framework.bo.sys.UserInfoBO;
+import com.ecut.cnr.framework.dto.sys.SysUserDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 /**
  * @Classname SysUserMapper

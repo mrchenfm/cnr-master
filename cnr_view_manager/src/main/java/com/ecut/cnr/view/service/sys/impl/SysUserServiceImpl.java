@@ -3,12 +3,11 @@ package com.ecut.cnr.view.service.sys.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.ecut.cnr.framework.common.utils.DateUtils;
 import com.ecut.cnr.framework.common.utils.JsonUtils;
 import com.ecut.cnr.framework.entity.sys.SysUser;
-import com.ecut.cnr.framework.entity.sys.bo.UserInfoBO;
-import com.ecut.cnr.framework.entity.sys.dto.SysUserDto;
-import com.ecut.cnr.framework.entity.sys.request.QueryRequest;
+import com.ecut.cnr.framework.bo.sys.UserInfoBO;
+import com.ecut.cnr.framework.dto.sys.SysUserDto;
+import com.ecut.cnr.framework.request.sys.QueryRequest;
 import com.ecut.cnr.view.mapper.sys.SysRoleMapper;
 import com.ecut.cnr.view.mapper.sys.SysUserMapper;
 import com.ecut.cnr.view.service.sys.ISysUserService;
@@ -19,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -115,7 +113,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper,SysUser> imple
 
     @Override
     public IPage<SysUserDto> selectAllUsers(QueryRequest queryRequest) {
-        Page<UserInfoBO> page = new Page<>(queryRequest.getPageNum(), queryRequest.getPageSize());
+        Page<UserInfoBO> page = new Page<>(queryRequest.getPage(), queryRequest.getLimit());
         //this.baseMapper.findAllUsersPage(page);
         IPage<SysUserDto> allUsers = this.baseMapper.findAllUsers(page);
         List<SysUserDto> records = allUsers.getRecords();

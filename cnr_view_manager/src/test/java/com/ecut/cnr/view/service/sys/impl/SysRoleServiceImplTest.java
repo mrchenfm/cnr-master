@@ -1,5 +1,7 @@
 package com.ecut.cnr.view.service.sys.impl;
 
+import com.ecut.cnr.framework.bo.sys.RoleInfoBO;
+import com.ecut.cnr.framework.bo.sys.UserInfoBO;
 import com.ecut.cnr.view.CnrApplication;
 import com.ecut.cnr.view.service.sys.ISysRoleService;
 import org.junit.Test;
@@ -7,6 +9,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,6 +24,18 @@ import static org.junit.Assert.*;
 @SpringBootTest(classes = {CnrApplication.class})
 @RunWith(SpringRunner.class)
 public class SysRoleServiceImplTest {
+    @Test
+    @Transactional
+    public void insertRoleAndPerms() {
+
+        RoleInfoBO roleInfoBO = new RoleInfoBO();
+        roleInfoBO.setId("1");
+        roleInfoBO.setRoleName("QQQQQQ");
+        roleInfoBO.setRemark("ddfd");
+
+        sysRoleService.insertRoleAndPerms(roleInfoBO);
+    }
+
     @Autowired
     private ISysRoleService sysRoleService;
     @Test

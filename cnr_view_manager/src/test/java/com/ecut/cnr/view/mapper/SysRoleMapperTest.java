@@ -1,20 +1,13 @@
 package com.ecut.cnr.view.mapper;
 
-import com.ecut.cnr.framework.entity.sys.SysUser;
-import com.ecut.cnr.framework.entity.sys.dto.SysUserDto;
 import com.ecut.cnr.view.CnrApplication;
-import com.ecut.cnr.view.mapper.sys.SysMenuMapper;
 import com.ecut.cnr.view.mapper.sys.SysRoleMapper;
-import com.ecut.cnr.view.service.sys.ISysRoleService;
 import com.ecut.cnr.view.service.sys.ISysUserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * @Classname SysRoleMapperTest

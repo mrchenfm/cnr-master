@@ -4,9 +4,15 @@ import com.ecut.cnr.framework.common.utils.IdUtils;
 import com.ecut.cnr.view.config.elasticjob.JobInitializeBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.context.annotation.AdviceMode;
 import org.springframework.context.annotation.Bean;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
@@ -23,6 +29,7 @@ import java.util.Map;
  */
 @SpringBootApplication
 @EnableScheduling
+@EnableTransactionManagement(mode = AdviceMode.PROXY)
 public class CnrApplication extends WebMvcConfigurationSupport {
 
     @Value("${workerId}")
@@ -48,6 +55,12 @@ public class CnrApplication extends WebMvcConfigurationSupport {
     @Bean
     public JobInitializeBean getJobInitializeBean(){
         return new JobInitializeBean();
+    }
+
+    @Bean
+    public Object testBean(DataSourceTransactionManager jobInitializeBean){
+        System.out.println(">>>>>>>>>>" + jobInitializeBean.getClass().getName());
+        return new Object();
     }
 
     public static void main(String[] args){

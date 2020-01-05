@@ -3,9 +3,9 @@ package com.ecut.cnr.view.service.sys;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ecut.cnr.framework.entity.sys.SysUser;
-import com.ecut.cnr.framework.entity.sys.bo.UserInfoBO;
-import com.ecut.cnr.framework.entity.sys.dto.SysUserDto;
-import com.ecut.cnr.framework.entity.sys.request.QueryRequest;
+import com.ecut.cnr.framework.bo.sys.UserInfoBO;
+import com.ecut.cnr.framework.dto.sys.SysUserDto;
+import com.ecut.cnr.framework.request.sys.QueryRequest;
 
 import java.util.List;
 

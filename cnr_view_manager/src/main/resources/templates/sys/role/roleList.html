@@ -72,6 +72,8 @@
                 elem: '#roleList'
                 ,url: ctx+'admin/roles' //数据接口
                 ,page: true //开启分页
+                ,limits : [10,20,30]
+                ,limit:10
                 ,cols: [
                     [ //表头
                         {checkbox:true,fixed: 'left'}//单选框
@@ -85,6 +87,9 @@
                 ]
                     ]
                 ,response:{statusCode:200}
+                ,request: {
+                    pageName: 'page' //页码的参数名称，默认：page
+                }
                 ,parseData:function (res) {
                     return{
                         "code":res.code,

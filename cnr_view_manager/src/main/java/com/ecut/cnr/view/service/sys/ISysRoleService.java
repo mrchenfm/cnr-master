@@ -3,8 +3,8 @@ package com.ecut.cnr.view.service.sys;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ecut.cnr.framework.entity.sys.SysRole;
-import com.ecut.cnr.framework.entity.sys.bo.RoleInfoBO;
-import com.ecut.cnr.framework.entity.sys.request.QueryRequest;
+import com.ecut.cnr.framework.bo.sys.RoleInfoBO;
+import com.ecut.cnr.framework.request.sys.QueryRequest;
 
 import java.util.List;
 import java.util.Set;
@@ -36,4 +36,25 @@ public interface ISysRoleService extends IService<SysRole> {
      * @return
      */
     Integer deleteById(String id);
+
+    /**
+     * 插入角色和角色拥有的权限
+     * @param roleInfoBO
+     * @return
+     */
+    Long insertRoleAndPerms(RoleInfoBO roleInfoBO);
+
+    /**
+     * 查询所有角色所有信息
+     * @param id
+     * @return
+     */
+    RoleInfoBO findAllById(String id);
+
+    /**
+     * 根据id修改角色信息
+     * @param roleInfoBO
+     * @return
+     */
+    Long updateRoleById(RoleInfoBO roleInfoBO);
 }

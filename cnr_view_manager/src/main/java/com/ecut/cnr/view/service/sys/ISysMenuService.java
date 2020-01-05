@@ -20,5 +20,17 @@ public interface ISysMenuService extends IService<SysMenu> {
      */
     Set<String> findOneByPersRoleIds(List<String> roleIds);
 
+    /**
+     * 根据roleId查询
+     * @param roleIds
+     * @return
+     */
     List<SysMenu> findByPersRoleIds(List<String> roleIds);
+
+    /**
+     * 根据id删除目录
+     * @param id
+     * @return
+     */
+    boolean deleteById(String id);
 }

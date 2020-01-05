@@ -1,7 +1,7 @@
 package com.ecut.cnr.view.auth;
 
 import com.ecut.cnr.framework.common.utils.JsonUtils;
-import com.ecut.cnr.framework.entity.sys.bo.UserInfoBO;
+import com.ecut.cnr.framework.bo.sys.UserInfoBO;
 import com.ecut.cnr.view.service.sys.ISysMenuService;
 import com.ecut.cnr.view.service.sys.ISysRoleService;
 import com.ecut.cnr.view.service.sys.ISysUserService;
@@ -13,6 +13,7 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 
 import java.util.Set;
 
@@ -26,12 +27,15 @@ import java.util.Set;
 public class UserRealm extends AuthorizingRealm {
 
     @Autowired
+    @Lazy
     private ISysUserService sysUserService;
 
     @Autowired
+    @Lazy
     private ISysRoleService sysRoleService;
 
     @Autowired
+    @Lazy
     private ISysMenuService sysMenuService;
 
     /**

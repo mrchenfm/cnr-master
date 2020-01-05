@@ -47,7 +47,7 @@
                     <blockquote class="layui-elem-quote">每个tr 上有两个属性 cate-id='1' 当前分类id fid='0' 父级id ,顶级分类为 0，有子分类的前面加收缩图标<i class="layui-icon x-show" status='true'>&#xe623;</i></blockquote>
                 </div>
                 <div class="layui-card-header">
-                    <button id="add" onclick="addPermission()" class="layui-btn layui-btn-radius btnys"><i class="layui-icon">&#xe608;</i>添加</button>
+                    <button id="add" onclick="xadmin.open('添加权限菜单',ctx+'admin/menuAdd',600,400)" class="layui-btn layui-btn-radius btnys"><i class="layui-icon">&#xe608;</i>添加</button>
                     <button class="layui-btn" id="btn-expand">全部展开</button>
                     <button class="layui-btn" id="btn-fold">全部折叠</button>
                     <button class="layui-btn" id="btn-refresh">刷新表格</button>
@@ -129,6 +129,7 @@
         function complain(d){//操作中显示的内容
             if(d.url!=null){
                 return [
+                    '<button type="button" class="layui-btn layui-btn-xs add" lay-event="add">添加</button>',
                     '<button  type="button" class="layui-btn layui-btn-xs update" lay-event="edit">修改</button>',
                     '<button type="button" class="layui-btn layui-btn-xs layui-btn-danger delete" lay-event="del">删除</button>',
                 ].join('');
@@ -143,9 +144,35 @@
             var layEvent = obj.event;
             if(data.menuName!=null){
                 if (layEvent === 'del') {
-                    layer.msg('删除' + data.id);
+                    layer.confirm('确认要删除吗？',function(id){
+                        //发异步删除数据
+                        console.log(id);
+                        $.ajax({
+                            url:ctx + "admin/delete/menu",
+                            type:"post",
+                            async:true,
+                            cache:true,
+                            data:{
+                                id:data.id
+                            },
+                            success:function(data){
+                                if(data.code == 200){
+                                    $(obj).parents("tr").remove();
+                                    layer.msg('已删除!',{icon:1,time:1000});
+                                    location.reload();
+                                } else {
+                                    layer.msg(data.msg,{icon:1,time:1000});
+                                }
+                            },
+                            error:function () {
+                                layer.msg("出错了",{icon:1,time:1000});
+                            }
+                        });
+                    });
                 } else if (layEvent === 'edit') {
-                    layer.msg('修改' + data.id);
+                    xadmin.open('编辑',ctx+'admin/menuUpdate?id='+data.id)
+                }else if (layEvent === 'add') {
+                    xadmin.open('添加子菜单',ctx+'admin/menuAddChildren?id='+data.id)
                 }
             }
         });

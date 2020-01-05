@@ -1,36 +1,25 @@
 package com.ecut.cnr.view.controller.sys;
 
-import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ecut.cnr.framework.common.Result;
 import com.ecut.cnr.framework.common.base.BaseController;
+import com.ecut.cnr.framework.common.utils.IdUtils;
 import com.ecut.cnr.framework.entity.sys.SysMenu;
+import com.ecut.cnr.framework.bo.sys.RoleInfoBO;
+import com.ecut.cnr.framework.bo.sys.UserInfoBO;
 import com.ecut.cnr.framework.entity.sys.SysRole;
-import com.ecut.cnr.framework.entity.sys.SysUser;
-import com.ecut.cnr.framework.entity.sys.bo.RoleInfoBO;
-import com.ecut.cnr.framework.entity.sys.bo.UserInfoBO;
-import com.ecut.cnr.framework.entity.sys.request.QueryRequest;
+import com.ecut.cnr.framework.request.sys.QueryRequest;
 import com.ecut.cnr.view.service.sys.ISysMenuService;
 import com.ecut.cnr.view.service.sys.ISysRoleService;
 import com.ecut.cnr.view.service.sys.ISysUserService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Select;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.crypto.hash.Md5Hash;
-import org.apache.shiro.subject.Subject;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 /**
  * @Classname SysRoleController
@@ -47,10 +36,10 @@ public class SysRoleController extends BaseController {
     private ISysRoleService sysRoleService;
 
     @Autowired
-    private ISysUserService sysUserService;
+    private ISysMenuService sysMenuService;
 
     @Autowired
-    private ISysMenuService sysMenuService;
+    private IdUtils idUtils;
 
     @RequestMapping("/roleList")
     public String userList(){
@@ -74,15 +63,6 @@ public class SysRoleController extends BaseController {
         List<SysMenu> list = sysMenuService.list(null);
         model.addAttribute("allRole",list);
         return "sys/role/addRole";
-    }
-
-    @RequestMapping("/save/role")
-    @ResponseBody
-    public Result addManager(@RequestBody UserInfoBO userInfoBO){
-       if(true){
-            return new Result();
-        }
-        return Result.error("管理员添加失败");
     }
 
     @RequestMapping("/updateRole")
@@ -124,9 +104,32 @@ public class SysRoleController extends BaseController {
     }
 
     @GetMapping("/roleUpdate")
-    public String toRoleUpdate(){
+    public String toRoleUpdate(Model model,@RequestParam String id){
+        RoleInfoBO roleInfoBO = sysRoleService.findAllById(id);
+        model.addAttribute("roleInfoBO",roleInfoBO);
         return "sys/role/roleUpdate";
     }
+
+    @RequestMapping("/save/role")
+    @ResponseBody
+    public Result saveRole(@RequestBody RoleInfoBO roleInfoBO){
+        roleInfoBO.setId(String.valueOf(idUtils.nextId()));
+        roleInfoBO.setCreateUserId(getCurrentUser().getId());
+        Long count = sysRoleService.insertRoleAndPerms(roleInfoBO);
+        if(count<1){
+            return new Result().error("保存失败");
+        }
+        return new Result();
+    }
+
+    public Result updateRole(@RequestBody RoleInfoBO roleInfoBO){
+        Long count = sysRoleService.updateRoleById(roleInfoBO);
+        if(count<1){
+            return new Result().error("修改失败");
+        }
+        return new Result();
+    }
+
 
 
 }

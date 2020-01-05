@@ -2,8 +2,7 @@ package com.ecut.cnr.framework.common.base;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.ecut.cnr.framework.common.constants.CnrContants;
-import com.ecut.cnr.framework.entity.sys.SysUser;
-import com.ecut.cnr.framework.entity.sys.bo.UserInfoBO;
+import com.ecut.cnr.framework.bo.sys.UserInfoBO;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.session.Session;

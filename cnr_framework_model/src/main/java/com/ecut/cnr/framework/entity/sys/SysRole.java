@@ -39,7 +39,7 @@ public class SysRole implements Serializable {
     private String remark;
 
     @ApiModelProperty(value = "创建者")
-    private Long createUserId;
+    private String createUserId;
 
     @ApiModelProperty(value = "创建时间")
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")

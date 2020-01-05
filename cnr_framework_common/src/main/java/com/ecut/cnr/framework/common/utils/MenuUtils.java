@@ -1,7 +1,7 @@
 package com.ecut.cnr.framework.common.utils;
 
 import com.ecut.cnr.framework.entity.sys.SysMenu;
-import com.ecut.cnr.framework.entity.sys.dto.SysMenuDto;
+import com.ecut.cnr.framework.dto.sys.SysMenuDto;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 

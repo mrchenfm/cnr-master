@@ -10,6 +10,7 @@
         <meta http-equiv="Cache-Control" content="no-siteapp" />
         <link rel="stylesheet" th:href="@{/static/css/font.css}">
         <link rel="stylesheet" th:href="@{/static/css/xadmin.css}">
+        <link rel="stylesheet" th:href="@{/static/lib/layui/css/layui.css}">
         <link rel="stylesheet" th:href="@{/static/css/theme49.min.css}">
         <script th:src="@{/static/lib/layui/layui.js}" charset="utf-8"></script>
         <script type="text/javascript" th:src="@{/static/js/xadmin.js}" charset="utf-8"></script>
@@ -39,19 +40,19 @@
                         <!-- 二级菜单 -->
                         <dd>
                             <a onclick="xadmin.open('最大化','http://www.baidu.com','','',true)">
-                                <i class="iconfont">&#xe6a2;</i>弹出最大化</a></dd>
+                                <i class="layui-icon layui-icon-home"></i>弹出最大化</a></dd>
                         <dd>
                             <a onclick="xadmin.open('弹出自动宽高','http://www.baidu.com')">
-                                <i class="iconfont">&#xe6a8;</i>弹出自动宽高</a></dd>
+                                <i class="layui-icon-engine layui-icon"></i>弹出自动宽高</a></dd>
                         <dd>
                             <a onclick="xadmin.open('弹出指定宽高','http://www.baidu.com',500,300)">
-                                <i class="iconfont">&#xe6a8;</i>弹出指定宽高</a></dd>
+                                <i class="layui-icon layui-icon-set-sm"></i>弹出指定宽高</a></dd>
                         <dd>
                             <a onclick="xadmin.add_tab('在tab打开','member-list.html')">
-                                <i class="iconfont">&#xe6b8;</i>在tab打开</a></dd>
+                                <i class="layui-icon-user layui-icon" ></i>在tab打开</a></dd>
                         <dd>
                             <a onclick="xadmin.add_tab('在tab打开刷新','member-del.html',true)">
-                                <i class="iconfont">&#xe6b8;</i>在tab打开刷新</a></dd>
+                                <i class="layui-icon-read iconfont"></i>在tab打开刷新</a></dd>
                     </dl>
                 </li>
             </ul>
@@ -81,18 +82,18 @@
 
                     <li th:each="menu : ${menuTree}">
                         <a href="javascript:;" th:if="${menu.menuDtos.size()} eq 0">
-                            <i class="iconfont left-nav-li" th:lay-tips="${menu.menuName}" th:utext="${menu.icon}"></i>
+                            <i th:class="${menu.icon}+' layui-icon left-nav-li'" th:lay-tips="${menu.menuName}"></i>
                             <cite th:text="${menu.menuName}"></cite>
                         </a>
                         <a href="javascript:;" th:if="${menu.menuDtos.size()} >0">
-                            <i class="iconfont left-nav-li" th:lay-tips="${menu.menuName}"  th:utext="${menu.icon}"></i>
+                            <i th:class="${menu.icon}+' layui-icon left-nav-li'" th:lay-tips="${menu.menuName}"></i>
                             <cite th:text="${menu.menuName}"></cite>
                             <i class="iconfont nav_right">&#xe697;</i>
                         </a>
                         <ul class="sub-menu" th:if="${menu.menuDtos.size()} > 0">
                             <li th:each="menuchirden1 : ${menu.menuDtos}">
                                 <a onclick="xadmin.add_tab(this.getAttribute('tile'),this.getAttribute('url'))" th:tile="${menuchirden1.menuName}" th:url="${menuchirden1.url}" th:if="${menuchirden1.menuDtos.size()} eq 0">
-                                    <i class="iconfont" th:utext="${menuchirden1.icon}"></i>
+                                    <i th:class="${menuchirden1.icon}+' layui-icon'"></i>
                                     <cite th:text="${menuchirden1.menuName}"></cite>
                                 </a>
                                 <a href="javascript:;" th:if="${menuchirden1.menuDtos.size()} >0">
@@ -103,7 +104,7 @@
                                 <ul class="sub-menu" th:if="${menuchirden1.menuDtos.size()} >0">
                                     <li th:each="menuchirden2 : ${menuchirden1.menuDtos}">
                                         <a onclick="xadmin.add_tab(this.getAttribute('tile'),this.getAttribute('url'))" th:tile="${menuchirden1.menuName}" th:url="${menuchirden1.url}" >
-                                            <i class="iconfont" th:utext="${menuchirden2.icon}"></i>
+                                            <i th:class="${menuchirden2.icon}+' layui-icon'"></i>
                                             <cite th:text="${menuchirden2.menuName}"></cite>
                                         </a>
                                     </li>

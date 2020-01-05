@@ -11,10 +11,50 @@
         <result column="update_time" property="updateTime" jdbcType="DATE"/>
         <result column="create_time" property="createTime" jdbcType="DATE"/>
     </resultMap>
+    <sql id="key">
+        <if test="sysRole.id !=null">
+            id,
+        </if>
+        <if test="sysRole.roleName !=null">
+            role_name,
+        </if>
+        <if test="sysRole.remark !=null">
+            remark,
+        </if>
+        <if test="sysRole.createUserId !=null">
+            create_user_id,
+        </if>
+        <if test="sysRole.roleIdentity !=null">
+            role_identity,
+        </if>
+        create_time,
+        update_time
+    </sql>
+
+    <sql id="values">
+        <if test="sysRole.id !=null">
+            #{sysRole.id},
+        </if>
+        <if test="sysRole.roleName !=null">
+            #{sysRole.roleName},
+        </if>
+        <if test="sysRole.remark !=null">
+            #{sysRole.remark},
+        </if>
+        <if test="sysRole.createUserId !=null">
+            #{sysRole.createUserId},
+        </if>
+        <if test="sysRole.roleIdentity !=null">
+            #{sysRole.roleIdentity},
+        </if>
+        NOW(),
+        NOW()
+    </sql>
     <insert id="insertUserRole">
         INSERT INTO t_user_role (user_id,role_id)
         VALUE (#{userId},#{roleId})
     </insert>
+
     <delete id="deleteUserRole">
         DELETE
          FROM t_user_role
@@ -29,6 +69,12 @@
         DELETE
         FROM t_role_menu
         WHERE role_id =#{id}
+    </delete>
+    <delete id="deleteRoleMenuByRoleIdAndMenuId">
+        DELETE
+        FROM t_role_menu
+        WHERE role_id =#{id}
+        AND menu_id = #{menuId}
     </delete>
 
     <select id="selectByUserId" resultType="java.lang.String">
@@ -54,10 +100,26 @@
         WHERE user_id =#{id}
         )
     </select>
-    <select id="findAllRoles" resultType="com.ecut.cnr.framework.entity.sys.bo.RoleInfoBO">
+    <select id="findAllRoles" resultType="com.ecut.cnr.framework.bo.sys.RoleInfoBO">
         SELECT
-        tr.id,tr.role_name,tr.remark,tr.create_user_id,tr.create_time,tr.update_time,tr.role_identity,tu.username
-        FROM t_sys_role tr,t_sys_user tu
-        where tr.create_user_id = tu.id
+        tr.id,tr.role_name,tr.remark,tr.create_user_id,tr.create_time,tr.update_time,tr.role_identity,tu.username as create_user
+        FROM t_sys_role tr ,t_sys_user tu where tu.id = tr.create_user_id
+    </select>
+    <insert id="saveRole">
+        INSERT
+         INTO t_sys_role(<include refid="key"/>)
+        VALUES
+        (<include refid="values"/>)
+
+    </insert>
+    <insert id="savePrivilege">
+          INSERT INTO t_role_menu(role_id,menu_id)
+          VALUES (#{id},#{privilege})
+    </insert>
+
+    <select id="findPermsByRoleId" resultType="java.lang.String">
+        SELECT menu_id
+        FROM t_role_menu
+        WHERE role_id = #{roleId}
     </select>
 </mapper>

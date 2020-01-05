@@ -29,8 +29,17 @@
                         <span class="x-red">*</span>角色名
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" id="name" name="name" required="" lay-verify="required"
+                        <input type="text" id="name" name="roleName" required="" lay-verify="required"
                         autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label for="identity" class="layui-form-label">
+                        <span class="x-red">*</span>角色标识
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="identity" name="roleIdentity" required="" lay-verify="required"
+                               autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item layui-form-text">
@@ -44,11 +53,11 @@
                         描述
                     </label>
                     <div class="layui-input-block">
-                        <textarea placeholder="请输入内容" id="desc" name="desc" class="layui-textarea"></textarea>
+                        <textarea placeholder="请输入内容" id="desc" name="remark" class="layui-textarea"></textarea>
                     </div>
                 </div>
                 <div class="layui-form-item">
-                <button class="layui-btn" lay-submit="" lay-filter="add">增加</button>
+                <button class="layui-btn" lay-submit lay-filter="add">增加</button>
               </div>
             </form>
         </div>
@@ -105,14 +114,47 @@
 
           //监听提交
           form.on('submit(add)', function(data){
-            console.log(data);
+            console.log(JSON.stringify(data));
             //发异步，把数据提交给php
-            layer.alert("增加成功", {icon: 6},function () {
-                // 获得frame索引
-                var index = parent.layer.getFrameIndex(window.name);
-                //关闭当前frame
-                parent.layer.close(index);
-            });
+             var checkedData = menuTree.getChecked(false,true);
+             var menus = new Array();
+             if(checkedData.length >0){
+                 for(var i in checkedData){
+                     menus.push(checkedData[i].id);
+                 }
+             }
+             var field = data.field;
+             console.log(field);
+              $.ajax({
+                  url: ctx+"admin/save/role",
+                  type: "post",
+                  data: JSON.stringify({
+                      "roleName": field.roleName,
+                      "remark": field.remark,
+                      "roleIdentity": field.roleIdentity,
+                      "privileges": menus
+                  }),
+                  dataType: "json",
+                  contentType: "application/json",
+                  success:function(data){
+                      if(data.code == 200){
+                          layer.alert("增加成功", {icon: 6},function () {
+                              // 获得frame索引
+                              var index = parent.layer.getFrameIndex(window.name);
+                              //关闭当前frame
+                              parent.layer.close(index);
+                          });
+                          // 可以对父窗口进行刷新
+                          xadmin.father_reload();
+                      } else {
+                          layer.msg(data.msg,{icon:1,time:1000});
+                      }
+
+                  },
+                  error:function(data){
+                      layer.msg(data.msg,{icon:1,time:1000});
+                  }
+              });
             return false;
           });
 

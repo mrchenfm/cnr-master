@@ -48,6 +48,11 @@
         sm.id = rm.menu_id
         )
     </select>
+    <select id="findByParentId" resultType="java.lang.String">
+        SELECT id
+        from t_sys_menu
+        where parent_id = #{parentId}
+    </select>
 
 
 </mapper>
