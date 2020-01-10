@@ -16,11 +16,6 @@
             <artifactId>cnr_framework_model</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-        <dependency>
-            <groupId>com.ecut.framework</groupId>
-            <artifactId>cnr_framework_model</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
     </dependencies>
 
 </project>

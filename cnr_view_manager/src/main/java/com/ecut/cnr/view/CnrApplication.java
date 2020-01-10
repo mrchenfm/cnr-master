@@ -2,6 +2,8 @@ package com.ecut.cnr.view;
 
 import com.ecut.cnr.framework.common.utils.IdUtils;
 import com.ecut.cnr.view.config.elasticjob.JobInitializeBean;
+import org.apache.ibatis.annotations.Mapper;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -30,6 +32,7 @@ import java.util.Map;
 @SpringBootApplication
 @EnableScheduling
 @EnableTransactionManagement(mode = AdviceMode.PROXY)
+@MapperScan(value = "com.ecut.cnr.view.mapper.*")
 public class CnrApplication extends WebMvcConfigurationSupport {
 
     @Value("${workerId}")

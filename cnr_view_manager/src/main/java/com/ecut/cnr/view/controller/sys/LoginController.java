@@ -7,9 +7,11 @@ import com.ecut.cnr.framework.common.utils.MenuUtils;
 import com.ecut.cnr.framework.entity.sys.SysMenu;
 import com.ecut.cnr.framework.bo.sys.UserInfoBO;
 import com.ecut.cnr.framework.dto.sys.SysMenuDto;
+import com.ecut.cnr.framework.entity.sys.SysUser;
 import com.ecut.cnr.framework.request.sys.LoginFormRequest;
 import com.ecut.cnr.view.service.sys.ISysCaptchaService;
 import com.ecut.cnr.view.service.sys.ISysMenuService;
+import com.ecut.cnr.view.service.sys.ISysUserService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
@@ -23,6 +25,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -37,6 +40,9 @@ public class LoginController extends BaseController {
 
     @Autowired
     private ISysMenuService sysMenuService;
+
+    @Autowired
+    private ISysUserService sysUserService;
 
     @Autowired
     private ISysCaptchaService sysCaptchaService;
@@ -88,8 +94,8 @@ public class LoginController extends BaseController {
         // 用户信息
         UsernamePasswordToken token = new UsernamePasswordToken(loginRequest.getUsername(),loginRequest.getPassword());
         //request.setAttribute("token",token);
-        /*UserInfoBO userInfoBO = sysUserService.selectUserByUsername(loginRequest.getUsername());
-        if(userInfoBO == null || !userInfoBO.getPassword().equals(new Sha256Hash(loginRequest.getPassword(),userInfoBO.getSalt()).toHex())){
+        UserInfoBO userInfoBO = sysUserService.selectUserByUsername(loginRequest.getUsername());
+        /*if(userInfoBO == null || !userInfoBO.getPassword().equals(new Sha256Hash(loginRequest.getPassword(),userInfoBO.getSalt()).toHex())){
             // 用户名或密码错误
             return Result.error(ErrorEnum.USERNAME_OR_PASSWORD_WRONG);
         }
@@ -99,6 +105,11 @@ public class LoginController extends BaseController {
         //添加用户认证信息
         Subject subject = SecurityUtils.getSubject();
         subject.login(token);
+
+        SysUser sysUser = sysUserService.getById(userInfoBO.getId());
+        sysUser.setLastLoginTime(new Date());
+        sysUser.setUpdateTime(new Date());
+        sysUserService.saveOrUpdate(sysUser);
         //生成token，并保存到redis
         return new Result();
     }

@@ -2,6 +2,7 @@ package com.ecut.cnr.view.controller.sys;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.ecut.cnr.framework.common.Result;
+import com.ecut.cnr.framework.common.anno.ControllerEndpoint;
 import com.ecut.cnr.framework.common.base.BaseController;
 import com.ecut.cnr.framework.common.utils.IdUtils;
 import com.ecut.cnr.framework.entity.sys.SysRole;
@@ -73,6 +74,7 @@ public class SysUserController extends BaseController{
      */
     @RequestMapping("/delete/user")
     @ResponseBody
+    @ControllerEndpoint(operation = "删除管理员用户", exceptionMessage = "管理员用户删除异常")
     public Result deleteById(String id){
 
         Subject subject = SecurityUtils.getSubject();

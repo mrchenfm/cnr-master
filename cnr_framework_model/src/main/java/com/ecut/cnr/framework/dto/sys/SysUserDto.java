@@ -2,6 +2,7 @@ package com.ecut.cnr.framework.dto.sys;
 
 import lombok.Data;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -29,6 +30,9 @@ public class SysUserDto {
     private String email;
 
     private String phone;
+
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private Date lastLoginTime;
 
     private String userface;
 

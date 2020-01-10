@@ -56,6 +56,10 @@ public class SysUser implements Serializable {
     @ApiModelProperty(value = "用户头像地址")
     private String userface;
 
+    @ApiModelProperty(value = "最后登入时间")
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private Date lastLoginTime;
+
     @ApiModelProperty(value = "创建时间")
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date createTime;

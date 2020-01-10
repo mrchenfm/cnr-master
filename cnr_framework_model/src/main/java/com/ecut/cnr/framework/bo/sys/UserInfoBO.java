@@ -2,6 +2,7 @@ package com.ecut.cnr.framework.bo.sys;
 
 import lombok.Data;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.*;
 
@@ -32,6 +33,9 @@ public class UserInfoBO {
     private String phone;
 
     private String userface;
+
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private Date lastLoginTime;
 
     private Date createTime;
 
