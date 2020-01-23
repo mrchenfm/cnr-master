@@ -2,7 +2,6 @@ package com.ecut.cnr.framework.common.base;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.ecut.cnr.framework.common.constants.CnrContants;
-import com.ecut.cnr.framework.bo.sys.UserInfoBO;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.session.Session;
@@ -23,8 +22,8 @@ public class BaseController {
         return SecurityUtils.getSubject();
     }
 
-    protected UserInfoBO getCurrentUser() {
-        return (UserInfoBO) getSubject().getPrincipal();
+    protected Object getCurrentUser() {
+        return getSubject().getPrincipal();
     }
 
     protected Session getSession() {

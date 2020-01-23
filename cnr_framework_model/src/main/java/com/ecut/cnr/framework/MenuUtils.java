@@ -1,4 +1,4 @@
-package com.ecut.cnr.framework.common.utils;
+package com.ecut.cnr.framework;
 
 import com.ecut.cnr.framework.entity.sys.SysMenu;
 import com.ecut.cnr.framework.dto.sys.SysMenuDto;
@@ -16,7 +16,7 @@ import java.util.List;
  * @Create by fangming_chen
  */
 public class MenuUtils {
-    public static List<SysMenuDto> getMenuTree(List<SysMenu> menus){
+    public static  List<SysMenuDto> getMenuTree(List<SysMenu> menus){
         List<SysMenuDto> sysMenuDtos = new ArrayList<>();
         for(Iterator iterator = menus.iterator();iterator.hasNext();){
             SysMenu sysMenu= (SysMenu) iterator.next();

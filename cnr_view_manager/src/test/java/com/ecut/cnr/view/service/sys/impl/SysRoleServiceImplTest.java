@@ -2,6 +2,7 @@ package com.ecut.cnr.view.service.sys.impl;
 
 import com.ecut.cnr.framework.bo.sys.RoleInfoBO;
 import com.ecut.cnr.framework.bo.sys.UserInfoBO;
+import com.ecut.cnr.framework.common.utils.AddressUtils;
 import com.ecut.cnr.view.CnrApplication;
 import com.ecut.cnr.view.service.sys.ISysRoleService;
 import org.junit.Test;
@@ -42,6 +43,7 @@ public class SysRoleServiceImplTest {
     public void findAllRoles() throws Exception {
        /* List<RoleInfoBO> allRoles = sysRoleService.findAllRoles();
         System.out.println(allRoles.toString());*/
+        AddressUtils.getCityInfo("183.39.183.23");
     }
 
 }

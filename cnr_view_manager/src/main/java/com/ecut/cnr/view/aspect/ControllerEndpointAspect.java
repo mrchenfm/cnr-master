@@ -2,6 +2,7 @@ package com.ecut.cnr.view.aspect;
 
 import com.ecut.cnr.framework.common.anno.ControllerEndpoint;
 import com.ecut.cnr.framework.common.exception.MyException;
+import com.ecut.cnr.framework.common.utils.IPUtils;
 import com.ecut.cnr.view.service.log.ISysLogService;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -49,7 +50,7 @@ public class ControllerEndpointAspect extends AspectSupport {
                 ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) attributes;
                 String ip = StringUtils.EMPTY;
                 if (servletRequestAttributes != null) {
-                    ip = servletRequestAttributes.getRequest().getRemoteAddr();
+                    ip = IPUtils.getIpAddr(servletRequestAttributes.getRequest());
                 }
                 sysLogService.saveLog(point, targetMethod, ip, operation, start);
             }

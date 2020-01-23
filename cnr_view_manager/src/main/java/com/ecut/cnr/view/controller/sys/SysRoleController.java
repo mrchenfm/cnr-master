@@ -114,7 +114,8 @@ public class SysRoleController extends BaseController {
     @ResponseBody
     public Result saveRole(@RequestBody RoleInfoBO roleInfoBO){
         roleInfoBO.setId(String.valueOf(idUtils.nextId()));
-        roleInfoBO.setCreateUserId(getCurrentUser().getId());
+        UserInfoBO currentUser = (UserInfoBO) getCurrentUser();
+        roleInfoBO.setCreateUserId(currentUser.getId());
         Long count = sysRoleService.insertRoleAndPerms(roleInfoBO);
         if(count<1){
             return new Result().error("保存失败");

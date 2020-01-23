@@ -3,7 +3,7 @@ package com.ecut.cnr.view.controller.sys;
 import com.alibaba.fastjson.JSONArray;
 import com.ecut.cnr.framework.common.Result;
 import com.ecut.cnr.framework.common.utils.IdUtils;
-import com.ecut.cnr.framework.common.utils.MenuUtils;
+import com.ecut.cnr.framework.MenuUtils;
 import com.ecut.cnr.framework.entity.sys.SysMenu;
 import com.ecut.cnr.framework.dto.sys.SysMenuDto;
 import com.ecut.cnr.view.service.sys.ISysMenuService;

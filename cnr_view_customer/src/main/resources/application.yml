@@ -10,7 +10,7 @@ server:
   connection-timeout: 5000ms
   servlet:
     #映射项目路径
-    context-path: /cnrnews
+    context-path: /news
 
 spring:
       profiles:

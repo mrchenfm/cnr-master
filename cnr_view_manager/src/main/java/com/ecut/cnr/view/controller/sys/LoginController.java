@@ -3,12 +3,14 @@ package com.ecut.cnr.view.controller.sys;
 import com.baomidou.mybatisplus.core.toolkit.IOUtils;
 import com.ecut.cnr.framework.common.Result;
 import com.ecut.cnr.framework.common.base.BaseController;
-import com.ecut.cnr.framework.common.utils.MenuUtils;
+import com.ecut.cnr.framework.MenuUtils;
+import com.ecut.cnr.framework.entity.log.LoginLog;
 import com.ecut.cnr.framework.entity.sys.SysMenu;
 import com.ecut.cnr.framework.bo.sys.UserInfoBO;
 import com.ecut.cnr.framework.dto.sys.SysMenuDto;
 import com.ecut.cnr.framework.entity.sys.SysUser;
 import com.ecut.cnr.framework.request.sys.LoginFormRequest;
+import com.ecut.cnr.view.service.log.ILoginLogService;
 import com.ecut.cnr.view.service.sys.ISysCaptchaService;
 import com.ecut.cnr.view.service.sys.ISysMenuService;
 import com.ecut.cnr.view.service.sys.ISysUserService;
@@ -47,6 +49,9 @@ public class LoginController extends BaseController {
     @Autowired
     private ISysCaptchaService sysCaptchaService;
 
+    @Autowired
+    private ILoginLogService loginLogService;
+
     @RequestMapping(value = {"","/login"})
     public String toLogin(){
         return "login";
@@ -55,6 +60,10 @@ public class LoginController extends BaseController {
     public String toIndex(Model model){
         Subject subject = SecurityUtils.getSubject();
         UserInfoBO userInfoBO = (UserInfoBO) subject.getPrincipal();
+        SysUser sysUser = sysUserService.getById(userInfoBO.getId());
+        sysUser.setLastLoginTime(new Date());
+        sysUser.setUpdateTime(new Date());
+        sysUserService.saveOrUpdate(sysUser);
         List<SysMenu> sysMenus = sysMenuService.findByPersRoleIds(userInfoBO.getRoleIds());
         List<SysMenuDto> menuTree = MenuUtils.getMenuTree(sysMenus);
         model.addAttribute("userInfoBO",userInfoBO);
@@ -106,10 +115,12 @@ public class LoginController extends BaseController {
         Subject subject = SecurityUtils.getSubject();
         subject.login(token);
 
-        SysUser sysUser = sysUserService.getById(userInfoBO.getId());
-        sysUser.setLastLoginTime(new Date());
-        sysUser.setUpdateTime(new Date());
-        sysUserService.saveOrUpdate(sysUser);
+        // 保存登录日志
+        LoginLog loginLog = new LoginLog();
+        loginLog.setUsername(userInfoBO.getUsername());
+        loginLog.setSystemBrowserInfo();
+        this.loginLogService.saveLoginLog(loginLog);
+
         //生成token，并保存到redis
         return new Result();
     }
