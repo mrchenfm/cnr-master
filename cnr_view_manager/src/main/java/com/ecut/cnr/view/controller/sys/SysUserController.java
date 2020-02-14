@@ -57,7 +57,7 @@ public class SysUserController extends BaseController{
 
     @GetMapping("/users")
     @ResponseBody
-    public Result getRoles(QueryRequest queryRequest){
+    public Result getUsers(QueryRequest queryRequest){
         IPage<SysUserDto> allUsers = sysUserService.selectAllUsers(queryRequest);
         Map<String, Object> dataTable = getDataTable(allUsers);
 

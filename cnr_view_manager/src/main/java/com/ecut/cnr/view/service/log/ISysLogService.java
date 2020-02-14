@@ -1,8 +1,11 @@
 package com.ecut.cnr.view.service.log;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ecut.cnr.framework.common.constants.CnrContants;
+import com.ecut.cnr.framework.entity.log.LoginLog;
 import com.ecut.cnr.framework.entity.log.SysLog;
+import com.ecut.cnr.framework.request.sys.QueryRequest;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.springframework.scheduling.annotation.Async;
 
@@ -26,4 +29,11 @@ public interface ISysLogService extends IService<SysLog> {
      */
     @Async(CnrContants.ASYNC_POOL)
     void saveLog(ProceedingJoinPoint point, Method targetMethod, String ip, String operation, long start);
+
+    /**
+     * 分页查询操作日志
+     * @param queryRequest
+     * @return
+     */
+    IPage<SysLog> selectAllSystemLogs(QueryRequest queryRequest);
 }

@@ -57,6 +57,11 @@ public class LoginLog implements Serializable {
      */
     private String browser;
 
+    /**
+     * 登入类型
+     */
+    private Integer type;
+
     private transient String loginTimeFrom;
     private transient String loginTimeTo;
 

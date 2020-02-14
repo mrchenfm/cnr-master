@@ -1,10 +1,13 @@
 package com.ecut.cnr.view.service.log.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ecut.cnr.framework.bo.sys.UserInfoBO;
 import com.ecut.cnr.framework.common.utils.AddressUtils;
 import com.ecut.cnr.framework.common.utils.IdUtils;
 import com.ecut.cnr.framework.entity.log.SysLog;
+import com.ecut.cnr.framework.request.sys.QueryRequest;
 import com.ecut.cnr.view.mapper.log.SysLogMapper;
 import com.ecut.cnr.view.service.log.ISysLogService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -70,6 +73,17 @@ public class SysLogServiceImpl extends ServiceImpl<SysLogMapper,SysLog> implemen
         // 保存系统日志
         save(sysLog);
     }
+
+    @Override
+    public IPage<SysLog> selectAllSystemLogs(QueryRequest queryRequest) {
+        Page<UserInfoBO> page = new Page<>(queryRequest.getPage(), queryRequest.getLimit());
+        //this.baseMapper.findAllUsersPage(page);
+        IPage<SysLog> allUsers = this.baseMapper.findAllSystemLogs(page);
+        List<SysLog> records = allUsers.getRecords();
+        allUsers.setRecords(records);
+        return allUsers;
+    }
+
     @SuppressWarnings("all")
     private StringBuilder handleParams(StringBuilder params, Object[] args, List paramNames) {
         try {
