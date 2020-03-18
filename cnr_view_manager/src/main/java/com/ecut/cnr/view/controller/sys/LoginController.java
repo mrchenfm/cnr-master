@@ -15,6 +15,7 @@ import com.ecut.cnr.view.service.sys.ISysCaptchaService;
 import com.ecut.cnr.view.service.sys.ISysMenuService;
 import com.ecut.cnr.view.service.sys.ISysUserService;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,12 +53,13 @@ public class LoginController extends BaseController {
     @Autowired
     private ILoginLogService loginLogService;
 
-    @RequestMapping(value = {"","/login"})
-    public String toLogin(){
+    @RequestMapping(value = {"", "/login"})
+    public String toLogin() {
         return "login";
     }
+
     @RequestMapping("/admin/index")
-    public String toIndex(Model model){
+    public String toIndex(Model model) {
         Subject subject = SecurityUtils.getSubject();
         UserInfoBO userInfoBO = (UserInfoBO) subject.getPrincipal();
         SysUser sysUser = sysUserService.getById(userInfoBO.getId());
@@ -66,19 +68,19 @@ public class LoginController extends BaseController {
         sysUserService.saveOrUpdate(sysUser);
         List<SysMenu> sysMenus = sysMenuService.findByPersRoleIds(userInfoBO.getRoleIds());
         List<SysMenuDto> menuTree = MenuUtils.getMenuTree(sysMenus);
-        model.addAttribute("userInfoBO",userInfoBO);
-        model.addAttribute("menuTree",menuTree);
+        model.addAttribute("userInfoBO", userInfoBO);
+        model.addAttribute("menuTree", menuTree);
         return "index";
     }
 
     @RequestMapping("/admin/mainIndex")
-    public String forMain(){
+    public String forMain() {
         return "main";
     }
 
-    @RequestMapping(value = "captcha.jpg",method = RequestMethod.GET)
+    @RequestMapping(value = "captcha.jpg", method = RequestMethod.GET)
     @ResponseBody
-    public void captcha(HttpServletResponse response,String uuid) throws IOException {
+    public void captcha(HttpServletResponse response, String uuid) throws IOException {
         response.setHeader("Cache-Control", "no-store, no-cache");
         response.setContentType("image/jpeg");
 
@@ -101,7 +103,7 @@ public class LoginController extends BaseController {
         }*/
 
         // 用户信息
-        UsernamePasswordToken token = new UsernamePasswordToken(loginRequest.getUsername(),loginRequest.getPassword());
+        UsernamePasswordToken token = new UsernamePasswordToken(loginRequest.getUsername(), loginRequest.getPassword());
         //request.setAttribute("token",token);
         UserInfoBO userInfoBO = sysUserService.selectUserByUsername(loginRequest.getUsername());
         /*if(userInfoBO == null || !userInfoBO.getPassword().equals(new Sha256Hash(loginRequest.getPassword(),userInfoBO.getSalt()).toHex())){
@@ -112,8 +114,12 @@ public class LoginController extends BaseController {
             return Result.error("账号已被锁定，请联系管理员");
         }*/
         //添加用户认证信息
-        Subject subject = SecurityUtils.getSubject();
-        subject.login(token);
+        try {
+            Subject subject = SecurityUtils.getSubject();
+            subject.login(token);
+        } catch (AuthenticationException e) {
+            return Result.error("验证失败！");
+        }
 
         // 保存登录日志
         LoginLog loginLog = new LoginLog();

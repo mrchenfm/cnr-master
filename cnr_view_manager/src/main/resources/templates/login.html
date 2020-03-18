@@ -32,7 +32,10 @@
             <!--<input name="password" lay-verify="required" placeholder="密码"  type="text" class="layui-input" width="60%">
             <hr class="hr15">-->
             <input value="登录" lay-submit lay-filter="login" style="width:100%;" type="submit">
-            <hr class="hr20" >
+            <hr class="hr15" >
+            <a href="https://www.baidu.com/">忘记用户名或密码</a>
+            <hr class="hr15" >
+            <span style="color: red">Tel:17746624210&nbsp; &nbsp; &nbsp; QQ:1499967901</span>
         </form>
     </div>
     <script th:inline="javascript">
@@ -61,7 +64,7 @@
                               console.log(data.code);
                               window.location.href = ctx+'admin/index';
                           }else {
-                              alert(data.msg);
+                              layer.msg(data.msg,{icon:1,time:1000});
                           }
 
                       }
