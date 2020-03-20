@@ -45,7 +45,9 @@ spring:
       resources:
         #restFul风格: 不要为资源文件建立映射
         add-mappings: false
-#mybatis
+
+      jmx:
+        enabled: false
 mybatis-plus:
   #mapper文件
   mapper-locations: classpath:mapper/**/*.xml
@@ -67,3 +69,23 @@ mybatis-plus:
     cache-enabled: false
 workerId: 0
 datacenterId: 0
+
+
+#FastDfs的配置	====================================
+#读取inputsream阻塞时间
+fdfs:
+  connect-timeout: 600
+  so-timeout: 1500
+#tracker地址
+  trackerList: 193.112.206.32:22122
+#缩略图配置
+  thumbImage:
+    height: 150
+    width: 150
+
+#通过nginx 访问地址
+  resHost: 193.112.206.32
+  storagePort: 80
+#获取连接池最大数量
+  pool:
+    max-total: 200

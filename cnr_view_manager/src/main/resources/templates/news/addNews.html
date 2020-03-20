@@ -66,18 +66,19 @@
         layedit.set({
             //暴露layupload参数设置接口 --详细查看layupload参数说明
             uploadImage: {
-                url: '/Attachment/LayUploadFile',
+                url: ctx+'/fastdfs/uploadFileToFast',
                 accept: 'image',
                 acceptMime: 'image/*',
                 exts: 'jpg|png|gif|bmp|jpeg',
-                size: '10240'
+                type: 'post'
             }
             , uploadVideo: {
-                url: '/Attachment/LayUploadFile',
+                url: ctx+'/fastdfs/uploadFileToFast',
                 accept: 'video',
                 acceptMime: 'video/*',
                 exts: 'mp4|flv|avi|rm|rmvb',
                 size: '20480'
+
             }
             //右键删除图片/视频时的回调参数，post到后台删除服务器文件等操作，
             //传递参数：
@@ -95,20 +96,22 @@
             }
             , tool: [
                 'html', 'code', 'strong', 'italic', 'underline', 'del', 'addhr', '|', 'fontFomatt', 'colorpicker', 'face'
-                , '|', 'left', 'center', 'right', '|', 'link', 'unlink', 'image_alt', 'video', 'anchors'
+                , '|', 'left', 'center', 'right', '|', 'link', 'unlink', 'image', 'video', 'anchors'
                 , '|', 'fullScreen'
             ]
-            , height: '90%'
+            , height: '100%'
         });
-        layedit.build('context');
+        var index = layedit.build('context');
+
 
         //监听提交
         form.on('submit(add)',
             function(data) {
                 console.log(data.field);
+                data.field.context = layedit.getContent(index);
                 //发异步，把数据提交给后端
                 $.ajax({
-                    url: ctx+"admin/save/menu",
+                    url: ctx+"news/add/new",
                     type: "post",
                     data: JSON.stringify(data.field),
                     dataType: "json",

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ecut.cnr.view.mapper.news.NewsMapper">
+    <sql id="NewsTitle">
+        id, title, user_id, type_id, pub_time, read_times, comment_times, news_pic
+    </sql>
+    <sql id="NewsContext">
+        id, context, title_id
+    </sql>
+    <insert id="addNewsTitle">
+        insert into news_title
+         <include refid="NewsTitle"/>
+         values(
+            #{newsTitle.id},#{newsTitle.title},#{newsTitle.userId},#{newsTitle.typeId},
+            #{newsTitle.pubTime},#{newsTitle.readTimes},#{newsTitle.commentTimes},#{newsTitle.newsPic}
+        );
+    </insert>
+    <insert id="addNewsContext">
+        insert into news_context
+        <include refid="NewsContext"/>
+        values (
+        #{newsContext.id,},#{newsContext.context},#{newsContext.titleId}
+        )
+    </insert>
+    <select id="getAllType" resultType="com.ecut.cnr.framework.entity.news.NewsType">
+        select * from news_type;
+    </select>
+</mapper>

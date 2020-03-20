@@ -2,15 +2,14 @@ package com.ecut.cnr.view;
 
 import com.ecut.cnr.framework.common.utils.IdUtils;
 import com.ecut.cnr.view.config.elasticjob.JobInitializeBean;
-import org.apache.ibatis.annotations.Mapper;
+import com.github.tobato.fastdfs.FdfsClientConfig;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.AdviceMode;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -18,10 +17,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
-import org.thymeleaf.spring5.view.ThymeleafViewResolver;
-
-import javax.annotation.Resource;
-import java.util.Map;
 
 /**
  * @Classname CnrApplication
@@ -33,6 +28,7 @@ import java.util.Map;
 @EnableScheduling
 @EnableTransactionManagement(mode = AdviceMode.PROXY)
 @MapperScan(value = "com.ecut.cnr.view.mapper.*")
+@Import(FdfsClientConfig.class)
 public class CnrApplication extends WebMvcConfigurationSupport {
 
     @Value("${workerId}")
