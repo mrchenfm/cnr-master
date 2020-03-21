@@ -2,12 +2,14 @@ package com.ecut.cnr.view.controller.fastdfs;
 
 import com.alibaba.druid.support.json.JSONUtils;
 import com.ecut.cnr.framework.common.Result;
+import com.ecut.cnr.framework.common.constants.CnrContants;
 import com.ecut.cnr.view.utils.CommonFileUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -77,16 +79,33 @@ public class FileServerController {
             log.info("文件不存在");
         }
         String path = fileUtil.uploadFile(file);
-        System.out.println(path);
+        log.info("文件路径：{}",path);
         Result result = new Result();
         Map<String,Object> map = new HashMap<String,Object>();
         result.put("code",0);
-        map.put("src","http://193.112.206.32/"+path);
+        map.put("src", CnrContants.BASE_URL_UPLOAD +path);
         map.put("title",path.split("/")[path.split("/").length-1]);
         JSONObject data = new JSONObject(result.put("data", map));
         String s = JSONUtils.toJSONString(result);
         String replace = data.toString().replace("//", "/");
         return s;
+    }
+
+    @PostMapping("/upload")
+    @ResponseBody
+    public Result upload(@RequestParam("file")MultipartFile file) throws IOException{
+
+        if(file.isEmpty()){
+            log.info("文件不存在");
+        }
+        String path = fileUtil.uploadFile(file);
+        log.info("文件路径：{}",path);
+        if(ObjectUtils.isEmpty(path)){
+            return Result.error("上传失败！");
+        }
+        Result res = new Result().put("msg", "上传成功");
+        res.put("path",path);
+        return res;
     }
 
 }

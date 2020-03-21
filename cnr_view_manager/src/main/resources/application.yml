@@ -89,3 +89,6 @@ fdfs:
 #获取连接池最大数量
   pool:
     max-total: 200
+    max-total-per-key: 50
+    ## 连接耗尽时等待获取连接的最大毫秒数
+    max-wait-millis: 5000

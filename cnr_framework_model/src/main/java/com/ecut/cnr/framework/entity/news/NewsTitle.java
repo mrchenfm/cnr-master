@@ -21,7 +21,6 @@ import java.util.Date;
 @Data
 @TableName("news_title")
 @Builder
-@NoArgsConstructor
 public class NewsTitle implements Serializable {
     @TableId(value = "id", type = IdType.INPUT)
     private String id;

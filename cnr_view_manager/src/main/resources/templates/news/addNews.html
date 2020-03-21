@@ -33,12 +33,26 @@
                 </div>
             </div>
             <div class="layui-form-item">
-                <label for="type" class="layui-form-label">
+                <label for="typeId" class="layui-form-label">
                     <span class="x-red">*</span>新闻类型
                 </label>
                 <div class="layui-input-inline">
-                    <input type="text" id="type" name="type" required=""
+                    <select name="typeId" id="typeId" lay-filter="xmFilter">
+                        <option th:each="type : ${types}" th:value="${type.id}" th:text="${type.typeName}"></option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label for="typeId" class="layui-form-label">
+                    <span class="x-red">*</span>导航图片
+                </label>
+                <div class="layui-input-inline">
+                    <input type="hidden" id="newsPic" name="newsPic" required="" lay-verify="required"
                            autocomplete="off" class="layui-input">
+                    <button type="button" class="layui-btn" id="newsPicUpload" name="newsPic">
+                        <i class="layui-icon">&#xe67c;</i>上传图片
+                    </button>
                 </div>
             </div>
             <div class="layui-form-item">
@@ -49,7 +63,7 @@
                     <textarea id="context" name="context"></textarea>
                 </div>
             </div>
-            <div class="layui-form-item">
+            <div class="layui-form-item"  style="padding-left: 950px">
                 <button  class="layui-btn" lay-filter="add" lay-submit>
                     增加
                 </button>
@@ -58,11 +72,12 @@
     </div>
 </div>
 <script>
-    layui.use(['form','jquery','layer','layedit'],function() {
+    layui.use(['form','jquery','layer','layedit','upload'],function() {
         $ = layui.jquery;
         var form = layui.form;
         var layer = layui.layer;
         var layedit = layui.layedit;
+        var upload = layui.upload;
         layedit.set({
             //暴露layupload参数设置接口 --详细查看layupload参数说明
             uploadImage: {
@@ -102,6 +117,21 @@
             , height: '100%'
         });
         var index = layedit.build('context');
+        var newsPic = upload.render({
+            elem: '#newsPicUpload' //绑定元素
+            ,url: ctx+'/fastdfs/upload/' //上传接口
+            ,done: function(data){
+                //上传完毕回调
+                $('#newsPic').val(data.path);
+                layer.alert(data.msg, {
+                        icon: 6
+                    });
+            }
+            ,error: function(){
+                //请求异常回调
+                layer.msg("请求异常-_-",{icon:1,time:1000});
+            }
+        });
 
 
         //监听提交

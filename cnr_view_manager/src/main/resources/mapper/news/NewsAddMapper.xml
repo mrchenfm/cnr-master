@@ -2,14 +2,30 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.ecut.cnr.view.mapper.news.NewsMapper">
     <sql id="NewsTitle">
-        id, title, user_id, type_id, pub_time, read_times, comment_times, news_pic
+        `id`, `title`, `user_id`, type_id, pub_time, read_times, comment_times, news_pic
     </sql>
     <sql id="NewsContext">
         id, context, title_id
     </sql>
+    <resultMap id="BaseTitleMap" type="com.ecut.cnr.framework.entity.news.NewsTitle">
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="user_id" property="userId"/>
+        <result column="type_id" property="typeId"/>
+        <result column="pub_time" property="pubTime"/>
+        <result column="read_times" property="readTimes"/>
+        <result column="comment_times" property="commentTimes"/>
+        <result column="news_pic" property="newsPic"/>
+    </resultMap>
+
+    <resultMap id="BaseContextMap" type="com.ecut.cnr.framework.entity.news.NewsContext">
+        <id column="id" property="id"/>
+        <result column="title_id" property="titleId"/>
+        <result column="context" property="context"/>
+    </resultMap>
     <insert id="addNewsTitle">
         insert into news_title
-         <include refid="NewsTitle"/>
+         (<include refid="NewsTitle"/>)
          values(
             #{newsTitle.id},#{newsTitle.title},#{newsTitle.userId},#{newsTitle.typeId},
             #{newsTitle.pubTime},#{newsTitle.readTimes},#{newsTitle.commentTimes},#{newsTitle.newsPic}
@@ -17,7 +33,7 @@
     </insert>
     <insert id="addNewsContext">
         insert into news_context
-        <include refid="NewsContext"/>
+        (<include refid="NewsContext"/>)
         values (
         #{newsContext.id,},#{newsContext.context},#{newsContext.titleId}
         )

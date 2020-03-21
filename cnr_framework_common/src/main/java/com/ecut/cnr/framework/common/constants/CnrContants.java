@@ -17,4 +17,9 @@ public class CnrContants {
      */
     public static final String ASYNC_POOL = "cnrAsyncThreadPool";
 
+    /**
+     * 异步线程吃名称
+     */
+    public static final String BASE_URL_UPLOAD = "http://193.112.206.32/";
+
 }

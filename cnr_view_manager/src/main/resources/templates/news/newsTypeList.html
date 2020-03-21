@@ -36,13 +36,7 @@
                 <div class="layui-card-body ">
                     <form class="layui-form layui-col-space5">
                         <div class="layui-inline layui-show-xs-block">
-                            <input class="layui-input"  autocomplete="off" placeholder="开始日" name="start" id="start">
-                        </div>
-                        <div class="layui-inline layui-show-xs-block">
-                            <input class="layui-input"  autocomplete="off" placeholder="截止日" name="end" id="end">
-                        </div>
-                        <div class="layui-inline layui-show-xs-block">
-                            <input type="text" name="username"  placeholder="请输入用户名" autocomplete="off" class="layui-input">
+                            <input type="text" name="username"  placeholder="请输入名称" autocomplete="off" class="layui-input">
                         </div>
                         <div class="layui-inline layui-show-xs-block">
                             <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
@@ -51,7 +45,7 @@
                 </div>
                 <div class="layui-card-header">
                     <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
-                    <button class="layui-btn" onclick="xadmin.open('添加用户',ctx+'/admin/addUser',600,450)"><i class="layui-icon"></i>添加</button>
+                    <button class="layui-btn" onclick="xadmin.open('添加新闻类别',ctx+'/admin/addUser',600,450)"><i class="layui-icon"></i>添加</button>
                 </div>
                 <div class="layui-card-body layui-table-body layui-table-main">
                     <table id="roleList" lay-filter="roleList"></table>
@@ -70,27 +64,14 @@
         //第一个实例
         table.render({
             elem: '#roleList'
-            ,url: ctx+'admin/users' //数据接口
+            ,url: ctx+'news/list/type' //数据接口
             ,page: true //开启分页
             ,cols: [
                 [ //表头
                     {checkbox:true,fixed: 'left'}//单选框
                     ,{field: 'id', title: 'ID', sort: true, fixed: 'left'}
-                    ,{field: 'username', title: '用户名'}
-                    ,{field: 'phone', title: '手机'}
-                    ,{field: 'email', title: '邮箱'}
-                    ,{field: 'enabled', title: '状态',
-                    templet: function(d){
-                        if(d.enabled==0){
-                            return '未激活';
-                        }else{
-                            return '已激活';
-                        }
-                    }
-                }
-                    ,{field: 'roleNames', title: '拥有角色'}
-                    ,{field: 'lastLoginTime', title: '最近登入时间'}
-                    ,{field: 'createTime', title: '创建时间'}
+                    ,{field: 'username', title: '类别名称'}
+
                     ,{templet: complain, title: '操作',fixed: 'right'}
                 ]
             ]
@@ -128,7 +109,7 @@
                         //发异步删除数据
                         console.log(id);
                         $.ajax({
-                            url:ctx + "admin/delete/user",
+                            url:ctx + "news/delete/type",
                             type:"post",
                             async:true,
                             cache:true,
@@ -151,7 +132,7 @@
                         });
                     });
                 } else if (layEvent === 'edit') {
-                    xadmin.open('编辑',ctx+'admin/updateUser?id='+data.id)
+                    xadmin.open('编辑',ctx+'news/updateType?id='+data.id)
                 }
             }
         });
