@@ -20,12 +20,6 @@
     </head>
     <body>
         <div class="x-nav">
-          <span class="layui-breadcrumb">
-            <a href="">首页</a>
-            <a href="">演示</a>
-            <a>
-              <cite>导航元素</cite></a>
-          </span>
           <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" onclick="location.reload()" title="刷新">
             <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i></a>
         </div>
@@ -77,13 +71,13 @@
                 ,cols: [
                     [ //表头
                         {checkbox:true,fixed: 'left'}//单选框
-                        ,{field: 'id', title: 'ID', sort: true, fixed: 'left'}
-                        ,{field: 'roleName', title: '角色名称'}
-                        ,{field: 'remark', title: '角色描述'}
-                        ,{field: 'roleIdentity', title: '角色标识'}
-                        ,{field: 'createUser', title: '创建者'}
-                        ,{field: 'createTime', title: '创建时间',sort:true}
-                        ,{templet: complain, title: '操作'}
+                        ,{field: 'id', title: 'ID', sort: true, fixed: 'left',width: 180}
+                        ,{field: 'roleName', title: '角色名称',width: 120}
+                        ,{field: 'remark', title: '角色描述',width: 120}
+                        ,{field: 'roleIdentity', title: '角色标识',width: 120}
+                        ,{field: 'createUser', title: '创建者',width: 120}
+                        ,{field: 'createTime', title: '创建时间',sort:true,width: 160,templet: "<div>{{layui.util.toDateString(d.testing_time, 'yyyy-MM-dd HH:mm:ss')}}</div>"}
+                        ,{templet: complain, title: '操作',width: 130}
                 ]
                     ]
                 ,response:{statusCode:200}

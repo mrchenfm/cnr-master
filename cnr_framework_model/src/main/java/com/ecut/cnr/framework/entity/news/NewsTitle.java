@@ -31,4 +31,5 @@ public class NewsTitle implements Serializable {
     private Integer readTimes;
     private Integer commentTimes;
     private String newsPic;
+    private String auditId;
 }

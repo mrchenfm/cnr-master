@@ -20,12 +20,6 @@
 </head>
 <body>
 <div class="x-nav">
-          <span class="layui-breadcrumb">
-            <a href="">首页</a>
-            <a href="">演示</a>
-            <a>
-              <cite>导航元素</cite></a>
-          </span>
     <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" onclick="location.reload()" title="刷新">
         <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i></a>
 </div>
@@ -79,7 +73,7 @@
                     ,{field: 'params', title: '参数',}
                     ,{field: 'ip', title: 'IP地址'}
                     ,{field: 'location', title: '操作地址'}
-                    ,{field: 'createTime', title: '创建时间'}
+                    ,{field: 'createTime', title: '创建时间',templet: "<div>{{layui.util.toDateString(d.testing_time, 'yyyy-MM-dd HH:mm:ss')}}</div>"}
                 ]
             ]
             ,response:{statusCode:200}

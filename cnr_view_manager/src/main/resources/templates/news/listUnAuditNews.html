@@ -70,7 +70,7 @@
                 [ //表头
                     {checkbox:true,fixed: 'left'}//单选框
                     ,{field: 'id', title: 'ID', sort: true, fixed: 'left',width: 180}
-                    ,{field: 'title', title: '新闻标题',width: 300}
+                    ,{field: 'title', title: '新闻标题',width: 400}
                     ,{field: 'typeName', title: '新闻类别',width: 120}
                     ,{field: 'context', title: '新闻内容',width: 120}
                     ,{field: 'readTimes', title: '阅读次数',width: 120}
@@ -99,7 +99,7 @@
             if(d.id!=null){
                 return [
                     '<button  type="button" class="layui-btn layui-btn-xs update" lay-event="edit">修改</button>',
-                    '<button type="button" class="layui-btn layui-btn-xs update" lay-event="del">确认</button>',
+                    '<button type="button" class="layui-btn layui-btn-xs layui-btn-danger delete" lay-event="del">确认</button>',
                     '<button type="button" class="layui-btn layui-btn-xs layui-btn-danger delete" lay-event="del">驳回</button>',
                 ].join('');
             }else{

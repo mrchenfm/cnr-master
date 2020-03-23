@@ -1,13 +1,18 @@
 package com.ecut.cnr.view.controller.news;
 
 import com.alibaba.druid.support.json.JSONUtils;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.ecut.cnr.framework.bo.news.NewQueryBO;
 import com.ecut.cnr.framework.bo.news.NewsBO;
 import com.ecut.cnr.framework.bo.sys.UserInfoBO;
 import com.ecut.cnr.framework.common.Result;
+import com.ecut.cnr.framework.common.base.BaseController;
 import com.ecut.cnr.framework.common.constants.CnrContants;
 import com.ecut.cnr.framework.common.utils.IdUtils;
+import com.ecut.cnr.framework.entity.log.SysLog;
 import com.ecut.cnr.framework.entity.news.NewsTitle;
 import com.ecut.cnr.framework.entity.news.NewsType;
+import com.ecut.cnr.framework.request.sys.QueryRequest;
 import com.ecut.cnr.view.service.news.INewsService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
@@ -22,6 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @version v1.0
@@ -34,7 +40,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/news")
 @Slf4j
-public class NewsController {
+public class NewsController extends BaseController {
 
     @Autowired
     private IdUtils idUtils;
@@ -47,6 +53,29 @@ public class NewsController {
         return "news/listNews";
     }
 
+    /**
+     * 转到新闻类别列表
+     * @return
+     */
+    @RequestMapping("/newsTypeList")
+    public String toNewsTypeList(){
+        return "news/newsTypeList";
+    }
+
+    /**
+     * 转到添加新闻类别页面
+     * @return
+     */
+    @RequestMapping("/addNewsType")
+    public String toAddNewsType(){
+        return "news/addNewsType";
+    }
+
+    /**
+     * 新闻添加
+     * @param newsBO
+     * @return
+     */
     @RequestMapping("/add/new")
     @ResponseBody
     public Result addNews(@RequestBody NewsBO newsBO){
@@ -63,6 +92,11 @@ public class NewsController {
         return new Result();
     }
 
+    /**
+     * 转到新闻添加页面
+     * @param model
+     * @return
+     */
     @RequestMapping("/addNews")
     public String toAddNews(Model model){
         List<NewsType> typeList = newsService.listAllTypes();
@@ -71,24 +105,69 @@ public class NewsController {
         return "news/addNews";
     }
 
-    @RequestMapping("/add/new")
+    /**
+     * 删除新闻类别byID
+     * @param id
+     * @return
+     */
+    @RequestMapping("/deleteTypeById")
     @ResponseBody
     public Result deleteTypeById(String id){
         return new Result();
     }
 
+    /**
+     * 通过id修改新闻类别信息
+     * @param id
+     * @return
+     */
     @RequestMapping("/updateType")
     @ResponseBody
     public Result updatTypeById(String id){
         return new Result();
     }
 
+    /**
+     * 列出新闻类别
+     * @param queryRequest
+     * @return
+     */
     @RequestMapping("/list/type")
     @ResponseBody
-    public Result listAllType(String id){
+    public Result listAllType(QueryRequest queryRequest){
+        IPage<NewsType> newsTypes = newsService.listAllTypesPage(queryRequest);
+        Map<String, Object> dataTable = getDataTable(newsTypes);
+
+        //Object roleJson = JSONArray.toJSON(dataTable);
+        Result result = Result.addMap(dataTable);
+        return result;
+    }
+
+    @RequestMapping("/add/type")
+    @ResponseBody
+    public Result addType(@RequestBody NewsType newsType){
+        newsType.setId(String.valueOf(idUtils.nextId()));
+        int count = newsService.saveNewsType(newsType);
+        if(count<1){
+            return Result.error("新闻类别添加失败");
+        }
         return new Result();
     }
 
+    /**
+     * 查询所有新闻信息
+     * @return
+     */
+    @RequestMapping("/list/all")
+    @ResponseBody
+    public Result listAllNews(QueryRequest queryRequest){
+        IPage<NewQueryBO> allSystemLogs = newsService.listAllNewsPage(queryRequest);
+        Map<String, Object> dataTable = getDataTable(allSystemLogs);
+        //Object roleJson = JSONArray.toJSON(dataTable);
+        Result result = Result.addMap(dataTable);
+
+        return result;
+    }
 
 
 }

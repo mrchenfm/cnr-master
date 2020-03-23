@@ -1,12 +1,19 @@
 package com.ecut.cnr.view.service.news.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.ecut.cnr.framework.bo.news.NewQueryBO;
 import com.ecut.cnr.framework.bo.news.NewsBO;
+import com.ecut.cnr.framework.bo.sys.UserInfoBO;
 import com.ecut.cnr.framework.common.utils.IdUtils;
+import com.ecut.cnr.framework.entity.log.LoginLog;
 import com.ecut.cnr.framework.entity.news.NewsContext;
 import com.ecut.cnr.framework.entity.news.NewsTitle;
 import com.ecut.cnr.framework.entity.news.NewsType;
+import com.ecut.cnr.framework.request.sys.QueryRequest;
 import com.ecut.cnr.view.mapper.news.NewsMapper;
+import com.ecut.cnr.view.mapper.news.NewsTypeMapper;
 import com.ecut.cnr.view.service.news.INewsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +41,9 @@ public class NewsServiceImpl implements INewsService {
     @Autowired
     private NewsMapper newsMapper;
 
+    @Autowired
+    private NewsTypeMapper newsTypeMapper;
+
     @Override
     @Transactional(rollbackFor = Exception.class)
     public int addNews(NewsBO newsBO) {
@@ -55,6 +65,35 @@ public class NewsServiceImpl implements INewsService {
         return newsMapper.getAllType();
     }
 
+    @Override
+    public IPage<NewsType> listAllTypesPage(QueryRequest queryRequest) {
+        Page<NewsType> page = new Page<>(queryRequest.getPage(), queryRequest.getLimit());
+        //this.baseMapper.findAllUsersPage(page);
+        IPage<NewsType> allTypes = newsTypeMapper.selectPage(page,null);
+        //List<NewsType> records = allTypes.getRecords();
+        //allTypes.setRecords(records);
+
+        return allTypes;
+    }
+
+    @Override
+    public int saveNewsType(NewsType newsType) {
+        return newsTypeMapper.insert(newsType);
+    }
+
+    @Override
+    public IPage<NewQueryBO> listAllNewsPage(QueryRequest queryRequest) {
+        Page<NewQueryBO> page = new Page<>(queryRequest.getPage(), queryRequest.getLimit());
+        //this.baseMapper.findAllUsersPage(page);
+        IPage<NewQueryBO> allTypes = newsMapper.selectAllPage(page,null);
+        return allTypes;
+    }
+
+    /**
+     * 生成内容对象
+     * @param newsBO
+     * @return
+     */
     private NewsContext generateNewsContext(NewsBO newsBO) {
         NewsContext newsContext = NewsContext.builder().context(newsBO.getContext())
                 .id(String.valueOf(idUtils.nextId()))
@@ -62,6 +101,11 @@ public class NewsServiceImpl implements INewsService {
         return newsContext;
     }
 
+    /**
+     * 生成内容对象
+     * @param newsBO
+     * @return
+     */
     private NewsTitle generateNewsTitl(NewsBO newsBO) {
         NewsTitle newsTitle = NewsTitle.builder().id(newsBO.getTitleId())
                 .typeId(newsBO.getTypeId())

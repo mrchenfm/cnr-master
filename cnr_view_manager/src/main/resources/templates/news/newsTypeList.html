@@ -45,7 +45,7 @@
                 </div>
                 <div class="layui-card-header">
                     <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
-                    <button class="layui-btn" onclick="xadmin.open('添加新闻类别',ctx+'/admin/addUser',600,450)"><i class="layui-icon"></i>添加</button>
+                    <button class="layui-btn" onclick="xadmin.open('添加新闻类别',ctx+'/news/addNewsType',600,250)"><i class="layui-icon"></i>添加</button>
                 </div>
                 <div class="layui-card-body layui-table-body layui-table-main">
                     <table id="roleList" lay-filter="roleList"></table>
@@ -70,7 +70,7 @@
                 [ //表头
                     {checkbox:true,fixed: 'left'}//单选框
                     ,{field: 'id', title: 'ID', sort: true, fixed: 'left'}
-                    ,{field: 'username', title: '类别名称'}
+                    ,{field: 'typeName', title: '类别名称'}
 
                     ,{templet: complain, title: '操作',fixed: 'right'}
                 ]

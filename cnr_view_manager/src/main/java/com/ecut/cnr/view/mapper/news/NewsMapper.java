@@ -1,5 +1,8 @@
 package com.ecut.cnr.view.mapper.news;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ecut.cnr.framework.bo.news.NewQueryBO;
 import com.ecut.cnr.framework.entity.news.NewsContext;
 import com.ecut.cnr.framework.entity.news.NewsTitle;
 import com.ecut.cnr.framework.entity.news.NewsType;
@@ -39,4 +42,12 @@ public interface NewsMapper {
      * @return
      */
     List<NewsType> getAllType();
+
+    /**
+     * 分页查询新闻信息
+     * @param page
+     * @param o
+     * @return
+     */
+    IPage<NewQueryBO> selectAllPage(Page<NewQueryBO> page, Object o);
 }

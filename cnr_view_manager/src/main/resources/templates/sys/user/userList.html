@@ -20,12 +20,6 @@
 </head>
 <body>
 <div class="x-nav">
-          <span class="layui-breadcrumb">
-            <a href="">首页</a>
-            <a href="">演示</a>
-            <a>
-              <cite>导航元素</cite></a>
-          </span>
     <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" onclick="location.reload()" title="刷新">
         <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i></a>
 </div>
@@ -54,7 +48,7 @@
                     <button class="layui-btn" onclick="xadmin.open('添加用户',ctx+'/admin/addUser',600,450)"><i class="layui-icon"></i>添加</button>
                 </div>
                 <div class="layui-card-body layui-table-body layui-table-main">
-                    <table id="roleList" lay-filter="roleList"></table>
+                    <table  class="layui-table" id="roleList" lay-filter="roleList" style="overflow:visible"></table>
                 </div>
             </div>
         </div>
@@ -75,11 +69,11 @@
             ,cols: [
                 [ //表头
                     {checkbox:true,fixed: 'left'}//单选框
-                    ,{field: 'id', title: 'ID', sort: true, fixed: 'left'}
-                    ,{field: 'username', title: '用户名'}
-                    ,{field: 'phone', title: '手机'}
-                    ,{field: 'email', title: '邮箱'}
-                    ,{field: 'enabled', title: '状态',
+                    ,{field: 'id', title: 'ID', sort: true, fixed: 'left',width: 180}
+                    ,{field: 'username', title: '用户名',width: 120}
+                    ,{field: 'phone', title: '手机',width: 120}
+                    ,{field: 'email', title: '邮箱',width: 120}
+                    ,{field: 'enabled', title: '状态',width: 120,
                     templet: function(d){
                         if(d.enabled==0){
                             return '未激活';
@@ -88,10 +82,10 @@
                         }
                     }
                     }
-                    ,{field: 'roleNames', title: '拥有角色'}
-                    ,{field: 'lastLoginTime', title: '最近登入时间'}
-                    ,{field: 'createTime', title: '创建时间'}
-                    ,{templet: complain, title: '操作',fixed: 'right'}
+                    ,{field: 'roleNames', title: '拥有角色',width: 200}
+                    ,{field: 'lastLoginTime', title: '最近登入时间',sort: true,width: 160,templet: "<div>{{layui.util.toDateString(d.testing_time, 'yyyy-MM-dd HH:mm:ss')}}</div>"}
+                    ,{field: 'createTime', title: '创建时间',width: 160,templet: "<div>{{layui.util.toDateString(d.testing_time, 'yyyy-MM-dd HH:mm:ss')}}</div>"}
+                    ,{templet: complain, title: '操作',fixed: 'right',width: 190}
                 ]
             ]
             ,response:{statusCode:200}
@@ -112,6 +106,7 @@
                 return [
                     '<button  type="button" class="layui-btn layui-btn-xs update" lay-event="edit">修改</button>',
                     '<button type="button" class="layui-btn layui-btn-xs layui-btn-danger delete" lay-event="del">删除</button>',
+                    '<button  type="button" class="layui-btn layui-btn-xs update" lay-event="edit">激活</button>',
                 ].join('');
             }else{
                 return '';
