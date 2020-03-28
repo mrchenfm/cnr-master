@@ -62,4 +62,7 @@
         LEFT JOIN news_type t ON t.id = nt.type_id
         Order by nt.id
     </select>
+    <select id="findContextByTitleId" resultType="com.ecut.cnr.framework.entity.news.NewsContext">
+        select * from news_context where title_id = #{id}
+    </select>
 </mapper>

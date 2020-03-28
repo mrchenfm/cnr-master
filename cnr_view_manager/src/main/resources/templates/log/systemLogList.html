@@ -65,15 +65,17 @@
             ,cols: [
                 [ //表头
                     {checkbox:true,fixed: 'left'}//单选框
-                    ,{field: 'id', title: 'ID', sort: true, fixed: 'left'}
-                    ,{field: 'username', title: '用户名'}
-                    ,{field: 'operation', title: '操作'}
-                    ,{field: 'spendTime', title: '花费时间'}
-                    ,{field: 'method', title: '方法',}
-                    ,{field: 'params', title: '参数',}
-                    ,{field: 'ip', title: 'IP地址'}
-                    ,{field: 'location', title: '操作地址'}
-                    ,{field: 'createTime', title: '创建时间',templet: "<div>{{layui.util.toDateString(d.testing_time, 'yyyy-MM-dd HH:mm:ss')}}</div>"}
+                    ,{field: 'id', title: 'ID', sort: true, fixed: 'left',width: 180}
+                    ,{field: 'username', title: '用户名',width: 120}
+                    ,{field: 'operation', title: '操作',width: 150}
+                    ,{field: 'operation', title: '操作',width: 150}
+                    ,{field: 'spendTime', title: '花费时间',width: 120}
+                    ,{field: 'method', title: '方法',width: 120}
+                    ,{field: 'params', title: '参数',width: 190}
+                    ,{field: 'ip', title: 'IP地址',width: 120}
+                    ,{field: 'location', title: '操作地址',width: 190}
+                    ,{field: 'createTime', title: '创建时间',templet: "<div>{{layui.util.toDateString(d.testing_time, 'yyyy-MM-dd HH:mm:ss')}}</div>",width: 150}
+                    ,{templet: complain, title: '操作',fixed: 'right',display: 'none',width: 150}
                 ]
             ]
             ,response:{statusCode:200}
@@ -88,6 +90,54 @@
                     "data":res.data
                 };
             },
+
+        });
+        function complain(d){//操作中显示的内容
+            if(d.id !=null){
+                return [
+                    '<button  type="button" class="layui-btn layui-btn-xs update" lay-event="info">详情</button>',
+                    '<button type="button" class="layui-btn layui-btn-xs layui-btn-danger delete" lay-event="del">删除</button>',
+                ].join('');
+            }else{
+                return '';
+            }
+
+        }
+        //监听工具条
+        table.on('tool(permissionTable)', function (obj) {
+            var data = obj.data;
+            var layEvent = obj.event;
+            if(data.id!=null){
+                if (layEvent === 'del') {
+                    layer.confirm('确认要删除吗？',function(id){
+                        //发异步删除数据
+                        console.log(id);
+                        $.ajax({
+                            url:ctx + "admin/delete/menu",
+                            type:"post",
+                            async:true,
+                            cache:true,
+                            data:{
+                                id:data.id
+                            },
+                            success:function(data){
+                                if(data.code == 200){
+                                    $(obj).parents("tr").remove();
+                                    layer.msg('已删除!',{icon:1,time:1000});
+                                    location.reload();
+                                } else {
+                                    layer.msg(data.msg,{icon:1,time:1000});
+                                }
+                            },
+                            error:function () {
+                                layer.msg("出错了",{icon:1,time:1000});
+                            }
+                        });
+                    });
+                } else if (layEvent === 'info') {
+                    xadmin.open('编辑',ctx+'admin/menuUpdate?id='+data.id,600,400)
+                }
+            }
         });
     });
 </script>

@@ -18,11 +18,7 @@
       </h1>
       <p class="nav">
         <a href="index.html" class="active">最新</a>
-        <a href="list.html">娱乐</a>
-        <a href="list.html">生活</a>
-        <a href="list.html">财经</a>
-        <a href="list.html">科技</a>
-        <a href="list.html">军事</a>
+        <a href="list.html" th:each="types : ${newsTypes}" th:text="${types.typeName}"></a>
       </p>
       <div class="search-bar">
         <form class="layui-form" action="">
@@ -48,11 +44,7 @@
       <div class="mobile-nav">
         <ul class="layui-nav" lay-filter="">
           <li class="layui-nav-item layui-this"><a href="index.html">最新</a></li>
-          <li class="layui-nav-item"><a href="list.html">娱乐</a></li>
-          <li class="layui-nav-item"><a href="list.html">生活</a></li>
-          <li class="layui-nav-item"><a href="list.html">财经</a></li>
-          <li class="layui-nav-item"><a href="list.html">科技</a></li>
-          <li class="layui-nav-item"><a href="list.html">军事</a></li>
+          <li class="layui-nav-item" th:each="types : ${newsTypes}"><a href="list.html" th:text="${types.typeName}"></a></li>
         </ul>
       </div>  
     </div>

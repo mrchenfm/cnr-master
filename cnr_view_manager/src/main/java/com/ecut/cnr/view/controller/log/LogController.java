@@ -9,6 +9,7 @@ import com.ecut.cnr.framework.entity.log.SysLog;
 import com.ecut.cnr.framework.request.sys.QueryRequest;
 import com.ecut.cnr.view.service.log.ILoginLogService;
 import com.ecut.cnr.view.service.log.ISysLogService;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,6 +40,7 @@ public class LogController extends BaseController {
         return "log/systemLogList";
     }
 
+    @RequiresPermissions("LOG_MANAGER")
     @GetMapping("/loginLog/list")
     @ResponseBody
     public Result getLoginLogs(QueryRequest queryRequest){

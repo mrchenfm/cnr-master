@@ -71,7 +71,7 @@
         debug: true
     }).extend({
         eleTree: 'elemTree/eleTree'
-    }).use(['jquery', 'laydate','form', 'eleTree','layer'], function(){
+    }).use(['jquery', 'laydate','form', 'eleTree','layer'], function(perms){
         var $ = layui.jquery,
             form = layui.form,
             layer = layui.layer,
@@ -99,7 +99,7 @@
                 dataName: "data"
             }
         });
-
+        console.log(perms[1])
 
         //自定义验证规则
         form.verify({

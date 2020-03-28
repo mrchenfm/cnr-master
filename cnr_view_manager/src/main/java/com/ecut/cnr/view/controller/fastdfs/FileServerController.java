@@ -105,6 +105,7 @@ public class FileServerController {
         }
         Result res = new Result().put("msg", "上传成功");
         res.put("path",path);
+        res.put("basicPath",CnrContants.BASE_URL_UPLOAD);
         return res;
     }
 

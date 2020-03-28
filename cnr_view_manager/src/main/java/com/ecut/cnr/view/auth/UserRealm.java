@@ -47,8 +47,7 @@ public class UserRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         log.info("---------------------------->授权认证：");
         SimpleAuthorizationInfo authorizationInfo=new SimpleAuthorizationInfo();
-        String userName=(String) principalCollection.getPrimaryPrincipal();
-        UserInfoBO userInfoBO = sysUserService.selectUserByUsername(userName);
+        UserInfoBO userInfoBO= (UserInfoBO) principalCollection.getPrimaryPrincipal();
         //查找角色标识
         Set<String> roles = sysRoleService.findRoleNamesByIds(userInfoBO.getRoleIds());
         //查找权限标识

@@ -50,4 +50,11 @@ public interface NewsMapper {
      * @return
      */
     IPage<NewQueryBO> selectAllPage(Page<NewQueryBO> page, Object o);
+
+    /**
+     * 根据titleId查询context
+     * @param id
+     * @return
+     */
+    List<NewsContext> findContextByTitleId(@Param("id") String id);
 }

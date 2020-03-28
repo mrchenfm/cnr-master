@@ -84,7 +84,7 @@
                         {field: 'menuName', title: '资源名称',width: 120},
                         {field: 'url', title: '权限标识',width: 120},
                         {field: 'icon', title: '图标',width: 120},
-                        {field: 'perms', title: '资源简介',width: 120},
+                        {field: 'perms', title: '资源简介',width: 140},
                         {field: 'orderNum', title: '排序',width: 120},
                         {field: 'type', title: '类型',
                             templet: function(d){
@@ -95,7 +95,7 @@
                                 }
                             },width: 120
                         },
-                        {templet: complain, title: '操作',fixed: 'right',display: 'none',width: 190}
+                        {templet: complain, title: '操作',fixed: 'right',display: 'none',width: 220}
                     ]
                 ],
                 done: function () {
@@ -123,7 +123,7 @@
         function complain(d){//操作中显示的内容
             if(d.url!=null){
                 return [
-                    '<button type="button" class="layui-btn layui-btn-xs add" lay-event="add">添加</button>',
+                    '<button type="button" class="layui-btn layui-btn-xs add" lay-event="add">添加子菜单</button>',
                     '<button  type="button" class="layui-btn layui-btn-xs update" lay-event="edit">修改</button>',
                     '<button type="button" class="layui-btn layui-btn-xs layui-btn-danger delete" lay-event="del">删除</button>',
                 ].join('');

@@ -84,7 +84,7 @@
          WHERE user_id = #{userId}
     </select>
     <select id="findRoleNamesByIds" resultType="java.lang.String">
-        SELECT role_indentity
+        SELECT role_identity
         FROM t_sys_role
         WHERE id IN
         <foreach collection="roleIds" item="roleId" close=")" open="(" separator=",">

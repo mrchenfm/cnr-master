@@ -72,13 +72,17 @@
                     ,{field: 'id', title: 'ID', sort: true, fixed: 'left',width: 180}
                     ,{field: 'title', title: '新闻标题',width: 300}
                     ,{field: 'typeName', title: '新闻类别',width: 120}
-                    ,{field: 'context', title: '新闻内容',width: 120}
+                    ,{templet: contextInfo, title: '新闻内容',width: 120}
                     ,{field: 'readTimes', title: '阅读次数',width: 120}
                     ,{field: 'commentTimes', title: '评论次数',width: 120}
                     ,{field: 'userName', title: '编辑人员',width: 120}
                     ,{field: 'auditName', title: '审核人',width: 120}
-                    ,{field: 'bupTime', title: '发布时间',width: 160,templet: "<div>{{layui.util.toDateString(d.testing_time, 'yyyy-MM-dd HH:mm:ss')}}</div>"}
-                    ,{field: 'auditTime', title: '审核时间',width: 160,templet: "<div>{{layui.util.toDateString(d.testing_time, 'yyyy-MM-dd HH:mm:ss')}}</div>"}
+                    ,{field: 'pubTime', title: '发布时间',width: 160,templet: function (d) {
+                        return showTime(d.pubTime);
+                    }}
+                    ,{field: 'auditTime', title: '审核时间',width: 160,templet: function (d) {
+                    return showTime(d.auditTime);
+                    }}
                     ,{templet: complain, title: '操作',fixed: 'right',width: 190}
                 ]
             ]
@@ -95,6 +99,16 @@
                 };
             },
         });
+
+        function contextInfo(d){//操作中显示的内容
+            if(d.id!=null){
+                return [
+                    '<a type="button" style="color: #00FFFF" lay-event="show">查看内容</a>',
+                ].join('');
+            }else{
+                return '';
+            }
+        }
         function complain(d){//操作中显示的内容
             if(d.id!=null){
                 return [
@@ -111,7 +125,7 @@
         table.on('tool(roleList)', function (obj) {
             var data = obj.data;
             var layEvent = obj.event;
-            if(data.username!=null){
+            if(data.id!=null){
                 if (layEvent === 'del') {
                     layer.confirm('确认要删除吗？',function(id){
                         //发异步删除数据
@@ -140,11 +154,18 @@
                         });
                     });
                 } else if (layEvent === 'edit') {
-                    xadmin.open('编辑',ctx+'admin/updateUser?id='+data.id)
+                    xadmin.open('编辑',ctx+'admin/updateUser?id='+data.id);
+                }else if (layEvent === 'show') {
+                    xadmin.open('内容详情',ctx+'news/show?id='+data.id,600,500);
                 }
             }
         });
     });
+    //时间转换函数
+    function showTime(tempDate)
+    {
+        return layui.util.toDateString(tempDate, 'yyyy-MM-dd HH:mm:ss')
+    }
 </script>
 <script>var _hmt = _hmt || []; (function() {
     var hm = document.createElement("script");

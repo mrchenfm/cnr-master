@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ecut.cnr.framework.bo.news.NewQueryBO;
 import com.ecut.cnr.framework.bo.news.NewsBO;
+import com.ecut.cnr.framework.entity.news.NewsContext;
 import com.ecut.cnr.framework.entity.news.NewsType;
 import com.ecut.cnr.framework.request.sys.QueryRequest;
 
@@ -46,4 +47,11 @@ public interface INewsService {
      * @return
      */
     IPage<NewQueryBO> listAllNewsPage(QueryRequest queryRequest);
+
+    /**
+     * 根据id查询context
+     * @param id
+     * @return
+     */
+    List<NewsContext> findContextByTitleId(String id);
 }

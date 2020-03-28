@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.ecut.cnr.framework.common.Result;
 import com.ecut.cnr.framework.common.anno.ControllerEndpoint;
 import com.ecut.cnr.framework.common.base.BaseController;
+import com.ecut.cnr.framework.common.constants.CnrContants;
 import com.ecut.cnr.framework.common.utils.IdUtils;
 import com.ecut.cnr.framework.entity.sys.SysRole;
 import com.ecut.cnr.framework.entity.sys.SysUser;
@@ -101,9 +102,12 @@ public class SysUserController extends BaseController{
     public Result addManager(@RequestBody UserInfoBO userInfoBO){
         SysUser sysUser = new SysUser();
         userInfoBO.setSalt(UUID.randomUUID().toString().replace("_",""));
-        userInfoBO.setPassword(new Md5Hash(userInfoBO.getPassword(),userInfoBO.getSalt(),2).toHex());
+        userInfoBO.setPassword(new Md5Hash(CnrContants.BASE_PASSWORD,userInfoBO.getSalt(),2).toHex());
         userInfoBO.setNickname(userInfoBO.getUsername());
         userInfoBO.setId(String.valueOf(idUtils.nextId()));
+        if(userInfoBO.getUserface() != null){
+            userInfoBO.setUserface(CnrContants.BASE_URL_UPLOAD+userInfoBO.getUserface());
+        }
         BeanUtils.copyProperties(userInfoBO,sysUser);
         long count = sysUserService.insertUsersAndRole(sysUser,userInfoBO.getRoleIds());
         if(count>0){
@@ -147,19 +151,43 @@ public class SysUserController extends BaseController{
 
     @RequestMapping("/update/status")
     @ResponseBody
-    public Result updateStatus(@RequestBody SysUser sysUser){
-        Subject subject = SecurityUtils.getSubject();
-        UserInfoBO userInfoBO = (UserInfoBO) subject.getPrincipal();
-        if(userInfoBO.getId().equals(sysUser.getId())){
-            return Result.error("不能更改当前登入账号");
-        }
+    public Result updateStatus(@RequestParam("id") String id){
+        SysUser sysUser = new SysUser(id,1);
         Integer count = sysUserService.updateStatusBuId(sysUser);
         if(count>0){
-            return new Result();
+            return new Result().put("msg","成功激活");
         }
-        if(sysUser.getEnabled() == 1){
-            return Result.error("启用失败");
+        return Result.error("激活失败");
+    }
+
+    /**
+     * 查看用户头像
+     * @param model
+     * @param id
+     * @return
+     */
+    @RequestMapping("/userface")
+    public String userFace(Model model , @RequestParam("id") String id){
+
+        UserInfoBO userInfoBO = sysUserService.findByUserId(id);
+        model.addAttribute("userface",CnrContants.BASE_URL_UPLOAD+userInfoBO.getUserface());
+       return "sys/user/userFace";
+    }
+
+    /**
+     * 用户信息
+     * @return
+     */
+    @RequestMapping("/personInfo")
+    public String userInfo(Model model){
+
+        Subject subject = SecurityUtils.getSubject();
+        UserInfoBO userInfoBO = (UserInfoBO) subject.getPrincipal();
+        userInfoBO = sysUserService.findByUserId(userInfoBO.getId());
+        if(userInfoBO.getUserface() != null){
+            userInfoBO.setUserface(CnrContants.BASE_URL_UPLOAD+userInfoBO.getUserface());
         }
-        return Result.error("禁用失败");
+        model.addAttribute("sysUser",userInfoBO);
+        return "sys/user/personalInfo";
     }
 }

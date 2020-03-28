@@ -67,4 +67,9 @@ public class SysUser implements Serializable {
     @ApiModelProperty(value = "修改时间")
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
+
+    public SysUser(String id, int enabled) {
+        this.id =id;
+        this.enabled = enabled;
+    }
 }

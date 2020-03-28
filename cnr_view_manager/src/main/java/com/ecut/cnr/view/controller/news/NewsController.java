@@ -10,6 +10,7 @@ import com.ecut.cnr.framework.common.base.BaseController;
 import com.ecut.cnr.framework.common.constants.CnrContants;
 import com.ecut.cnr.framework.common.utils.IdUtils;
 import com.ecut.cnr.framework.entity.log.SysLog;
+import com.ecut.cnr.framework.entity.news.NewsContext;
 import com.ecut.cnr.framework.entity.news.NewsTitle;
 import com.ecut.cnr.framework.entity.news.NewsType;
 import com.ecut.cnr.framework.request.sys.QueryRequest;
@@ -21,8 +22,10 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -167,6 +170,20 @@ public class NewsController extends BaseController {
         Result result = Result.addMap(dataTable);
 
         return result;
+    }
+
+    /**
+     * 查询所有新闻信息
+     * @return
+     */
+    @RequestMapping("/show")
+    public String showContext(Model model,@RequestParam("id") String id){
+        //model.addAttribute("context",context);
+        List<NewsContext> contexts = newsService.findContextByTitleId(id);
+        if(!ObjectUtils.isEmpty(contexts)){
+            model.addAttribute("context",contexts.get(0));
+        }
+        return "news/showContext";
     }
 
 

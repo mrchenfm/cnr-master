@@ -34,6 +34,18 @@
                           <span class="x-red">*</span>将会成为您唯一的登入名
                       </div>
                   </div>
+                    <div class="layui-form-item">
+                        <label for="userface" class="layui-form-label">
+                            <span class="x-red">*</span>用户头像
+                        </label>
+                        <div class="layui-input-inline">
+                            <input type="hidden" id="userface" name="userface" required=""
+                                   autocomplete="off" class="layui-input">
+                            <button type="button" class="layui-btn" id="userfacePic" name="userface">
+                                <i class="layui-icon">&#xe67c;</i>上传图片
+                            </button>
+                        </div>
+                    </div>
                   <div class="layui-form-item">
                       <label for="phone" class="layui-form-label">
                           <span class="x-red">*</span>手机
@@ -71,30 +83,8 @@
                         <input  th:each="role : ${allRole}" name="roleId" type="checkbox" lay-skin="primary" th:value="${role.id}" th:title="${role.roleName}">
                       </div>
                   </div>
+
                   <div class="layui-form-item">
-                      <label for="L_pass" class="layui-form-label">
-                          <span class="x-red">*</span>密码
-                      </label>
-                      <div class="layui-input-inline">
-                          <input type="password" id="L_pass" name="password" required="" lay-verify="pass"
-                          autocomplete="off" class="layui-input">
-                      </div>
-                      <div class="layui-form-mid layui-word-aux">
-                          6到16个字符
-                      </div>
-                  </div>
-                  <div class="layui-form-item">
-                      <label for="L_repass" class="layui-form-label">
-                          <span class="x-red">*</span>确认密码
-                      </label>
-                      <div class="layui-input-inline">
-                          <input type="password" id="L_repass" name="repass" required="" lay-verify="repass"
-                          autocomplete="off" class="layui-input">
-                      </div>
-                  </div>
-                  <div class="layui-form-item">
-                      <label for="L_repass" class="layui-form-label">
-                      </label>
                       <button  class="layui-btn" lay-filter="add" lay-submit>
                           增加
                       </button>
@@ -103,10 +93,11 @@
             </div>
         </div>
         <script>
-            layui.use(['form', 'layer'],
+            layui.use(['form', 'layer','upload'],
             function() {
                 $ = layui.jquery;
                 var form = layui.form,
+                    upload = layui.upload,
                 layer = layui.layer;
                 //自定义验证规则
                 form.verify({
@@ -120,6 +111,21 @@
                         if ($('#L_pass').val() != $('#L_repass').val()) {
                             return '两次密码不一致';
                         }
+                    }
+                });
+                upload.render({
+                    elem: '#userfacePic' //绑定元素
+                    ,url: ctx+'/fastdfs/upload/' //上传接口
+                    ,done: function(data){
+                        //上传完毕回调
+                        $('#userface').val(data.path);
+                        layer.alert(data.msg, {
+                            icon: 6
+                        });
+                    }
+                    ,error: function(){
+                        //请求异常回调
+                        layer.msg("请求异常-_-",{icon:1,time:1000});
                     }
                 });
 

@@ -21,5 +21,9 @@ public class CnrContants {
      * 异步线程吃名称
      */
     public static final String BASE_URL_UPLOAD = "http://193.112.206.32/";
+    /**
+     * 初始密码
+     */
+    public static final String BASE_PASSWORD = "123456";
 
 }

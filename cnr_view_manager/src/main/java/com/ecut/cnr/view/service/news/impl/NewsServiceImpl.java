@@ -89,6 +89,11 @@ public class NewsServiceImpl implements INewsService {
         return allTypes;
     }
 
+    @Override
+    public List<NewsContext> findContextByTitleId(String id) {
+        return newsMapper.findContextByTitleId(id);
+    }
+
     /**
      * 生成内容对象
      * @param newsBO
