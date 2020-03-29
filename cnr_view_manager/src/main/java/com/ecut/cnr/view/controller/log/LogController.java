@@ -40,17 +40,21 @@ public class LogController extends BaseController {
         return "log/systemLogList";
     }
 
-    @RequiresPermissions("LOG_MANAGER")
+    @RequiresPermissions("LOG_MANAGERoo")
     @GetMapping("/loginLog/list")
     @ResponseBody
     public Result getLoginLogs(QueryRequest queryRequest){
-        IPage<LoginLog> allUsers = loginLogService.selectAllLoginLogs(queryRequest);
-        Map<String, Object> dataTable = getDataTable(allUsers);
+        try {
+            IPage<LoginLog> allUsers = loginLogService.selectAllLoginLogs(queryRequest);
+            Map<String, Object> dataTable = getDataTable(allUsers);
 
-        //Object roleJson = JSONArray.toJSON(dataTable);
-        Result result = Result.addMap(dataTable);
+            //Object roleJson = JSONArray.toJSON(dataTable);
+            Result result = Result.addMap(dataTable);
 
-        return result;
+            return result;
+        } catch (Exception e) {
+            return new Result().put("msg","权限不足，请联系管理员授权");
+        }
     }
 
     @GetMapping("/systemLog/list")

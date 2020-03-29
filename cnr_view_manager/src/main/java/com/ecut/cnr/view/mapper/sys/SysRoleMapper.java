@@ -98,7 +98,7 @@ public   interface SysRoleMapper extends BaseMapper<SysRole> {
     /**
      * 根据角色id和用户id删除联合主键
      * @param id
-     * @param menuId
      */
-    void deleteRoleMenuByRoleIdAndMenuId(@Param("roleId")String id,@Param("menuId") String menuId);
+    void deleteRoleMenuByRoleIdAndMenuId(@Param("roleId")String id);
+
 }

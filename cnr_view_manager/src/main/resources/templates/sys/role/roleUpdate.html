@@ -24,11 +24,11 @@
 <div class="layui-fluid">
     <div class="layui-row">
         <form action="" method="post" class="layui-form layui-form-pane">
-            <input id="id" name="id" hidden th:value="${roleInfoBO.id}">
             <div class="layui-form-item">
                 <label for="name" class="layui-form-label">
                     <span class="x-red">*</span>角色名
                 </label>
+                <input id="id" name="id" hidden th:value="${roleInfoBO.id}">
                 <div class="layui-input-inline">
                     <input type="text" id="name" name="roleName" required="" lay-verify="required"
                            autocomplete="off" class="layui-input" th:value="${roleInfoBO.roleName}">
@@ -58,7 +58,7 @@
                 </div>
             </div>
             <div class="layui-form-item">
-                <button class="layui-btn" lay-submit lay-filter="update">修改</button>
+                <button class="layui-btn" lay-submit lay-filter="update">修改角色</button>
             </div>
         </form>
     </div>
@@ -101,20 +101,6 @@
         });
         console.log(perms[1])
 
-        //自定义验证规则
-        form.verify({
-            nikename: function(value){
-                if(value.length < 5){
-                    return '昵称至少得5个字符啊';
-                }
-            }
-            ,pass: [/(.+){6,12}$/, '密码必须6到12位']
-            ,repass: function(value){
-                if($('#L_pass').val()!=$('#L_repass').val()){
-                    return '两次密码不一致';
-                }
-            }
-        });
 
         //监听提交
         form.on('submit(update)', function(data){
@@ -133,6 +119,7 @@
                 url: ctx+"admin/update/role",
                 type: "post",
                 data: JSON.stringify({
+                    "id": field.id,
                     "roleName": field.roleName,
                     "remark": field.remark,
                     "roleIdentity": field.roleIdentity,
@@ -142,14 +129,16 @@
                 contentType: "application/json",
                 success:function(data){
                     if(data.code == 200){
-                        layer.alert("增加成功", {icon: 6},function () {
-                            // 获得frame索引
-                            var index = parent.layer.getFrameIndex(window.name);
-                            //关闭当前frame
-                            parent.layer.close(index);
-                        });
-                        // 可以对父窗口进行刷新
-                        xadmin.father_reload();
+                        layer.alert("修改成功", {
+                                icon: 6
+                            },
+                            function() {
+                                //关闭当前frame
+                                xadmin.close();
+
+                                // 可以对父窗口进行刷新
+                                xadmin.father_reload();
+                            });
                     } else {
                         layer.msg(data.msg,{icon:1,time:1000});
                     }

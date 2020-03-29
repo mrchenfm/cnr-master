@@ -97,11 +97,15 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper,SysUser> imple
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Integer updateManagerById(SysUser sysUser) {
+    public Integer updateManagerById(SysUser sysUser,List<String> ids) {
         SysUser user = sysUserMapper.selectById(sysUser.getId());
         int i = 0;
         if(user !=null){
            i = sysUserMapper.updateById(sysUser);
+        }
+        sysUserMapper.deleteAllRole(sysUser.getId());
+        for (String id: ids) {
+            sysUserMapper.saveRole(sysUser.getId(),id);
         }
         return i;
     }

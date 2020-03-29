@@ -45,7 +45,7 @@ public interface ISysUserService extends IService<SysUser> {
      * @param sysUser
      * @return
      */
-    Integer updateManagerById(SysUser sysUser);
+    Integer updateManagerById(SysUser sysUser,List<String> ids);
 
     /**
      * 修改账号状态

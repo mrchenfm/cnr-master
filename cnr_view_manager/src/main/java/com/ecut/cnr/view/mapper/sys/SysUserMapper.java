@@ -10,6 +10,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /**
  * @Classname SysUserMapper
  * @Description
@@ -41,4 +43,15 @@ public interface SysUserMapper extends BaseMapper<SysUser>{
      * @return
      */
     IPage<SysUserDto> findAllUsers(Page<UserInfoBO> page);
+
+    /**
+     * 删除角色用户关联表
+     * @param id
+     * @return
+     */
+    List<String> findRoleById(@Param("id") String id);
+
+    Integer saveRole(String userId, String roleId);
+
+    void deleteAllRole(@Param("id") String id);
 }

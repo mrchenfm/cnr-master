@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -99,31 +100,18 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper,SysRole> imple
     public Long updateRoleById(RoleInfoBO roleInfoBO) {
         SysRole sysRole = new SysRole();
         BeanUtils.copyProperties(roleInfoBO,sysRole);
-        List<String> permsByRoleIdOld = sysRoleMapper.findPermsByRoleId(roleInfoBO.getId());
         List<String> privilegesNew = roleInfoBO.getPrivileges();
-        List<String> add = new ArrayList<>();
-        List<String> del = new ArrayList<>();
-        for(String permsIdOld : permsByRoleIdOld){
-            if(!privilegesNew.contains(permsIdOld)){
-                del.add(permsIdOld);
-            }
-        }
-        for(String permsIdNew : privilegesNew){
-            if(!permsByRoleIdOld.contains(permsIdNew)){
-                add.add(permsIdNew);
-            }
-        }
-        long l = this.baseMapper.saveRole(roleInfoBO);
-        if(CollectionUtils.isNotEmpty(add)){
-            for (String menuId : add) {
+
+        sysRole.setUpdateTime(new Date());
+        long l = this.baseMapper.updateById(sysRole);
+        sysRoleMapper.deleteRoleMenuByRoleIdAndMenuId(roleInfoBO.getId());
+        if(CollectionUtils.isNotEmpty(privilegesNew)){
+            for (String menuId : privilegesNew) {
                 sysRoleMapper.savePrivilege(roleInfoBO.getId(),menuId);
             }
         }
-        if(CollectionUtils.isNotEmpty(del)){
-            for (String menuId : del) {
-                sysRoleMapper.deleteRoleMenuByRoleIdAndMenuId(roleInfoBO.getId(),menuId);
-            }
-        }
+
         return l;
     }
+
 }

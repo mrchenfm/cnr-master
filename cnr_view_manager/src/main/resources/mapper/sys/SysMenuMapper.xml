@@ -21,11 +21,10 @@
          menu_id
          from t_role_menu rm
         WHERE
-          role_id IN (
-          <foreach collection="roleIds" item="roleId">
-              #{roleId}
-          </foreach>
-          )
+          role_id IN
+        <foreach collection="roleIds" open="(" close=")" separator="," item="roleId">
+            #{roleId},
+        </foreach>
         AND
         sm.id = rm.menu_id
         )
@@ -39,11 +38,10 @@
         menu_id
         from t_role_menu rm
         WHERE
-        role_id IN (
-        <foreach collection="roleIds" item="roleId">
-            #{roleId}
+        role_id IN
+        <foreach collection="roleIds" open="(" close=")" separator="," item="roleId">
+        #{roleId}
         </foreach>
-        )
         AND
         sm.id = rm.menu_id
         )

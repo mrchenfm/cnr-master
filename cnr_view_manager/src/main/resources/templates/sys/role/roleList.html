@@ -73,11 +73,11 @@
                         {checkbox:true,fixed: 'left'}//单选框
                         ,{field: 'id', title: 'ID', sort: true, fixed: 'left',width: 180}
                         ,{field: 'roleName', title: '角色名称',width: 120}
-                        ,{field: 'remark', title: '角色描述',width: 120}
-                        ,{field: 'roleIdentity', title: '角色标识',width: 120}
+                        ,{field: 'remark', title: '角色描述',width: 200}
+                        ,{field: 'roleIdentity', title: '角色标识',width: 150}
                         ,{field: 'createUser', title: '创建者',width: 120}
                         ,{field: 'createTime', title: '创建时间',sort:true,width: 160,templet: "<div>{{layui.util.toDateString(d.testing_time, 'yyyy-MM-dd HH:mm:ss')}}</div>"}
-                        ,{templet: complain, title: '操作',width: 130}
+                        ,{templet: complain, title: '操作',width: 180,fixed:'right'}
                 ]
                     ]
                 ,response:{statusCode:200}
@@ -96,7 +96,7 @@
             function complain(d){//操作中显示的内容
                 if(d.id!=null){
                     return [
-                        '<button  type="button" class="layui-btn layui-btn-xs update" lay-event="edit">修改</button>',
+                        '<button  type="button" class="layui-btn layui-btn-xs update" lay-event="edit">修改角色信息</button>',
                         '<button type="button" class="layui-btn layui-btn-xs layui-btn-danger delete" lay-event="del">删除</button>',
                     ].join('');
                 }else{
@@ -125,7 +125,8 @@
                                     if(data.code == 200){
                                         $(obj).parents("tr").remove();
                                         layer.msg('已删除!',{icon:1,time:1000});
-                                        location.reload();
+                                        // 可以对父窗口进行刷新
+                                        xadmin.father_reload();
                                     } else {
                                         layer.msg(data.msg,{icon:1,time:1000});
                                     }

@@ -6,11 +6,24 @@
         SET enabled = #{sysUser.enabled}
         where id = #{sysUser.id}
     </update>
+    <insert id="saveRole">
+        INSERT into t_user_role(user_id,role_id) values(#{userId},#{roleId})
+    </insert>
+    <delete id="deleteAllRole">
+        delete
+        from
+        t_user_role
+        where user_id = #{id}
+    </delete>
+
     <select id="selectByUsername" resultType="com.ecut.cnr.framework.entity.sys.SysUser">
         SELECT * FROM t_sys_user WHERE username = #{username}
     </select>
     <select id="findAllUsers" resultType="com.ecut.cnr.framework.dto.sys.SysUserDto">
         SELECT *
         FROM t_sys_user
+    </select>
+    <select id="findRoleById" resultType="java.lang.String">
+        select role_id from t_user_role where user_id = #{id}
     </select>
 </mapper>

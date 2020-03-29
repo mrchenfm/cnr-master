@@ -75,18 +75,6 @@ public class SysRoleController extends BaseController {
         }
     }
 
-    /**
-     * 修改角色信息
-     * @param userInfoBO
-     * @return
-     */
-    @RequestMapping("/update/role")
-    @ResponseBody
-    public Result updateManager(@RequestBody UserInfoBO userInfoBO){
-
-        return Result.error("管理员修改失败");
-    }
-
     @RequestMapping("/delete/role")
     @ResponseBody
     public Result deleteById(String id){
@@ -123,6 +111,13 @@ public class SysRoleController extends BaseController {
         return new Result();
     }
 
+    /**
+     * 修改角色信息
+     * @param roleInfoBO
+     * @return
+     */
+    @RequestMapping("/update/role")
+    @ResponseBody
     public Result updateRole(@RequestBody RoleInfoBO roleInfoBO){
         Long count = sysRoleService.updateRoleById(roleInfoBO);
         if(count<1){

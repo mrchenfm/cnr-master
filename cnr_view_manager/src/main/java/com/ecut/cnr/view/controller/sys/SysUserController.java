@@ -141,7 +141,7 @@ public class SysUserController extends BaseController{
         SysUser sysUser = new SysUser();
         userInfoBO.setNickname(userInfoBO.getUsername());
         BeanUtils.copyProperties(userInfoBO,sysUser);
-        Integer count = sysUserService.updateManagerById(sysUser);
+        Integer count = sysUserService.updateManagerById(sysUser,userInfoBO.getRoleIds());
         //long count = sysUserService.insertUsersAndRole(sysUser,userInfoBO.getRoleIds());
         if(count>0){
             return new Result();

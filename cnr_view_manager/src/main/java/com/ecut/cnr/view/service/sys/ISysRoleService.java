@@ -57,4 +57,5 @@ public interface ISysRoleService extends IService<SysRole> {
      * @return
      */
     Long updateRoleById(RoleInfoBO roleInfoBO);
+
 }

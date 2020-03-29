@@ -73,8 +73,7 @@
     <delete id="deleteRoleMenuByRoleIdAndMenuId">
         DELETE
         FROM t_role_menu
-        WHERE role_id =#{id}
-        AND menu_id = #{menuId}
+        WHERE role_id =#{roleId}
     </delete>
 
     <select id="selectByUserId" resultType="java.lang.String">
@@ -122,4 +121,5 @@
         FROM t_role_menu
         WHERE role_id = #{roleId}
     </select>
+
 </mapper>
