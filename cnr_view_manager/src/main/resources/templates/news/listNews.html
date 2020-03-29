@@ -114,8 +114,8 @@
             if(d.id!=null){
                 return [
                     '<button  type="button" class="layui-btn layui-btn-xs update" lay-event="edit">修改</button>',
-                    '<button type="button" class="layui-btn layui-btn-xs update" lay-event="del">确认</button>',
-                    '<button type="button" class="layui-btn layui-btn-xs layui-btn-danger delete" lay-event="del">驳回</button>',
+                    '<button type="button" class="layui-btn layui-btn-xs update" lay-event="audit">确认</button>',
+                    '<button type="button" class="layui-btn layui-btn-xs layui-btn-danger delete" lay-event="reject">驳回</button>',
                 ].join('');
             }else{
                 return '';
@@ -127,12 +127,12 @@
             var data = obj.data;
             var layEvent = obj.event;
             if(data.id!=null){
-                if (layEvent === 'del') {
+                if (layEvent === 'reject') {
                     layer.confirm('确认要删除吗？',function(id){
                         //发异步删除数据
                         console.log(id);
                         $.ajax({
-                            url:ctx + "admin/delete/user",
+                            url:ctx + "news/audit/reject",
                             type:"post",
                             async:true,
                             cache:true,
@@ -142,10 +142,10 @@
                             success:function(data){
                                 if(data.code == 200){
                                     $(obj).parents("tr").remove();
-                                    layer.msg('已删除!',{icon:1,time:1000});
+                                    layer.msg(data.msg,{icon:1,time:1000});
                                     location.reload();
                                 } else {
-                                    layer.msg("权限不足，请联系管理员授权",{icon:1,time:1000});
+                                    layer.msg(data.msg,{icon:1,time:1000});
                                 }
 
                             },
@@ -154,9 +154,9 @@
                             }
                         });
                     });
-                } else if (layEvent === 'edit') {
+                } else if (layEvent === 'audit') {
                     xadmin.open('编辑',ctx+'admin/updateUser?id='+data.id);
-                }else if (layEvent === 'show') {
+                }else if (layEvent === 'edit') {
                     xadmin.open('内容详情',ctx+'news/show?id='+data.id,600,500);
                 }
             }

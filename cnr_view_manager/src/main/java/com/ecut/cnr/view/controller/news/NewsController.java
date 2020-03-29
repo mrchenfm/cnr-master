@@ -16,6 +16,7 @@ import com.ecut.cnr.framework.entity.news.NewsType;
 import com.ecut.cnr.framework.request.sys.QueryRequest;
 import com.ecut.cnr.view.service.news.INewsService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.json.JSONObject;
@@ -184,6 +185,18 @@ public class NewsController extends BaseController {
             model.addAttribute("context",contexts.get(0));
         }
         return "news/showContext";
+    }
+
+    @RequestMapping("/audit/reject")
+    @ResponseBody
+    public Result auditReject(@RequestParam("id") String id){
+        return new Result();
+    }
+
+    @RequestMapping("/audit/sure")
+    public String toAuditPage(Model model , @RequestParam("id") String id){
+
+        return "/news/newsAudit";
     }
 
 

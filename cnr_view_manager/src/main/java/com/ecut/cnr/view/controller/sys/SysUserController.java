@@ -184,9 +184,6 @@ public class SysUserController extends BaseController{
         Subject subject = SecurityUtils.getSubject();
         UserInfoBO userInfoBO = (UserInfoBO) subject.getPrincipal();
         userInfoBO = sysUserService.findByUserId(userInfoBO.getId());
-        if(userInfoBO.getUserface() != null){
-            userInfoBO.setUserface(CnrContants.BASE_URL_UPLOAD+userInfoBO.getUserface());
-        }
         model.addAttribute("sysUser",userInfoBO);
         return "sys/user/personalInfo";
     }
