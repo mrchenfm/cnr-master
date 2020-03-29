@@ -3,7 +3,7 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>欢迎页面-X-admin2.2</title>
+    <title>权限菜单添加</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
@@ -37,6 +37,15 @@
                 </label>
                 <div class="layui-input-inline">
                     <input type="text" id="url" name="url" required=""
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="orderNum" class="layui-form-label">
+                    <span class="x-red">*</span>排序编号
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="orderNum" name="orderNum" required=""
                            autocomplete="off" class="layui-input">
                 </div>
             </div>

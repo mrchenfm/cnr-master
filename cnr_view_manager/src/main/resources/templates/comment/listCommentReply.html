@@ -3,7 +3,7 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>欢迎页面-X-admin2.2</title>
+    <title>角色列表</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
@@ -30,28 +30,25 @@
                 <div class="layui-card-body ">
                     <form class="layui-form layui-col-space5">
                         <div class="layui-inline layui-show-xs-block">
-                            <button class="layui-btn"  lay-submit="" lay-filter="clear">删除所选</button>
+                            <input type="text" name="username"  placeholder="请输入角色名称" autocomplete="off" class="layui-input">
                         </div>
                         <div class="layui-inline layui-show-xs-block">
-                            <button class="layui-btn"  lay-submit="" lay-filter="delete">清空所有数据</button>
+                            <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
                         </div>
                     </form>
                 </div>
+                <div class="layui-card-header">
+                    <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
+                    <button class="layui-btn" onclick="xadmin.open('添加角色',ctx+'admin/roleAdd',600,400)"><i class="layui-icon"></i>添加</button>
+                </div>
                 <div class="layui-card-body layui-table-body layui-table-main">
-                    <table id="systemLog" class="layui-table"  lay-filter="roleList"></table>
+                    <table id="roleList" lay-filter="roleList"></table>
                 </div>
             </div>
         </div>
     </div>
 </div>
 </body>
-<script type="text/html" id="toolbarDemo">
-    <div class = "layui-btn-container" >
-        <button class = "layui-btn layui-btn-sm" lay-event = "getCheckData" > 获取选中行数据 </button>
-        <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button >
-        <button class = "layui-btn layui-btn-sm" lay-event = "isAll" > 验证是否全选</button>
-    </div >
-</script>
 <script>
     layui.use(['form','layer','table','jquery'], function(){
         var form=layui.form;
@@ -60,24 +57,22 @@
         var  $ = layui.jquery;
         //第一个实例
         table.render({
-            elem: '#systemLog'
-            ,url: ctx+'admin/systemLog/list' //数据接口
+            elem: '#roleList'
+            ,url: ctx+'admin/roles' //数据接口
             ,page: true //开启分页
             ,toolbar: true
+            ,limits : [10,20,30]
+            ,limit:10
             ,cols: [
                 [ //表头
                     {checkbox:true,fixed: 'left'}//单选框
                     ,{field: 'id', title: 'ID', sort: true, fixed: 'left',width: 180}
-                    ,{field: 'username', title: '用户名',width: 120}
-                    ,{field: 'operation', title: '操作',width: 150}
-                    ,{field: 'operation', title: '操作',width: 150}
-                    ,{field: 'spendTime', title: '花费时间',width: 120}
-                    ,{field: 'method', title: '方法',width: 380}
-                    ,{field: 'params', title: '参数',width: 190}
-                    ,{field: 'ip', title: 'IP地址',width: 120}
-                    ,{field: 'location', title: '操作地址',width: 190}
-                    ,{field: 'createTime', title: '创建时间',templet: "<div>{{layui.util.toDateString(d.testing_time, 'yyyy-MM-dd HH:mm:ss')}}</div>",width: 150}
-                    ,{templet: complain, title: '操作',fixed: 'right',display: 'none',width: 150}
+                    ,{field: 'roleName', title: '角色名称',width: 120}
+                    ,{field: 'remark', title: '角色描述',width: 200}
+                    ,{field: 'roleIdentity', title: '角色标识',width: 150}
+                    ,{field: 'createUser', title: '创建者',width: 120}
+                    ,{field: 'createTime', title: '创建时间',sort:true,width: 160,templet: "<div>{{layui.util.toDateString(d.testing_time, 'yyyy-MM-dd HH:mm:ss')}}</div>"}
+                    ,{templet: complain, title: '操作',width: 180,fixed:'right'}
                 ]
             ]
             ,response:{statusCode:200}
@@ -92,12 +87,11 @@
                     "data":res.data
                 };
             },
-
         });
         function complain(d){//操作中显示的内容
-            if(d.id !=null){
+            if(d.id!=null){
                 return [
-                    '<button  type="button" class="layui-btn layui-btn-xs update" lay-event="info">详情</button>',
+                    '<button  type="button" class="layui-btn layui-btn-xs update" lay-event="edit">修改角色信息</button>',
                     '<button type="button" class="layui-btn layui-btn-xs layui-btn-danger delete" lay-event="del">删除</button>',
                 ].join('');
             }else{
@@ -106,16 +100,16 @@
 
         }
         //监听工具条
-        table.on('tool(permissionTable)', function (obj) {
+        table.on('tool(roleList)', function (obj) {
             var data = obj.data;
             var layEvent = obj.event;
-            if(data.id!=null){
+            if(data.roleName!=null){
                 if (layEvent === 'del') {
                     layer.confirm('确认要删除吗？',function(id){
                         //发异步删除数据
                         console.log(id);
                         $.ajax({
-                            url:ctx + "admin/delete/menu",
+                            url:ctx + "admin/delete/role",
                             type:"post",
                             async:true,
                             cache:true,
@@ -126,18 +120,20 @@
                                 if(data.code == 200){
                                     $(obj).parents("tr").remove();
                                     layer.msg('已删除!',{icon:1,time:1000});
-                                    location.reload();
+                                    // 可以对父窗口进行刷新
+                                    xadmin.father_reload();
                                 } else {
                                     layer.msg(data.msg,{icon:1,time:1000});
                                 }
+
                             },
                             error:function () {
                                 layer.msg("出错了",{icon:1,time:1000});
                             }
                         });
                     });
-                } else if (layEvent === 'info') {
-                    xadmin.open('编辑',ctx+'admin/menuUpdate?id='+data.id,600,400)
+                } else if (layEvent === 'edit') {
+                    xadmin.open('编辑',ctx+'/admin/roleUpdate?id='+data.id)
                 }
             }
         });

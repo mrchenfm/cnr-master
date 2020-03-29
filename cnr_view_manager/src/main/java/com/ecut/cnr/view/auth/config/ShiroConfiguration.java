@@ -33,7 +33,7 @@ public class ShiroConfiguration {
         //设置安全管理器
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         //默认跳转到登陆页面
-        shiroFilterFactoryBean.setLoginUrl("/sys/login");
+        shiroFilterFactoryBean.setLoginUrl("/");
         //登陆成功后的页面
         shiroFilterFactoryBean.setSuccessUrl("/admin/index");
         shiroFilterFactoryBean.setUnauthorizedUrl("/");

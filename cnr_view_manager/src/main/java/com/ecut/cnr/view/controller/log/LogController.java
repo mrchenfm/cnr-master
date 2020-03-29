@@ -40,7 +40,7 @@ public class LogController extends BaseController {
         return "log/systemLogList";
     }
 
-    @RequiresPermissions("LOG_MANAGERoo")
+    @RequiresPermissions("LOG_MANAGER")
     @GetMapping("/loginLog/list")
     @ResponseBody
     public Result getLoginLogs(QueryRequest queryRequest){

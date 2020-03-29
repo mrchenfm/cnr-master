@@ -13,23 +13,22 @@ public enum MenuTypeEnum {
     /**
      * 目录
      */
-    CATALOG(0),
+    CATALOG(0,"菜单"),
     /**
      * 菜单
      */
-    MENU(1),
+    MENU(1,"目录"),
     /**
      * 按钮
      */
-    BUTTON(2);
+    BUTTON(2,"按钮");
 
-    private int value;
+    private int key;
+    private String value;
 
-    MenuTypeEnum(int value) {
+    MenuTypeEnum(int key,String value) {
         this.value = value;
+        this.key = key;
     }
 
-    public int getValue() {
-        return value;
-    }
 }

@@ -23,7 +23,7 @@
         WHERE
           role_id IN
         <foreach collection="roleIds" open="(" close=")" separator="," item="roleId">
-            #{roleId},
+            #{roleId}
         </foreach>
         AND
         sm.id = rm.menu_id
@@ -44,7 +44,7 @@
         </foreach>
         AND
         sm.id = rm.menu_id
-        )
+        ) order by order_num
     </select>
     <select id="findByParentId" resultType="java.lang.String">
         SELECT id

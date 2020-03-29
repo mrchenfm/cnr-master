@@ -36,7 +36,7 @@
                             <input class="layui-input"  autocomplete="off" placeholder="截止日" name="end" id="end">
                         </div>
                         <div class="layui-inline layui-show-xs-block">
-                            <input type="text" name="username"  placeholder="请输入用户名" autocomplete="off" class="layui-input">
+                            <input type="text" name="title"  placeholder="请输标题" autocomplete="off" class="layui-input">
                         </div>
                         <div class="layui-inline layui-show-xs-block">
                             <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
@@ -66,6 +66,7 @@
             elem: '#roleList'
             ,url: ctx+'news/list/all' //数据接口
             ,page: true //开启分页
+            ,toolbar: true
             ,cols: [
                 [ //表头
                     {checkbox:true,fixed: 'left'}//单选框
