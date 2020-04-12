@@ -14,5 +14,15 @@
     <select id="findAllLoginLogs" resultType="com.ecut.cnr.framework.entity.log.LoginLog">
         SELECT * FROM
         t_login_log
+        where 1=1
+        <if test="loginLogSearchDto.loginStart != null">
+            AND login_time >= #{loginLogSearchDto.loginStart}
+        </if>
+        <if test="loginLogSearchDto.loginEnd != null">
+            AND login_time &lt;= #{loginLogSearchDto.loginEnd}
+        </if>
+        <if test="loginLogSearchDto.userName != null and loginLogSearchDto.userName != ''">
+            AND username like CONCAT('%',#{loginLogSearchDto.userName},'%')
+        </if>
     </select>
 </mapper>

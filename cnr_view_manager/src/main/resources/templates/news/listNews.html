@@ -28,18 +28,27 @@
         <div class="layui-col-md12">
             <div class="layui-card">
                 <div class="layui-card-body ">
-                    <form class="layui-form layui-col-space5">
+                    <form class="layui-form layui-col-space5" action="" onsubmit="return false;">
                         <div class="layui-inline layui-show-xs-block">
-                            <input class="layui-input"  autocomplete="off" placeholder="开始日" name="start" id="start">
+                            <input class="layui-input"   placeholder="发布日期" name="pubTimeRange" id="pubTimeRange">
                         </div>
                         <div class="layui-inline layui-show-xs-block">
-                            <input class="layui-input"  autocomplete="off" placeholder="截止日" name="end" id="end">
+                            <input class="layui-input"  placeholder="审核日期" name="auditTimeRange" id="auditTimeRange">
                         </div>
                         <div class="layui-inline layui-show-xs-block">
-                            <input type="text" name="title"  placeholder="请输标题" autocomplete="off" class="layui-input">
+                            <input type="text" name="title" id = "title"  placeholder="请输标题" autocomplete="off" class="layui-input">
                         </div>
                         <div class="layui-inline layui-show-xs-block">
-                            <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
+                            <input type="text" name="fromUser" id = "fromUser"  placeholder="发布人" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-inline layui-show-xs-block">
+                            <input type="text" name="auditStatus" id = "auditStatus"  placeholder="审核状态" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-inline layui-show-xs-block">
+                            <input type="text" name="auditUser" id = "auditUser"  placeholder="审核人" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-inline layui-show-xs-block">
+                            <button class="layui-btn" data-type="reload"   id="search"><i class="layui-icon">&#xe615;</i></button>
                         </div>
                     </form>
                 </div>
@@ -48,7 +57,7 @@
                     <button class="layui-btn" onclick="xadmin.open('添加用户',ctx+'/admin/addUser',600,450)"><i class="layui-icon"></i>添加</button>
                 </div>
                 <div class="layui-card-body layui-table-body layui-table-main">
-                    <table id="roleList" lay-filter="roleList" class="layui-table"></table>
+                    <table id="newsList" lay-filter="newsList" class="layui-table"></table>
                 </div>
             </div>
         </div>
@@ -56,15 +65,26 @@
 </div>
 </body>
 <script>
-    layui.use(['form','layer','table','jquery'], function(){
+    layui.use(['form','layer','table','laydate','jquery'], function(){
         var form=layui.form;
         var layer=layui.layer;
         var table=layui.table;
         var  $ = layui.jquery;
         //第一个实例
+        var laydate = layui.laydate;
+        laydate.render({
+            elem: '#pubTimeRange'
+            ,range: true
+        });
+        laydate.render({
+            elem: '#auditTimeRange'
+            ,range: true
+        });
         table.render({
-            elem: '#roleList'
+            elem: '#newsList'
             ,url: ctx+'news/list/all' //数据接口
+            ,method:'post'
+            ,contentType: 'application/json;charset=utf-8'
             ,page: true //开启分页
             ,toolbar: true
             ,cols: [
@@ -91,6 +111,7 @@
             ,request: {
                 pageName: 'page' //页码的参数名称，默认：page
             }
+            ,id :'newsList'
             ,parseData:function (res) {
                 return{
                     "code":res.code,
@@ -100,7 +121,29 @@
                 };
             },
         });
-
+        $('#search').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+        //根据搜索条件重加载表格
+        var $ = layui.$, active = {
+            reload: function () {
+                console.log("开始条件搜索！！！")
+                table.reload('newsList', {
+                    where: {
+                        auditTimeRange : $('#auditTimeRange').val(),
+                        pubTimeRange : $('#pubTimeRange').val(),
+                        title : $('#title').val(),
+                        fromUser:$('#fromUser').val(),
+                        auditUser:$('#auditUser').val(),
+                        auditStatus:$('#auditStatus').val()
+                    }
+                    , page: {
+                        curr :1
+                    }
+                });
+            }
+        };
         function contextInfo(d){//操作中显示的内容
             if(d.id!=null){
                 return [
@@ -123,7 +166,7 @@
 
         }
         //监听工具条
-        table.on('tool(roleList)', function (obj) {
+        table.on('tool(newsList)', function (obj) {
             var data = obj.data;
             var layEvent = obj.event;
             if(data.id!=null){

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ecut.cnr.framework.common.utils.JsonUtils;
+import com.ecut.cnr.framework.dto.sys.RoleSearchDto;
 import com.ecut.cnr.framework.entity.sys.SysMenu;
 import com.ecut.cnr.framework.entity.sys.SysRole;
 import com.ecut.cnr.framework.bo.sys.RoleInfoBO;
@@ -42,10 +43,10 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper,SysRole> imple
     }
 
     @Override
-    public IPage<RoleInfoBO> findAllRoles(QueryRequest queryRequest) {
-        Page<UserInfoBO> page = new Page<>(queryRequest.getPage(), queryRequest.getLimit());
+    public IPage<RoleInfoBO> findAllRoles(RoleSearchDto roleSearchDto) {
+        Page<UserInfoBO> page = new Page<>(roleSearchDto.getPage(), roleSearchDto.getLimit());
         //this.baseMapper.findAllRoles(page);
-        return this.baseMapper.findAllRoles(page);
+        return this.baseMapper.findAllRoles(page,roleSearchDto);
     }
 
     @Override

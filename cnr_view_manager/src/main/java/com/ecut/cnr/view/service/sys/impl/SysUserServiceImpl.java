@@ -3,7 +3,9 @@ package com.ecut.cnr.view.service.sys.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.ecut.cnr.framework.common.utils.DateUtils;
 import com.ecut.cnr.framework.common.utils.JsonUtils;
+import com.ecut.cnr.framework.dto.sys.UserSearchDto;
 import com.ecut.cnr.framework.entity.sys.SysUser;
 import com.ecut.cnr.framework.bo.sys.UserInfoBO;
 import com.ecut.cnr.framework.dto.sys.SysUserDto;
@@ -17,6 +19,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 
 import java.util.Iterator;
 import java.util.List;
@@ -116,10 +119,14 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper,SysUser> imple
     }
 
     @Override
-    public IPage<SysUserDto> selectAllUsers(QueryRequest queryRequest) {
-        Page<UserInfoBO> page = new Page<>(queryRequest.getPage(), queryRequest.getLimit());
+    public IPage<SysUserDto> selectAllUsers(UserSearchDto userSearchDto) {
+        if(!ObjectUtils.isEmpty(userSearchDto.getRegisterTimeRange())){
+            userSearchDto.setStart(DateUtils.convert(userSearchDto.getRegisterTimeRange().split(" - ")[0],DateUtils.DATE_FORMAT));
+            userSearchDto.setEnd(DateUtils.convert(userSearchDto.getRegisterTimeRange().split(" - ")[1],DateUtils.DATE_FORMAT));
+        }
+        Page<UserInfoBO> page = new Page<>(userSearchDto.getPage(), userSearchDto.getLimit());
         //this.baseMapper.findAllUsersPage(page);
-        IPage<SysUserDto> allUsers = this.baseMapper.findAllUsers(page);
+        IPage<SysUserDto> allUsers = this.baseMapper.findAllUsers(page,userSearchDto);
         List<SysUserDto> records = allUsers.getRecords();
         for (Iterator iterator = records.iterator(); iterator.hasNext(); ) {
             SysUserDto sysUserDto = (SysUserDto) iterator.next();

@@ -22,6 +22,18 @@
     <select id="findAllUsers" resultType="com.ecut.cnr.framework.dto.sys.SysUserDto">
         SELECT *
         FROM t_sys_user
+        where 1=1
+        <if test="userSearchDto != null">
+            <if test="userSearchDto.start != null">
+                AND create_time >= #{userSearchDto.start}
+            </if>
+            <if test="userSearchDto.end != null">
+                AND create_time &lt;= #{userSearchDto.end}
+            </if>
+            <if test="userSearchDto.username != null and userSearchDto.username != ''">
+                AND username = #{userSearchDto.username}
+            </if>
+        </if>
     </select>
     <select id="findRoleById" resultType="java.lang.String">
         select role_id from t_user_role where user_id = #{id}

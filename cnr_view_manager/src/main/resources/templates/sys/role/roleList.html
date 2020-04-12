@@ -28,12 +28,12 @@
                 <div class="layui-col-md12">
                     <div class="layui-card">
                         <div class="layui-card-body ">
-                            <form class="layui-form layui-col-space5">
+                            <form class="layui-form layui-col-space5" action="" onsubmit="return false;">
                                 <div class="layui-inline layui-show-xs-block">
-                                    <input type="text" name="username"  placeholder="请输入角色名称" autocomplete="off" class="layui-input">
+                                    <input type="text" name="roleName" id="roleName"  placeholder="请输入角色名称" autocomplete="off" class="layui-input">
                                 </div>
                                 <div class="layui-inline layui-show-xs-block">
-                                    <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
+                                    <button class="layui-btn"  data-type="reload" id="search"><i class="layui-icon">&#xe615;</i></button>
                                 </div>
                             </form>
                         </div>
@@ -59,10 +59,10 @@
             table.render({
                 elem: '#roleList'
                 ,url: ctx+'admin/roles' //数据接口
+                ,method:'post'
+                ,contentType: 'application/json;charset=utf-8'
                 ,page: true //开启分页
                 ,toolbar: true
-                ,limits : [10,20,30]
-                ,limit:10
                 ,cols: [
                     [ //表头
                         {checkbox:true,fixed: 'left'}//单选框
@@ -79,6 +79,7 @@
                 ,request: {
                     pageName: 'page' //页码的参数名称，默认：page
                 }
+                ,id : 'roleList'
                 ,parseData:function (res) {
                     return{
                         "code":res.code,
@@ -86,8 +87,26 @@
                         "count":res.count,
                         "data":res.data
                     };
-                },
+                }
             });
+            $('#search').on('click', function(){
+                var type = $(this).data('type');
+                active[type] ? active[type].call(this) : '';
+            });
+            //根据搜索条件重加载表格
+            var $ = layui.$, active = {
+                reload: function () {
+                    console.log("开始条件搜索！！！")
+                    table.reload('roleList', {
+                        where: {
+                            roleName : $('#roleName').val()
+                        }
+                        ,page: {
+                            curr :1
+                        }
+                    });
+                }
+            };
             function complain(d){//操作中显示的内容
                 if(d.id!=null){
                     return [

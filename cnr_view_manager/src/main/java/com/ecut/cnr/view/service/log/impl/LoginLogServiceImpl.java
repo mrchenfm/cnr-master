@@ -4,10 +4,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ecut.cnr.framework.bo.sys.UserInfoBO;
-import com.ecut.cnr.framework.common.utils.AddressUtils;
-import com.ecut.cnr.framework.common.utils.HttpContextUtil;
-import com.ecut.cnr.framework.common.utils.IPUtils;
-import com.ecut.cnr.framework.common.utils.IdUtils;
+import com.ecut.cnr.framework.common.utils.*;
+import com.ecut.cnr.framework.dto.log.LoginLogSearchDto;
 import com.ecut.cnr.framework.dto.sys.SysUserDto;
 import com.ecut.cnr.framework.entity.log.LoginLog;
 import com.ecut.cnr.framework.request.sys.QueryRequest;
@@ -16,6 +14,7 @@ import com.ecut.cnr.view.service.log.ILoginLogService;
 import groovy.util.logging.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
@@ -40,10 +39,14 @@ public class LoginLogServiceImpl extends ServiceImpl<LoginLogMapper, LoginLog> i
     }
 
     @Override
-    public IPage<LoginLog> selectAllLoginLogs(QueryRequest queryRequest) {
-        Page<UserInfoBO> page = new Page<>(queryRequest.getPage(), queryRequest.getLimit());
+    public IPage<LoginLog> selectAllLoginLogs(LoginLogSearchDto loginLogSearchDto) {
+        if(!ObjectUtils.isEmpty(loginLogSearchDto.getLoginTimeRange())){
+            loginLogSearchDto.setLoginStart(DateUtils.convert(loginLogSearchDto.getLoginTimeRange().split(" - ")[0],DateUtils.DATE_FORMAT));
+            loginLogSearchDto.setLoginEnd(DateUtils.convert(loginLogSearchDto.getLoginTimeRange().split(" - ")[1],DateUtils.DATE_FORMAT));
+        }
+        Page<UserInfoBO> page = new Page<>(loginLogSearchDto.getPage(), loginLogSearchDto.getLimit());
         //this.baseMapper.findAllUsersPage(page);
-        IPage<LoginLog> allUsers = this.baseMapper.findAllLoginLogs(page);
+        IPage<LoginLog> allUsers = this.baseMapper.findAllLoginLogs(page,loginLogSearchDto);
         List<LoginLog> records = allUsers.getRecords();
         allUsers.setRecords(records);
         return allUsers;

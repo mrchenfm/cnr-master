@@ -3,6 +3,8 @@ package com.ecut.cnr.view.controller.log;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.ecut.cnr.framework.common.Result;
 import com.ecut.cnr.framework.common.base.BaseController;
+import com.ecut.cnr.framework.dto.log.LoginLogSearchDto;
+import com.ecut.cnr.framework.dto.log.SysLogSearchDto;
 import com.ecut.cnr.framework.dto.sys.SysUserDto;
 import com.ecut.cnr.framework.entity.log.LoginLog;
 import com.ecut.cnr.framework.entity.log.SysLog;
@@ -12,9 +14,7 @@ import com.ecut.cnr.view.service.log.ISysLogService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -41,11 +41,11 @@ public class LogController extends BaseController {
     }
 
     @RequiresPermissions("LOG_MANAGER")
-    @GetMapping("/loginLog/list")
+    @PostMapping ("/loginLog/list")
     @ResponseBody
-    public Result getLoginLogs(QueryRequest queryRequest){
+    public Result getLoginLogs(@RequestBody LoginLogSearchDto loginLogSearchDto){
         try {
-            IPage<LoginLog> allUsers = loginLogService.selectAllLoginLogs(queryRequest);
+            IPage<LoginLog> allUsers = loginLogService.selectAllLoginLogs(loginLogSearchDto);
             Map<String, Object> dataTable = getDataTable(allUsers);
 
             //Object roleJson = JSONArray.toJSON(dataTable);
@@ -57,10 +57,10 @@ public class LogController extends BaseController {
         }
     }
 
-    @GetMapping("/systemLog/list")
+    @PostMapping("/systemLog/list")
     @ResponseBody
-    public Result getSystemLogs(QueryRequest queryRequest){
-        IPage<SysLog> allSystemLogs = sysLogService.selectAllSystemLogs(queryRequest);
+    public Result getSystemLogs(@RequestBody SysLogSearchDto sysLogSearchDto){
+        IPage<SysLog> allSystemLogs = sysLogService.selectAllSystemLogs(sysLogSearchDto);
         Map<String, Object> dataTable = getDataTable(allSystemLogs);
 
         //Object roleJson = JSONArray.toJSON(dataTable);

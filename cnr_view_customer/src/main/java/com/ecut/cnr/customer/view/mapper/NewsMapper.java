@@ -1,9 +1,8 @@
-package com.ecut.cnr.view.mapper.news;
+package com.ecut.cnr.customer.view.mapper;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ecut.cnr.framework.bo.news.NewQueryBO;
-import com.ecut.cnr.framework.dto.sys.NewsSearchDto;
 import com.ecut.cnr.framework.entity.news.NewsContext;
 import com.ecut.cnr.framework.entity.news.NewsTitle;
 import com.ecut.cnr.framework.entity.news.NewsType;
@@ -36,7 +35,7 @@ public interface NewsMapper {
      * @param newsContext
      * @return
      */
-    int addNewsContext(@Param("newsContext")NewsContext newsContext);
+    int addNewsContext(@Param("newsContext") NewsContext newsContext);
 
     /**
      * 获取所有新闻类型
@@ -47,10 +46,10 @@ public interface NewsMapper {
     /**
      * 分页查询新闻信息
      * @param page
-     * @param newsSearchDto
+     * @param o
      * @return
      */
-    IPage<NewQueryBO> selectAllPage(Page<NewQueryBO> page, @Param("newsSearchDto") NewsSearchDto newsSearchDto);
+    IPage<NewQueryBO> selectAllPage(Page<NewQueryBO> page, Object o);
 
     /**
      * 根据titleId查询context

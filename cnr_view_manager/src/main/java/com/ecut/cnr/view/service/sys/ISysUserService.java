@@ -2,6 +2,7 @@ package com.ecut.cnr.view.service.sys;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.ecut.cnr.framework.dto.sys.UserSearchDto;
 import com.ecut.cnr.framework.entity.sys.SysUser;
 import com.ecut.cnr.framework.bo.sys.UserInfoBO;
 import com.ecut.cnr.framework.dto.sys.SysUserDto;
@@ -56,9 +57,9 @@ public interface ISysUserService extends IService<SysUser> {
 
     /**
      * 分页查询管理者
-     * @param queryRequest
+     * @param userSearchDto
      * @return
      */
-    IPage<SysUserDto> selectAllUsers(QueryRequest queryRequest);
+    IPage<SysUserDto> selectAllUsers(UserSearchDto userSearchDto);
 }
 

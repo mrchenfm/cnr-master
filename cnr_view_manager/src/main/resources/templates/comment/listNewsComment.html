@@ -30,19 +30,15 @@
                 <div class="layui-card-body ">
                     <form class="layui-form layui-col-space5">
                         <div class="layui-inline layui-show-xs-block">
-                            <input type="text" name="username"  placeholder="请输入角色名称" autocomplete="off" class="layui-input">
+                            <input type="text" name="username"  placeholder="请输入搜索内容" autocomplete="off" class="layui-input">
                         </div>
                         <div class="layui-inline layui-show-xs-block">
                             <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
                         </div>
                     </form>
                 </div>
-                <div class="layui-card-header">
-                    <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
-                    <button class="layui-btn" onclick="xadmin.open('添加角色',ctx+'admin/roleAdd',600,400)"><i class="layui-icon"></i>添加</button>
-                </div>
                 <div class="layui-card-body layui-table-body layui-table-main">
-                    <table id="roleList" lay-filter="roleList"></table>
+                    <table id="newsComment" lay-filter="newsComment"></table>
                 </div>
             </div>
         </div>
@@ -57,8 +53,8 @@
         var  $ = layui.jquery;
         //第一个实例
         table.render({
-            elem: '#roleList'
-            ,url: ctx+'admin/roles' //数据接口
+            elem: '#newsComment'
+            ,url: ctx+'comment/newsCommentsInfo' //数据接口
             ,page: true //开启分页
             ,toolbar: true
             ,limits : [10,20,30]
@@ -67,12 +63,18 @@
                 [ //表头
                     {checkbox:true,fixed: 'left'}//单选框
                     ,{field: 'id', title: 'ID', sort: true, fixed: 'left',width: 180}
-                    ,{field: 'roleName', title: '角色名称',width: 120}
-                    ,{field: 'remark', title: '角色描述',width: 200}
-                    ,{field: 'roleIdentity', title: '角色标识',width: 150}
-                    ,{field: 'createUser', title: '创建者',width: 120}
+                    ,{field: 'fromName', title: '评论者',width: 120}
+                    ,{field: 'likeNum', title: '点赞数',width: 200}
+                    ,{field: 'content', title: '评论内容',width: 150}
+                    ,{field: 'typeName', title: '评论类型',width: 150}
+                    ,{field: 'auditStatusName', title: '审核状态',width: 150}
+                    ,{field: 'auditName', title: '审核人',width: 120}
+                    ,{field: 'auditTypeName', title: '审核类型',width: 120}
+                    ,{field: 'ownerId', title: '被文章评论ID',width: 180}
+                    ,{field: 'auditTime', title: '审核时间',sort:true,width: 160,templet: "<div>{{layui.util.toDateString(d.testing_time, 'yyyy-MM-dd HH:mm:ss')}}</div>"}
                     ,{field: 'createTime', title: '创建时间',sort:true,width: 160,templet: "<div>{{layui.util.toDateString(d.testing_time, 'yyyy-MM-dd HH:mm:ss')}}</div>"}
-                    ,{templet: complain, title: '操作',width: 180,fixed:'right'}
+                    ,{field: 'updateTime', title: '修改时间',sort:true,width: 160,templet: "<div>{{layui.util.toDateString(d.testing_time, 'yyyy-MM-dd HH:mm:ss')}}</div>"}
+                    ,{templet: complain, title: '操作',width: 210,fixed:'right'}
                 ]
             ]
             ,response:{statusCode:200}
@@ -91,9 +93,9 @@
         function complain(d){//操作中显示的内容
             if(d.id!=null){
                 return [
-                    '<button  type="button" class="layui-btn layui-btn-xs update" lay-event="edit">确认</button>',
+                    '<button  type="button" class="layui-btn layui-btn-xs update" lay-event="audit">确认</button>',
+                    '<button  type="button" class="layui-btn layui-btn-xs update" lay-event="reject">驳回</button>',
                     '<button type="button" class="layui-btn layui-btn-xs layui-btn-danger delete" lay-event="del">删除</button>',
-                    '<button  type="button" class="layui-btn layui-btn-xs update" lay-event="edit">驳回</button>',
                 ].join('');
             }else{
                 return '';
@@ -101,7 +103,7 @@
 
         }
         //监听工具条
-        table.on('tool(roleList)', function (obj) {
+        table.on('tool(newsComment)', function (obj) {
             var data = obj.data;
             var layEvent = obj.event;
             if(data.roleName!=null){

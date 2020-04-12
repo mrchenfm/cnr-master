@@ -3,6 +3,7 @@ package com.ecut.cnr.view.mapper.sys;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ecut.cnr.framework.dto.sys.UserSearchDto;
 import com.ecut.cnr.framework.entity.sys.SysUser;
 import com.ecut.cnr.framework.bo.sys.UserInfoBO;
 import com.ecut.cnr.framework.dto.sys.SysUserDto;
@@ -42,7 +43,7 @@ public interface SysUserMapper extends BaseMapper<SysUser>{
      * @param page
      * @return
      */
-    IPage<SysUserDto> findAllUsers(Page<UserInfoBO> page);
+    IPage<SysUserDto> findAllUsers(Page<UserInfoBO> page, @Param("userSearchDto") UserSearchDto userSearchDto);
 
     /**
      * 删除角色用户关联表

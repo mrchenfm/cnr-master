@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.ecut.cnr.framework.common.Result;
 import com.ecut.cnr.framework.common.base.BaseController;
 import com.ecut.cnr.framework.common.utils.IdUtils;
+import com.ecut.cnr.framework.dto.sys.RoleSearchDto;
 import com.ecut.cnr.framework.entity.sys.SysMenu;
 import com.ecut.cnr.framework.bo.sys.RoleInfoBO;
 import com.ecut.cnr.framework.bo.sys.UserInfoBO;
@@ -46,10 +47,10 @@ public class SysRoleController extends BaseController {
         return "sys/role/roleList";
     }
 
-    @GetMapping("/roles")
+    @PostMapping("/roles")
     @ResponseBody
-    public Result getRoles(QueryRequest queryRequest){
-        IPage<RoleInfoBO> allRoles = sysRoleService.findAllRoles(queryRequest);
+    public Result getRoles(@RequestBody RoleSearchDto roleSearchDto){
+        IPage<RoleInfoBO> allRoles = sysRoleService.findAllRoles(roleSearchDto);
         Map<String, Object> dataTable = getDataTable(allRoles);
 
         //Object roleJson = JSONArray.toJSON(dataTable);

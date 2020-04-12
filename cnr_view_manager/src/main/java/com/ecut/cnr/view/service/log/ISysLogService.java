@@ -3,6 +3,7 @@ package com.ecut.cnr.view.service.log;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ecut.cnr.framework.common.constants.CnrContants;
+import com.ecut.cnr.framework.dto.log.SysLogSearchDto;
 import com.ecut.cnr.framework.entity.log.LoginLog;
 import com.ecut.cnr.framework.entity.log.SysLog;
 import com.ecut.cnr.framework.request.sys.QueryRequest;
@@ -32,8 +33,8 @@ public interface ISysLogService extends IService<SysLog> {
 
     /**
      * 分页查询操作日志
-     * @param queryRequest
+     * @param sysLogSearchDto
      * @return
      */
-    IPage<SysLog> selectAllSystemLogs(QueryRequest queryRequest);
+    IPage<SysLog> selectAllSystemLogs(SysLogSearchDto sysLogSearchDto);
 }

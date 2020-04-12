@@ -5,7 +5,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ecut.cnr.framework.bo.sys.UserInfoBO;
 import com.ecut.cnr.framework.common.utils.AddressUtils;
+import com.ecut.cnr.framework.common.utils.DateUtils;
 import com.ecut.cnr.framework.common.utils.IdUtils;
+import com.ecut.cnr.framework.dto.log.SysLogSearchDto;
 import com.ecut.cnr.framework.entity.log.SysLog;
 import com.ecut.cnr.framework.request.sys.QueryRequest;
 import com.ecut.cnr.view.mapper.log.SysLogMapper;
@@ -17,6 +19,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.Serializable;
@@ -75,10 +78,14 @@ public class SysLogServiceImpl extends ServiceImpl<SysLogMapper,SysLog> implemen
     }
 
     @Override
-    public IPage<SysLog> selectAllSystemLogs(QueryRequest queryRequest) {
-        Page<UserInfoBO> page = new Page<>(queryRequest.getPage(), queryRequest.getLimit());
+    public IPage<SysLog> selectAllSystemLogs(SysLogSearchDto sysLogSearchDto) {
+        if(!ObjectUtils.isEmpty(sysLogSearchDto.getOperateTimeRange())){
+            sysLogSearchDto.setOperateStart(DateUtils.convert(sysLogSearchDto.getOperateTimeRange().split(" - ")[0],DateUtils.DATE_FORMAT));
+            sysLogSearchDto.setOperateEnd(DateUtils.convert(sysLogSearchDto.getOperateTimeRange().split(" - ")[1],DateUtils.DATE_FORMAT));
+        }
+        Page<UserInfoBO> page = new Page<>(sysLogSearchDto.getPage(), sysLogSearchDto.getLimit());
         //this.baseMapper.findAllUsersPage(page);
-        IPage<SysLog> allUsers = this.baseMapper.findAllSystemLogs(page);
+        IPage<SysLog> allUsers = this.baseMapper.findAllSystemLogs(page,sysLogSearchDto);
         List<SysLog> records = allUsers.getRecords();
         allUsers.setRecords(records);
         return allUsers;

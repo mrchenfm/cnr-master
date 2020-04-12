@@ -5,5 +5,18 @@
         select *
         from
         t_sys_log
+        where 1=1
+        <if test="sysLogSearchDto.operateStart != null">
+            AND create_time >= #{sysLogSearchDto.operateStart}
+        </if>
+        <if test="sysLogSearchDto.operateEnd != null">
+            AND create_time &lt;= #{sysLogSearchDto.operateEnd}
+        </if>
+        <if test="sysLogSearchDto.operateUser != null and sysLogSearchDto.operateUser != ''">
+            AND username = #{sysLogSearchDto.operateUser}
+        </if>
+        <if test="sysLogSearchDto.operate != null and sysLogSearchDto.operate != ''">
+            AND operation like CONCAT(#{sysLogSearchDto.operate},'%')
+        </if>
     </select>
 </mapper>

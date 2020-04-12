@@ -101,8 +101,13 @@
     </select>
     <select id="findAllRoles" resultType="com.ecut.cnr.framework.bo.sys.RoleInfoBO">
         SELECT
-        tr.id,tr.role_name,tr.remark,tr.create_user_id,tr.create_time,tr.update_time,tr.role_identity,tu.username as create_user
-        FROM t_sys_role tr ,t_sys_user tu where tu.id = tr.create_user_id
+        tr.id,tr.role_name,tr.remark,tr.create_user_id,tr.create_time,tr.update_time,tr.role_identity,tu.username as createUser
+        FROM t_sys_role tr
+        left join t_sys_user tu on tr.create_user_id = tu.id
+        where 1=1
+        <if test="roleSearchDto.roleName != null and roleSearchDto.roleName != ''">
+            AND tr.role_name like CONCAT(#{roleSearchDto.roleName},'%')
+        </if>
     </select>
     <insert id="saveRole">
         INSERT

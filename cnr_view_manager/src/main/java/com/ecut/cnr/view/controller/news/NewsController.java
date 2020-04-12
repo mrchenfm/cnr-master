@@ -9,6 +9,7 @@ import com.ecut.cnr.framework.common.Result;
 import com.ecut.cnr.framework.common.base.BaseController;
 import com.ecut.cnr.framework.common.constants.CnrContants;
 import com.ecut.cnr.framework.common.utils.IdUtils;
+import com.ecut.cnr.framework.dto.sys.NewsSearchDto;
 import com.ecut.cnr.framework.entity.log.SysLog;
 import com.ecut.cnr.framework.entity.news.NewsContext;
 import com.ecut.cnr.framework.entity.news.NewsTitle;
@@ -164,8 +165,8 @@ public class NewsController extends BaseController {
      */
     @RequestMapping("/list/all")
     @ResponseBody
-    public Result listAllNews(QueryRequest queryRequest){
-        IPage<NewQueryBO> allSystemLogs = newsService.listAllNewsPage(queryRequest);
+    public Result listAllNews(@RequestBody NewsSearchDto newsSearchDto){
+        IPage<NewQueryBO> allSystemLogs = newsService.listAllNewsPage(newsSearchDto);
         Map<String, Object> dataTable = getDataTable(allSystemLogs);
         //Object roleJson = JSONArray.toJSON(dataTable);
         Result result = Result.addMap(dataTable);
@@ -187,15 +188,25 @@ public class NewsController extends BaseController {
         return "news/showContext";
     }
 
+    /**
+     * 驳回新闻呢
+     * @param id
+     * @return
+     */
     @RequestMapping("/audit/reject")
     @ResponseBody
     public Result auditReject(@RequestParam("id") String id){
         return new Result();
     }
 
+    /**
+     * 跳转新闻审核页面
+     * @param model
+     * @param id
+     * @return
+     */
     @RequestMapping("/audit/sure")
     public String toAuditPage(Model model , @RequestParam("id") String id){
-
         return "/news/newsAudit";
     }
 

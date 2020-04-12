@@ -3,6 +3,7 @@ package com.ecut.cnr.view.mapper.sys;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ecut.cnr.framework.dto.sys.RoleSearchDto;
 import com.ecut.cnr.framework.entity.sys.SysRole;
 import com.ecut.cnr.framework.bo.sys.RoleInfoBO;
 import org.apache.ibatis.annotations.Mapper;
@@ -60,7 +61,7 @@ public   interface SysRoleMapper extends BaseMapper<SysRole> {
      * 查询角色列表信息
      * @return
      */
-    IPage<RoleInfoBO> findAllRoles(Page page);
+    IPage<RoleInfoBO> findAllRoles(Page page,@Param("roleSearchDto") RoleSearchDto roleSearchDto);
 
     /**
      * 根据roleId删除联合主键

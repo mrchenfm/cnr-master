@@ -4,8 +4,10 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ecut.cnr.framework.bo.sys.UserInfoBO;
+import com.ecut.cnr.framework.dto.log.SysLogSearchDto;
 import com.ecut.cnr.framework.entity.log.SysLog;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 /**
@@ -23,5 +25,5 @@ public interface SysLogMapper extends BaseMapper<SysLog> {
      * @param page
      * @return
      */
-    IPage<SysLog> findAllSystemLogs(Page<UserInfoBO> page);
+    IPage<SysLog> findAllSystemLogs(Page<UserInfoBO> page, @Param("sysLogSearchDto") SysLogSearchDto sysLogSearchDto);
 }

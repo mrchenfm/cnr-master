@@ -6,7 +6,9 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ecut.cnr.framework.bo.news.NewQueryBO;
 import com.ecut.cnr.framework.bo.news.NewsBO;
 import com.ecut.cnr.framework.bo.sys.UserInfoBO;
+import com.ecut.cnr.framework.common.utils.DateUtils;
 import com.ecut.cnr.framework.common.utils.IdUtils;
+import com.ecut.cnr.framework.dto.sys.NewsSearchDto;
 import com.ecut.cnr.framework.entity.log.LoginLog;
 import com.ecut.cnr.framework.entity.news.NewsContext;
 import com.ecut.cnr.framework.entity.news.NewsTitle;
@@ -19,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -82,11 +85,27 @@ public class NewsServiceImpl implements INewsService {
     }
 
     @Override
-    public IPage<NewQueryBO> listAllNewsPage(QueryRequest queryRequest) {
-        Page<NewQueryBO> page = new Page<>(queryRequest.getPage(), queryRequest.getLimit());
+    public IPage<NewQueryBO> listAllNewsPage(NewsSearchDto newsSearchDto) {
+        generateNewsSearchDate(newsSearchDto);
+        Page<NewQueryBO> page = new Page<>(newsSearchDto.getPage(), newsSearchDto.getLimit());
         //this.baseMapper.findAllUsersPage(page);
-        IPage<NewQueryBO> allTypes = newsMapper.selectAllPage(page,null);
+        IPage<NewQueryBO> allTypes = newsMapper.selectAllPage(page,newsSearchDto);
         return allTypes;
+    }
+
+    /**
+     * 构造查询日期
+     * @param newsSearchDto
+     */
+    private void generateNewsSearchDate(NewsSearchDto newsSearchDto) {
+        if(!ObjectUtils.isEmpty(newsSearchDto.getPubTimeRange())){
+            newsSearchDto.setPubStart(DateUtils.convert(newsSearchDto.getPubTimeRange().split(" - ")[0],DateUtils.DATE_FORMAT));
+            newsSearchDto.setPubEnd(DateUtils.convert(newsSearchDto.getPubTimeRange().split(" - ")[1],DateUtils.DATE_FORMAT));
+        }
+        if(!ObjectUtils.isEmpty(newsSearchDto.getAuditTimeRange())){
+            newsSearchDto.setAuditStart(DateUtils.convert(newsSearchDto.getAuditTimeRange().split(" - ")[0],DateUtils.DATE_FORMAT));
+            newsSearchDto.setAuditEnd(DateUtils.convert(newsSearchDto.getAuditTimeRange().split(" - ")[1],DateUtils.DATE_FORMAT));
+        }
     }
 
     @Override

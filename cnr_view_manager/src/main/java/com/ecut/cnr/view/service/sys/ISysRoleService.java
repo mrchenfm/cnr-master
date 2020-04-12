@@ -2,6 +2,7 @@ package com.ecut.cnr.view.service.sys;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.ecut.cnr.framework.dto.sys.RoleSearchDto;
 import com.ecut.cnr.framework.entity.sys.SysRole;
 import com.ecut.cnr.framework.bo.sys.RoleInfoBO;
 import com.ecut.cnr.framework.request.sys.QueryRequest;
@@ -28,7 +29,7 @@ public interface ISysRoleService extends IService<SysRole> {
      * 查询角色列表信息
      * @return
      */
-    IPage<RoleInfoBO> findAllRoles(QueryRequest queryRequest);
+    IPage<RoleInfoBO> findAllRoles(RoleSearchDto roleSearchDto);
 
     /**
      * 根据角色id删除角色

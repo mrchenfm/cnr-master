@@ -60,6 +60,31 @@
         LEFT JOIN t_sys_user u1 ON u1.id = nt.user_id
         LEFT JOIN t_sys_user u2 ON u2.id = nt.audit_id
         LEFT JOIN news_type t ON t.id = nt.type_id
+        where 1=1
+        <if test="newsSearchDto.title != null and newsSearchDto.title != ''">
+            AND nt.title like CONCAT('%',#{newsSearchDto.title},'%')
+        </if>
+        <if test="newsSearchDto.auditStatus != null and newsSearchDto.auditStatus != ''">
+            AND nt.auditStatus = #{newsSearchDto.auditStatus}
+        </if>
+        <if test="newsSearchDto.pubStart != null">
+            AND nt.pub_time >= #{newsSearchDto.pubStart}
+        </if>
+        <if test="newsSearchDto.pubEnd != null">
+            AND nt.pub_time &lt;=  #{newsSearchDto.pubEnd}
+        </if>
+        <if test="newsSearchDto.auditStart != null">
+            AND nt.audit_time >= #{newsSearchDto.pubStart}
+        </if>
+        <if test="newsSearchDto.auditEnd != null">
+            AND nt.audit_time &lt;=  #{newsSearchDto.pubEnd}
+        </if>
+        <if test="newsSearchDto.fromUser != null and newsSearchDto.fromUser != ''">
+            AND u1.username = #{newsSearchDto.fromUser}
+        </if>
+        <if test="newsSearchDto.auditUser != null and newsSearchDto.auditUser != ''">
+            AND u2.username = #{newsSearchDto.auditUser}
+        </if>
         Order by nt.id
     </select>
     <select id="findContextByTitleId" resultType="com.ecut.cnr.framework.entity.news.NewsContext">

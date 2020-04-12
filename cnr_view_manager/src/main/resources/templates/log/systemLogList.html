@@ -28,17 +28,26 @@
         <div class="layui-col-md12">
             <div class="layui-card">
                 <div class="layui-card-body ">
-                    <form class="layui-form layui-col-space5">
-                        <div class="layui-inline layui-show-xs-block">
-                            <button class="layui-btn"  lay-submit="" lay-filter="clear">删除所选</button>
+                    <form class="layui-form layui-col-space5" action="" onsubmit="return false;">
+                        <div class="layui-input-inline ui-time">
+                            <input type="text" id="operateTimeRange" class="layui-input" placeholder="操作日期范围" value="" kssj="" jssj="" />
                         </div>
                         <div class="layui-inline layui-show-xs-block">
-                            <button class="layui-btn"  lay-submit="" lay-filter="delete">清空所有数据</button>
+                            <input type="text" name="operateUser" id="operateUser"  placeholder="操作人" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-inline layui-show-xs-block">
+                            <input type="text" name="operate" id="operate"  placeholder="操作名称" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-inline layui-show-xs-block">
+                            <button class="layui-btn" id="search"  data-type="reload"><i class="layui-icon">&#xe615;</i></button>
                         </div>
                     </form>
                 </div>
+                <div class="layui-card-header">
+                    <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
+                </div>
                 <div class="layui-card-body layui-table-body layui-table-main">
-                    <table id="systemLog" class="layui-table"  lay-filter="roleList"></table>
+                    <table id="systemLog" class="layui-table"  lay-filter="systemLog"></table>
                 </div>
             </div>
         </div>
@@ -53,15 +62,22 @@
     </div >
 </script>
 <script>
-    layui.use(['form','layer','table','jquery'], function(){
+    layui.use(['form','layer','table','laydate','jquery'], function(){
         var form=layui.form;
         var layer=layui.layer;
         var table=layui.table;
         var  $ = layui.jquery;
+        var laydate = layui.laydate;
+        laydate.render({
+            elem: '#operateTimeRange'
+            ,range: true
+        });
         //第一个实例
         table.render({
             elem: '#systemLog'
             ,url: ctx+'admin/systemLog/list' //数据接口
+            ,method:'post'
+            ,contentType: 'application/json;charset=utf-8'
             ,page: true //开启分页
             ,toolbar: true
             ,cols: [
@@ -84,6 +100,7 @@
             ,request: {
                 pageName: 'page' //页码的参数名称，默认：page
             }
+            ,id :'systemLog'
             ,parseData:function (res) {
                 return{
                     "code":res.code,
@@ -94,6 +111,27 @@
             },
 
         });
+        $('#search').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+        //根据搜索条件重加载表格
+        var $ = layui.$, active = {
+            reload: function () {
+                console.log("开始条件搜索！！！")
+                table.reload('systemLog', {
+                    page: {
+                        curr :1
+                    }
+                    ,where: {
+                        operateTimeRange : $('#operateTimeRange').val(),
+                        operateUser : $('#operateUser').val(),
+                        operate : $('#operate').val()
+
+                    }
+                });
+            }
+        };
         function complain(d){//操作中显示的内容
             if(d.id !=null){
                 return [
@@ -106,7 +144,7 @@
 
         }
         //监听工具条
-        table.on('tool(permissionTable)', function (obj) {
+        table.on('tool(systemLog)', function (obj) {
             var data = obj.data;
             var layEvent = obj.event;
             if(data.id!=null){

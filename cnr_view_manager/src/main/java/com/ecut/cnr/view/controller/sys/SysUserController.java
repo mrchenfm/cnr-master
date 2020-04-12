@@ -6,6 +6,7 @@ import com.ecut.cnr.framework.common.anno.ControllerEndpoint;
 import com.ecut.cnr.framework.common.base.BaseController;
 import com.ecut.cnr.framework.common.constants.CnrContants;
 import com.ecut.cnr.framework.common.utils.IdUtils;
+import com.ecut.cnr.framework.dto.sys.UserSearchDto;
 import com.ecut.cnr.framework.entity.sys.SysRole;
 import com.ecut.cnr.framework.entity.sys.SysUser;
 import com.ecut.cnr.framework.bo.sys.UserInfoBO;
@@ -21,6 +22,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -56,10 +58,10 @@ public class SysUserController extends BaseController{
         return "sys/user/userList";
     }
 
-    @GetMapping("/users")
+    @RequestMapping("/users")
     @ResponseBody
-    public Result getUsers(QueryRequest queryRequest){
-        IPage<SysUserDto> allUsers = sysUserService.selectAllUsers(queryRequest);
+    public Result getUsers(@RequestBody UserSearchDto userSearchDto){
+        IPage<SysUserDto> allUsers = sysUserService.selectAllUsers(userSearchDto);
         Map<String, Object> dataTable = getDataTable(allUsers);
 
         //Object roleJson = JSONArray.toJSON(dataTable);
