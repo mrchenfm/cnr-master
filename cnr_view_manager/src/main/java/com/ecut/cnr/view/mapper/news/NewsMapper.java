@@ -58,4 +58,10 @@ public interface NewsMapper {
      * @return
      */
     List<NewsContext> findContextByTitleId(@Param("id") String id);
+
+    /**
+     * 修改新闻信息（审核）
+     * @param newsTitle
+     */
+    void updateNewsTitle(@Param("newsTitle") NewsTitle newsTitle);
 }

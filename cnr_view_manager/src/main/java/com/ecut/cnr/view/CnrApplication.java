@@ -1,6 +1,7 @@
 package com.ecut.cnr.view;
 
 import com.ecut.cnr.framework.common.utils.IdUtils;
+import com.ecut.cnr.view.auth.resolver.MyExceptionResolver;
 import com.ecut.cnr.view.config.elasticjob.JobInitializeBean;
 import com.github.tobato.fastdfs.FdfsClientConfig;
 import org.mybatis.spring.annotation.MapperScan;
@@ -60,6 +61,10 @@ public class CnrApplication extends WebMvcConfigurationSupport {
     public Object testBean(DataSourceTransactionManager jobInitializeBean){
         System.out.println(">>>>>>>>>>" + jobInitializeBean.getClass().getName());
         return new Object();
+    }
+    @Bean
+    public MyExceptionResolver myExceptionResolver() {
+        return new MyExceptionResolver();
     }
 
     public static void main(String[] args){

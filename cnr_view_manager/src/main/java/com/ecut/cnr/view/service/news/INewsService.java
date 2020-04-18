@@ -6,6 +6,7 @@ import com.ecut.cnr.framework.bo.news.NewQueryBO;
 import com.ecut.cnr.framework.bo.news.NewsBO;
 import com.ecut.cnr.framework.dto.sys.NewsSearchDto;
 import com.ecut.cnr.framework.entity.news.NewsContext;
+import com.ecut.cnr.framework.entity.news.NewsTitle;
 import com.ecut.cnr.framework.entity.news.NewsType;
 import com.ecut.cnr.framework.request.sys.QueryRequest;
 
@@ -55,4 +56,10 @@ public interface INewsService {
      * @return
      */
     List<NewsContext> findContextByTitleId(String id);
+
+    /**
+     * 修改新闻审核信息（审核）
+     * @param newsTitle
+     */
+    void updateByAuditReject(NewsTitle newsTitle);
 }

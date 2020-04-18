@@ -3,6 +3,7 @@ package com.ecut.cnr.framework.entity.news;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,6 +22,8 @@ import java.util.Date;
 @Data
 @TableName("news_title")
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class NewsTitle implements Serializable {
     @TableId(value = "id", type = IdType.INPUT)
     private String id;
@@ -32,4 +35,7 @@ public class NewsTitle implements Serializable {
     private Integer commentTimes;
     private String newsPic;
     private String auditId;
+    private Date auditTime;
+    private Integer auditStatus;
+    private String rejectReason;
 }

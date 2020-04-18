@@ -24,5 +24,10 @@ public class NewQueryBO implements Serializable {
     private Date pubTime;
     private Integer readTimes;
     private Integer commentTimes;
+    private Integer auditStatus;
+    private String auditStatusName;
     private String auditName;
+    private Date auditTime;
+
+    private String rejectReason;
 }

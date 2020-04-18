@@ -8,6 +8,7 @@ import com.ecut.cnr.framework.bo.sys.UserInfoBO;
 import com.ecut.cnr.framework.common.Result;
 import com.ecut.cnr.framework.common.base.BaseController;
 import com.ecut.cnr.framework.common.constants.CnrContants;
+import com.ecut.cnr.framework.common.enums.AuditEnum;
 import com.ecut.cnr.framework.common.utils.IdUtils;
 import com.ecut.cnr.framework.dto.sys.NewsSearchDto;
 import com.ecut.cnr.framework.entity.log.SysLog;
@@ -25,12 +26,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -187,27 +186,63 @@ public class NewsController extends BaseController {
         }
         return "news/showContext";
     }
+    /**
+     * 驳回新闻呢
+     * @return
+     */
+    @RequestMapping("/audit/reject/page")
+    public String auditRejectPage(Model model,@RequestParam("id") String id){
+        List<NewsContext> contexts = newsService.findContextByTitleId(id);
+        if(!ObjectUtils.isEmpty(contexts)){
+            model.addAttribute("context",contexts.get(0));
+        }
+        return "/news/newsReject";
+    }
 
     /**
      * 驳回新闻呢
-     * @param id
+     * @param newsTitle
      * @return
      */
     @RequestMapping("/audit/reject")
     @ResponseBody
-    public Result auditReject(@RequestParam("id") String id){
+    public Result auditReject(@RequestBody NewsTitle newsTitle){
+        try {
+            //构造驳回参数
+            Subject subject = SecurityUtils.getSubject();
+            UserInfoBO userInfoBO = (UserInfoBO) subject.getPrincipal();
+            newsTitle.setAuditId(userInfoBO.getId());
+            newsTitle.setAuditTime(new Date());
+            newsTitle.setAuditStatus(AuditEnum.NEWS_AUDIT_FAIL_PASS.getKey());
+            newsService.updateByAuditReject(newsTitle);
+        } catch (Exception e) {
+            log.error("新闻驳回报错：{}",e);
+            return Result.error("系统报错了！");
+        }
         return new Result();
     }
 
     /**
      * 跳转新闻审核页面
-     * @param model
-     * @param id
+     * @param newsTitle
      * @return
      */
-    @RequestMapping("/audit/sure")
-    public String toAuditPage(Model model , @RequestParam("id") String id){
-        return "/news/newsAudit";
+    @PostMapping("/audit/sure")
+    @ResponseBody
+    public Result auditNews( @RequestBody NewsTitle newsTitle){
+        try {
+            //构造驳回参数
+            Subject subject = SecurityUtils.getSubject();
+            UserInfoBO userInfoBO = (UserInfoBO) subject.getPrincipal();
+            newsTitle.setAuditId(userInfoBO.getId());
+            newsTitle.setAuditTime(new Date());
+            newsTitle.setAuditStatus(AuditEnum.NEWS_AUDIT_PASS.getKey());
+            newsService.updateByAuditReject(newsTitle);
+        } catch (Exception e) {
+            log.error("新闻审核通过报错：{}",e);
+            return Result.error("系统报错了！");
+        }
+        return new Result();
     }
 
 

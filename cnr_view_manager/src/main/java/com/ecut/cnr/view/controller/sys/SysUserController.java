@@ -16,6 +16,7 @@ import com.ecut.cnr.view.service.sys.ISysRoleService;
 import com.ecut.cnr.view.service.sys.ISysUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.BeanUtils;
@@ -75,6 +76,7 @@ public class SysUserController extends BaseController{
      * @param id
      * @return
      */
+    @RequiresPermissions("USER_DELETE")
     @RequestMapping("/delete/user")
     @ResponseBody
     @ControllerEndpoint(operation = "删除管理员用户", exceptionMessage = "管理员用户删除异常")
@@ -91,14 +93,14 @@ public class SysUserController extends BaseController{
         }
         return new Result();
     }
-
+    @RequiresPermissions("USER_ADD_URL")
     @RequestMapping("/addUser")
     public String  toAddPage(Model model){
         List<SysRole> allRole = sysRoleService.list(null);
         model.addAttribute("allRole",allRole);
         return "sys/user/operateUser";
     }
-
+    @RequiresPermissions("USER_SAVER")
     @RequestMapping("/save/user")
     @ResponseBody
     public Result addManager(@RequestBody UserInfoBO userInfoBO){
@@ -118,6 +120,7 @@ public class SysUserController extends BaseController{
         return Result.error("管理员添加失败");
     }
 
+    @RequiresPermissions("USER_UPDATE_URL")
     @RequestMapping("/updateUser")
     public String  toUpdatePage(Model model,String id){
         try {
@@ -137,6 +140,7 @@ public class SysUserController extends BaseController{
      * @param userInfoBO
      * @return
      */
+    @RequiresPermissions("USER_UPDATE")
     @RequestMapping("/update/user")
     @ResponseBody
     public Result updateManager(@RequestBody UserInfoBO userInfoBO){
@@ -151,6 +155,7 @@ public class SysUserController extends BaseController{
         return Result.error("管理员修改失败");
     }
 
+    @RequiresPermissions("USER_ACTIVE")
     @RequestMapping("/update/status")
     @ResponseBody
     public Result updateStatus(@RequestParam("id") String id){
@@ -168,6 +173,7 @@ public class SysUserController extends BaseController{
      * @param id
      * @return
      */
+    @RequiresPermissions("USER_LOOK_FACE")
     @RequestMapping("/userface")
     public String userFace(Model model , @RequestParam("id") String id){
 

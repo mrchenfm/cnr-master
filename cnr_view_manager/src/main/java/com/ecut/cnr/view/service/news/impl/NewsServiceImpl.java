@@ -113,6 +113,11 @@ public class NewsServiceImpl implements INewsService {
         return newsMapper.findContextByTitleId(id);
     }
 
+    @Override
+    public void updateByAuditReject(NewsTitle newsTitle) {
+        newsMapper.updateNewsTitle(newsTitle);
+    }
+
     /**
      * 生成内容对象
      * @param newsBO

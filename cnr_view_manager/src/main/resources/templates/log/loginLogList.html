@@ -78,7 +78,8 @@
                     {checkbox:true,fixed: 'left'}//单选框
                     ,{field: 'id', title: 'ID', sort: true, fixed: 'left',width: 180}
                     ,{field: 'username', title: '用户名',width: 120}
-                    ,{field: 'loginTime', title: '登入时间',templet: "<div>{{layui.util.toDateString(d.testing_time, 'yyyy-MM-dd HH:mm:ss')}}</div>",width: 150}
+                    ,{field: 'loginTime', title: '登入时间',width: 150,templet: function (d) {
+                        return showTime(d.loginTime);}}
                     ,{field: 'location', title: '登入地址',width: 190}
                     ,{field: 'type', title: '状态',
                     templet: function(d){
@@ -177,6 +178,14 @@
             }
         });
     });
+    //时间转换函数
+    function showTime(tempDate)
+    {
+        if(tempDate ==null){
+            return "-";
+        }
+        return layui.util.toDateString(tempDate, 'yyyy-MM-dd HH:mm:ss')
+    }
 </script>
 <script>var _hmt = _hmt || []; (function() {
     var hm = document.createElement("script");

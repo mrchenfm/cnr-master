@@ -44,6 +44,8 @@
         </foreach>
         AND
         sm.id = rm.menu_id
+        AND
+        sm.type = '1'
         ) order by order_num
     </select>
     <select id="findByParentId" resultType="java.lang.String">

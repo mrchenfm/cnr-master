@@ -47,17 +47,21 @@ public class UserRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         log.info("---------------------------->授权认证：");
         SimpleAuthorizationInfo authorizationInfo=new SimpleAuthorizationInfo();
-        UserInfoBO userInfoBO= (UserInfoBO) principalCollection.getPrimaryPrincipal();
-        //查找角色标识
-        Set<String> roles = sysRoleService.findRoleNamesByIds(userInfoBO.getRoleIds());
-        //查找权限标识
-        Set<String> permissions = sysMenuService.findOneByPersRoleIds(userInfoBO.getRoleIds());
-        // 将角色名称组成的Set提供给授权info
-        log.info("用户id={},角色有={},权限有={}",userInfoBO.getId(), JsonUtils.toJson(roles),JsonUtils.toJson(permissions));
-        authorizationInfo.setRoles(roles);
-        // 将权限名称组成的Set提供给info
-        authorizationInfo.setStringPermissions(permissions);
+        try {
 
+            UserInfoBO userInfoBO= (UserInfoBO) principalCollection.getPrimaryPrincipal();
+            //查找角色标识
+            Set<String> roles = sysRoleService.findRoleNamesByIds(userInfoBO.getRoleIds());
+            //查找权限标识
+            Set<String> permissions = sysMenuService.findOneByPersRoleIds(userInfoBO.getRoleIds());
+            // 将角色名称组成的Set提供给授权info
+            log.info("用户id={},角色有={},权限有={}",userInfoBO.getId(), JsonUtils.toJson(roles),JsonUtils.toJson(permissions));
+            authorizationInfo.setRoles(roles);
+            // 将权限名称组成的Set提供给info
+            authorizationInfo.setStringPermissions(permissions);
+        } catch (Exception e){
+
+        }
         return authorizationInfo;
     }
 

@@ -7,6 +7,7 @@
     <sql id="NewsContext">
         id, context, title_id
     </sql>
+
     <resultMap id="BaseTitleMap" type="com.ecut.cnr.framework.entity.news.NewsTitle">
         <id column="id" property="id"/>
         <result column="title" property="title"/>
@@ -52,6 +53,7 @@
             nt.comment_times AS commentTimes,
 	        nt.news_pic ASnewsPic,
 	        nc.context AS context,
+	        nt.reject_reason AS rejectReason,
 	        u1.username AS userName,
 	        u2.username AS auditName
         FROM
@@ -90,4 +92,37 @@
     <select id="findContextByTitleId" resultType="com.ecut.cnr.framework.entity.news.NewsContext">
         select * from news_context where title_id = #{id}
     </select>
+
+    <update id="updateNewsTitle">
+        UPDATE news_title
+        <set>
+            <if test="newsTitle.title != null and newsTitle.title != '' ">
+                title = #{newsTitle.title},
+            </if>
+            <if test="newsTitle.readTimes != null">
+                read_times = #{newsTitle.readTimes},
+            </if>
+            <if test="newsTitle.commentTimes != null">
+                comment_times = #{newsTitle.commentTimes},
+            </if>
+            <if test="newsTitle.auditId != null and newsTitle.auditId != '' ">
+                audit_id = #{newsTitle.auditId},
+            </if>
+            <if test="newsTitle.auditStatus != null">
+                audit_status = #{newsTitle.auditStatus},
+            </if>
+            <if test="newsTitle.auditTime != null">
+                audit_time = #{newsTitle.auditTime},
+            </if>
+            <if test="newsTitle.rejectReason != null">
+                reject_reason = #{newsTitle.rejectReason},
+            </if>
+
+        </set>
+        <where>
+            <if test="newsTitle.id != null">
+                id = #{newsTitle.id}
+            </if>
+        </where>
+    </update>
 </mapper>
