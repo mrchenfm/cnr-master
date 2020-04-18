@@ -71,7 +71,9 @@
                     ,{field: 'remark', title: '角色描述',width: 200}
                     ,{field: 'roleIdentity', title: '角色标识',width: 150}
                     ,{field: 'createUser', title: '创建者',width: 120}
-                    ,{field: 'createTime', title: '创建时间',sort:true,width: 160,templet: "<div>{{layui.util.toDateString(d.testing_time, 'yyyy-MM-dd HH:mm:ss')}}</div>"}
+                    ,{field: 'createTime', title: '创建时间',sort:true,width: 160,templet: function (d) {
+                        return showTime(d.createTime);
+                    }}
                     ,{templet: complain, title: '操作',width: 180,fixed:'right'}
                 ]
             ]
@@ -98,6 +100,14 @@
                 return '';
             }
 
+        }
+        //时间转换函数
+        function showTime(tempDate)
+        {
+            if(tempDate ==null){
+                return "-";
+            }
+            return layui.util.toDateString(tempDate, 'yyyy-MM-dd HH:mm:ss')
         }
         //监听工具条
         table.on('tool(roleList)', function (obj) {

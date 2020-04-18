@@ -71,9 +71,12 @@
                     ,{field: 'auditName', title: '审核人',width: 120}
                     ,{field: 'auditTypeName', title: '审核类型',width: 120}
                     ,{field: 'ownerId', title: '被文章评论ID',width: 180}
-                    ,{field: 'auditTime', title: '审核时间',sort:true,width: 160,templet: "<div>{{layui.util.toDateString(d.testing_time, 'yyyy-MM-dd HH:mm:ss')}}</div>"}
-                    ,{field: 'createTime', title: '创建时间',sort:true,width: 160,templet: "<div>{{layui.util.toDateString(d.testing_time, 'yyyy-MM-dd HH:mm:ss')}}</div>"}
-                    ,{field: 'updateTime', title: '修改时间',sort:true,width: 160,templet: "<div>{{layui.util.toDateString(d.testing_time, 'yyyy-MM-dd HH:mm:ss')}}</div>"}
+                    ,{field: 'auditTime', title: '审核时间',sort:true,width: 160,templet: function (d) {
+                        return showTime(d.auditTime);}}
+                    ,{field: 'createTime', title: '创建时间',sort:true,width: 160,templet: function (d) {
+                        return showTime(d.createTime);}}
+                    ,{field: 'updateTime', title: '修改时间',sort:true,width: 160,templet: function (d) {
+                        return showTime(d.updateTime);}}
                     ,{templet: complain, title: '操作',width: 210,fixed:'right'}
                 ]
             ]
@@ -101,6 +104,14 @@
                 return '';
             }
 
+        }
+        //时间转换函数
+        function showTime(tempDate)
+        {
+            if(tempDate ==null){
+                return "-";
+            }
+            return layui.util.toDateString(tempDate, 'yyyy-MM-dd HH:mm:ss')
         }
         //监听工具条
         table.on('tool(newsComment)', function (obj) {

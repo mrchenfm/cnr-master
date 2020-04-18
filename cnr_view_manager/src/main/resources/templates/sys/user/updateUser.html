@@ -34,18 +34,6 @@
                           <span class="x-red">*</span>将会成为您唯一的登入名
                       </div>
                   </div>
-                    <div class="layui-form-item">
-                        <label for="userface" class="layui-form-label">
-                            <span class="x-red">*</span>用户头像
-                        </label>
-                        <div class="layui-input-inline">
-                            <input type="hidden" id="userface" name="userface"
-                                   autocomplete="off" class="layui-input" th:value="${userInfoBO.userface}">
-                            <button type="button" class="layui-btn" id="userfacePic" name="userface">
-                                <i class="layui-icon">&#xe67c;</i>上传图片
-                            </button>
-                        </div>
-                    </div>
                   <div class="layui-form-item">
                       <label for="phone" class="layui-form-label">
                           <span class="x-red">*</span>手机
@@ -91,8 +79,7 @@
             function() {
                 $ = layui.jquery;
                 var form = layui.form,
-                layer = layui.layer,
-                upload = layui.upload;
+                layer = layui.layer
 
                 //自定义验证规则
                 form.verify({
@@ -102,21 +89,7 @@
                         }
                     },
                 });
-                upload.render({
-                    elem: '#userfacePic' //绑定元素
-                    ,url: ctx+'/fastdfs/upload/' //上传接口
-                    ,done: function(data){
-                        //上传完毕回调
-                        $('#userface').val(data.path);
-                        layer.alert(data.msg, {
-                            icon: 6
-                        });
-                    }
-                    ,error: function(){
-                        //请求异常回调
-                        layer.msg("请求异常-_-",{icon:1,time:1000});
-                    }
-                });
+
                 //监听提交
                 form.on('submit(update)',
                 function(data) {

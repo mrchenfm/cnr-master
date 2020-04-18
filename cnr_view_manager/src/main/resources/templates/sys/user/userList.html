@@ -44,7 +44,7 @@
                 </div>
                 <div class="layui-card-header">
                     <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
-                    <button class="layui-btn" onclick="xadmin.open('添加用户',ctx+'/admin/addUser',1000,450)"><i class="layui-icon"></i>添加</button>
+                    <button class="layui-btn" onclick="xadmin.open('添加用户',ctx+'/admin/addUser',1000,450,'true')"><i class="layui-icon"></i>添加</button>
                 </div>
                 <div class="layui-card-body layui-table-body layui-table-main">
                     <table  class="layui-table" id="userList" lay-filter="userList" style="overflow:visible"></table>
@@ -200,7 +200,7 @@
                         });
                     });
                 } else if (layEvent === 'edit') {
-                    xadmin.open('编辑',ctx+'admin/updateUser?id='+data.id)
+                    xadmin.open('修改用户',ctx+'admin/updateUser?id='+data.id,555,555,'true')
                 }else if (layEvent === 'pic') {
                     xadmin.open('用户头像',ctx+'admin/userface?id='+data.id,600,500)
                 }else if (layEvent === 'active') {
