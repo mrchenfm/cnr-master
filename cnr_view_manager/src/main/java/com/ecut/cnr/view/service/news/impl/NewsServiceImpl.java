@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ecut.cnr.framework.bo.news.NewQueryBO;
 import com.ecut.cnr.framework.bo.news.NewsBO;
 import com.ecut.cnr.framework.bo.sys.UserInfoBO;
+import com.ecut.cnr.framework.common.enums.AuditEnum;
+import com.ecut.cnr.framework.common.exception.MyException;
 import com.ecut.cnr.framework.common.utils.DateUtils;
 import com.ecut.cnr.framework.common.utils.IdUtils;
 import com.ecut.cnr.framework.dto.sys.NewsSearchDto;
@@ -90,6 +92,9 @@ public class NewsServiceImpl implements INewsService {
         Page<NewQueryBO> page = new Page<>(newsSearchDto.getPage(), newsSearchDto.getLimit());
         //this.baseMapper.findAllUsersPage(page);
         IPage<NewQueryBO> allTypes = newsMapper.selectAllPage(page,newsSearchDto);
+        for(NewQueryBO newQueryBO : allTypes.getRecords()){
+            newQueryBO.setAuditStatusName(AuditEnum.getValue(newQueryBO.getAuditStatus()));
+        }
         return allTypes;
     }
 
@@ -115,7 +120,33 @@ public class NewsServiceImpl implements INewsService {
 
     @Override
     public void updateByAuditReject(NewsTitle newsTitle) {
+        NewsTitle statusByTitleId = newsMapper.findStatusByTitleId(newsTitle.getId());
+        StringBuilder sb = new StringBuilder(statusByTitleId.getRejectReason());
+        sb.append("[").append(newsTitle.getRejectReason()).append(" ]-");
+        newsTitle.setRejectReason(sb.toString());
         newsMapper.updateNewsTitle(newsTitle);
+    }
+
+    @Override
+    public NewsBO findByTitleId(String id) {
+        return newsMapper.findByTitleId(id);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void updateByTtileId(NewsBO newsBO) {
+        NewsTitle newsTitle = generateNewsTitl(newsBO);
+        NewsContext newsContext = generateNewsContext(newsBO);
+        NewsTitle newsTitleAudit = newsMapper.findStatusByTitleId(newsBO.getTitleId());
+        if(newsTitleAudit.getAuditCount()==3){
+              throw new MyException();
+        }else {
+            if(AuditEnum.NEWS_AUDIT_FAIL_PASS.getKey().equals(newsTitleAudit.getAuditStatus())){
+                newsTitle.setAuditStatus(AuditEnum.NEWS_NO_AUDIT_UPDATE.getKey());
+            }
+            newsMapper.updateNewsContext(newsContext);
+            newsMapper.updateNewsMain(newsTitle);
+        }
     }
 
     /**

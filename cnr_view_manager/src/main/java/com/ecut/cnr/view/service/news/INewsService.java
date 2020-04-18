@@ -62,4 +62,16 @@ public interface INewsService {
      * @param newsTitle
      */
     void updateByAuditReject(NewsTitle newsTitle);
+
+    /**
+     * 通过id查找新闻内容
+     * @param id
+     */
+    NewsBO findByTitleId(String id);
+
+    /**
+     * 修改新闻信息
+     * @param newsBO
+     */
+    void updateByTtileId(NewsBO newsBO);
 }

@@ -22,6 +22,8 @@ public enum ErrorEnum {
     NO_UUID(503,"uuid为空"),
     SQL_ILLEGAL(504,"sql非法"),
 
+    AUDIT_ERROR(600,"修改次数已达上限"),
+
     //用户权限错误
     INVALID_TOKEN(1001,"token不合法"),
 

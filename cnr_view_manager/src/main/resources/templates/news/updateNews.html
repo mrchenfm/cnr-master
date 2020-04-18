@@ -23,13 +23,14 @@
 <div class="layui-fluid">
     <div class="layui-row">
         <form class="layui-form" method="post">
+            <input th:value="${news.titleId}" hidden name="titleId">
             <div class="layui-form-item">
                 <label for="title" class="layui-form-label">
                     <span class="x-red">*</span>新闻标题
                 </label>
                 <div class="layui-input-inline">
                     <input type="text" id="title" name="title" required="" lay-verify="required"
-                           autocomplete="off" class="layui-input">
+                           autocomplete="off" class="layui-input" th:value="${news.title}">
                 </div>
             </div>
             <div class="layui-form-item">
@@ -39,7 +40,7 @@
                 <div class="layui-input-inline">
                     <select name="typeId" id="typeId" lay-filter="xmFilter">
                         <option>请选择类型</option>
-                        <option th:each="type : ${types}" th:value="${type.id}" th:text="${type.typeName}"></option>
+                        <option  th:each="type : ${types}" th:value="${type.id}"  th:attr="selected = ${news.typeId.equals(type.id) ? true :false}" th:text="${type.typeName}"></option>
                     </select>
                 </div>
             </div>
@@ -50,7 +51,7 @@
                 </label>
                 <div class="layui-input-inline">
                     <input type="hidden" id="newsPic" name="newsPic" required="" lay-verify="required"
-                           autocomplete="off" class="layui-input">
+                           autocomplete="off" class="layui-input" th:value="${news.newsPic}">
                     <button type="button" class="layui-btn" id="newsPicUpload" name="newsPic">
                         <i class="layui-icon">&#xe67c;</i>上传图片
                     </button>
@@ -61,12 +62,12 @@
                     <span class="x-red">*</span>内容
                 </label>
                 <div class="layui-input-block">
-                    <textarea id="context" name="context"></textarea>
+                    <textarea id="context" name="context" th:text="${news.context}"></textarea>
                 </div>
             </div>
             <div class="layui-form-item"  style="padding-left: 950px">
-                <button  class="layui-btn" lay-filter="add" lay-submit>
-                    增加
+                <button  class="layui-btn" lay-filter="update" lay-submit>
+                    修改
                 </button>
             </div>
         </form>
@@ -117,6 +118,7 @@
             ]
             , height: '100%'
         });
+
         var index = layedit.build('context');
         var newsPic = upload.render({
             elem: '#newsPicUpload' //绑定元素
@@ -125,8 +127,8 @@
                 //上传完毕回调
                 $('#newsPic').val(data.path);
                 layer.alert(data.msg, {
-                        icon: 6
-                    });
+                    icon: 6
+                });
             }
             ,error: function(){
                 //请求异常回调
@@ -136,20 +138,20 @@
 
 
         //监听提交
-        form.on('submit(add)',
+        form.on('submit(update)',
             function(data) {
                 console.log(data.field);
                 data.field.context = layedit.getContent(index);
                 //发异步，把数据提交给后端
                 $.ajax({
-                    url: ctx+"news/add/new",
+                    url: ctx+"news/update",
                     type: "post",
                     data: JSON.stringify(data.field),
                     dataType: "json",
                     contentType: "application/json",
                     success:function(data){
                         if(data.code == 200){
-                            layer.alert("增加成功", {
+                            layer.alert("修改成功", {
                                     icon: 6
                                 },
                                 function() {

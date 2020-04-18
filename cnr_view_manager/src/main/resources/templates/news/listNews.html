@@ -98,6 +98,8 @@
                     ,{field: 'commentTimes', title: '评论次数',width: 120}
                     ,{field: 'userName', title: '编辑人员',width: 120}
                     ,{field: 'auditName', title: '审核人',width: 120}
+                    ,{field: 'auditStatusName', title: '审核状态',width: 120}
+                    ,{field: 'rejectReason', title: '驳回原因',width: 200}
                     ,{field: 'pubTime', title: '发布时间',width: 160,templet: function (d) {
                         return showTime(d.pubTime);
                     }}
@@ -203,6 +205,8 @@
                     xadmin.open('驳回页面',ctx+'news/audit/reject/page?id='+data.id);
                 }else if (layEvent === 'show') {
                     xadmin.open('内容详情',ctx+'news/show?id='+data.id,600,500);
+                }else if (layEvent === 'edit') {
+                    xadmin.open('内容修改',ctx+'news/update/page?id='+data.id,600,500);
                 }
             }
         });

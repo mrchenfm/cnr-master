@@ -38,4 +38,6 @@ public class NewsTitle implements Serializable {
     private Date auditTime;
     private Integer auditStatus;
     private String rejectReason;
+
+    private Integer auditCount;
 }

@@ -1,7 +1,7 @@
 package com.ecut.cnr.view.controller.news;
 
-import com.alibaba.druid.support.json.JSONUtils;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.api.R;
 import com.ecut.cnr.framework.bo.news.NewQueryBO;
 import com.ecut.cnr.framework.bo.news.NewsBO;
 import com.ecut.cnr.framework.bo.sys.UserInfoBO;
@@ -11,23 +11,19 @@ import com.ecut.cnr.framework.common.constants.CnrContants;
 import com.ecut.cnr.framework.common.enums.AuditEnum;
 import com.ecut.cnr.framework.common.utils.IdUtils;
 import com.ecut.cnr.framework.dto.sys.NewsSearchDto;
-import com.ecut.cnr.framework.entity.log.SysLog;
 import com.ecut.cnr.framework.entity.news.NewsContext;
 import com.ecut.cnr.framework.entity.news.NewsTitle;
 import com.ecut.cnr.framework.entity.news.NewsType;
 import com.ecut.cnr.framework.request.sys.QueryRequest;
 import com.ecut.cnr.view.service.news.INewsService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Param;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Date;
 import java.util.List;
@@ -245,5 +241,33 @@ public class NewsController extends BaseController {
         return new Result();
     }
 
+    /**
+     *修改页面跳转
+     * @return
+     */
+    @RequestMapping("/update/page")
+    public String toUpdateNewsPage(Model model,@RequestParam("id") String id){
+        NewsBO byTitleId = newsService.findByTitleId(id);
+        List<NewsType> typeList = newsService.listAllTypes();
+        //log.info("【新闻类别】：{}", JSONUtils.toJSONString(typeList));
+        model.addAttribute("types",typeList);
+        model.addAttribute("news",byTitleId);
+        return "/news/updateNews";
+    }
+
+    /**
+     * 修改新闻信息
+     * @return
+     */
+    @RequestMapping("/update")
+    @ResponseBody
+    public Result updateNews(@RequestBody NewsBO newsBO){
+        try {
+            newsService.updateByTtileId(newsBO);
+        } catch (Exception e) {
+            return  Result.error(e.getMessage());
+        }
+        return  new Result();
+    }
 
 }

@@ -47,6 +47,8 @@
 	        nt.id AS id,
 	        nt.title AS title,
 	        nt.audit_time AS auditTime,
+            nt.audit_status AS auditStatus,
+            nt.audit_count AS auditCount,
 	        t.type_name AS typeName,
 	        nt.pub_time AS pubTime,
 	        nt.read_times AS readTimes,
@@ -92,6 +94,17 @@
     <select id="findContextByTitleId" resultType="com.ecut.cnr.framework.entity.news.NewsContext">
         select * from news_context where title_id = #{id}
     </select>
+    <select id="findByTitleId" resultType="com.ecut.cnr.framework.bo.news.NewsBO">
+        select nt.id as titleId,nt.title as title,nt.user_id as userId, nt.news_pic as newsPic,nt.type_id as typeId,nc.context as context
+        from
+        news_title nt
+        left join news_context nc on nt.id = nc.title_id
+        where nt.id = #{id}
+    </select>
+    <select id="findStatusByTitleId" resultType="com.ecut.cnr.framework.entity.news.NewsTitle">
+        select * from news_title
+        where id = #{titleId}
+    </select>
 
     <update id="updateNewsTitle">
         UPDATE news_title
@@ -117,12 +130,46 @@
             <if test="newsTitle.rejectReason != null">
                 reject_reason = #{newsTitle.rejectReason},
             </if>
+            <if test="newsTitle != null">
+                audit_count = audit_count+1
+            </if>
 
         </set>
         <where>
             <if test="newsTitle.id != null">
                 id = #{newsTitle.id}
             </if>
+        </where>
+    </update>
+    <update id="updateNewsContext">
+        update news_context
+        <set>
+            <if test="newsContext.context != null and newsContext.context != '' ">
+                context = #{newsContext.context},
+            </if>
+        </set>
+        <where>
+            title_id = #{newsContext.titleId}
+        </where>
+    </update>
+    <update id="updateNewsMain">
+        update news_title
+        <set>
+            <if test="newsTitle.title != null and newsTitle.title != '' ">
+                title = #{newsTitle.title},
+            </if>
+            <if test="newsTitle.typeId != null and newsTitle.typeId != '' ">
+                type_id = #{newsTitle.typeId},
+            </if>
+            <if test="newsTitle.newsPic != null and newsTitle.newsPic != '' ">
+                news_pic = #{newsTitle.newsPic},
+            </if>
+            <if test="newsTitle.auditStatus != null">
+                audit_status = #{newsTitle.auditStatus},
+            </if>
+        </set>
+        <where>
+            id = #{newsTitle.id}
         </where>
     </update>
 </mapper>

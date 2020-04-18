@@ -3,6 +3,7 @@ package com.ecut.cnr.view.mapper.news;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ecut.cnr.framework.bo.news.NewQueryBO;
+import com.ecut.cnr.framework.bo.news.NewsBO;
 import com.ecut.cnr.framework.dto.sys.NewsSearchDto;
 import com.ecut.cnr.framework.entity.news.NewsContext;
 import com.ecut.cnr.framework.entity.news.NewsTitle;
@@ -64,4 +65,25 @@ public interface NewsMapper {
      * @param newsTitle
      */
     void updateNewsTitle(@Param("newsTitle") NewsTitle newsTitle);
+
+    /**
+     * 通过id查询新闻信息
+     * @param id
+     * @return
+     */
+    NewsBO findByTitleId(String id);
+
+    /**
+     * 修改新闻内容
+     * @param newsContext
+     */
+    void updateNewsContext(@Param("newsContext")NewsContext newsContext);
+
+    /**
+     * 修改新闻主体信息
+     * @param newsTitle
+     */
+    void updateNewsMain(@Param("newsTitle")NewsTitle newsTitle);
+
+    NewsTitle findStatusByTitleId(String titleId);
 }

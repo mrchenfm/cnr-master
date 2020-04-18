@@ -16,6 +16,7 @@ public enum AuditEnum {
      * 新闻信息
      */
     NEWS_NO_AUDIT(7,"未审核"),
+    NEWS_NO_AUDIT_UPDATE(-1,"未审核(已修改)"),
     NEWS_AUDIT_PASS(8,"审核通过"),
     NEWS_AUDIT_FAIL_PASS(9,"被驳回"),
     /**

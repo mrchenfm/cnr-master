@@ -30,4 +30,5 @@ public class NewQueryBO implements Serializable {
     private Date auditTime;
 
     private String rejectReason;
+    private Integer auditCount;
 }
