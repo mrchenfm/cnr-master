@@ -14,7 +14,6 @@
         <module>cnr_framework_model</module>
         <module>cnr_view_manager</module>
         <module>cnr_view_customer</module>
-        <module>cnr_framework_auth</module>
     </modules>
 
     <parent>

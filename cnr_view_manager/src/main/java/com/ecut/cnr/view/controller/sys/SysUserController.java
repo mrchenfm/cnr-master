@@ -178,7 +178,7 @@ public class SysUserController extends BaseController{
     public String userFace(Model model , @RequestParam("id") String id){
 
         UserInfoBO userInfoBO = sysUserService.findByUserId(id);
-        model.addAttribute("userface",CnrContants.BASE_URL_UPLOAD+userInfoBO.getUserface());
+        model.addAttribute("userface",userInfoBO.getUserface());
        return "sys/user/userFace";
     }
 

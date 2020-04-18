@@ -49,12 +49,17 @@
                     <span class="x-red">*</span>导航图片
                 </label>
                 <div class="layui-input-inline">
-                    <input type="hidden" id="newsPic" name="newsPic" required="" lay-verify="required"
-                           autocomplete="off" class="layui-input">
-                    <button type="button" class="layui-btn" id="newsPicUpload" name="newsPic">
-                        <i class="layui-icon">&#xe67c;</i>上传图片
-                    </button>
+                    <input type="text" name="newsPic" value="group1/M00/00/00/rBAADl6bDtiAULjyAACo2YULKMk796.jpg" lay-verify="newsPic" id="newsPic" placeholder="图片地址" class="layui-input">
                 </div>
+                <div class="layui-input-inline">
+                    <div class="layui-upload-list" style="margin:0">
+                        <img src="http://193.112.206.32/group1/M00/00/00/rBAADl6bDtiAULjyAACo2YULKMk796.jpg" id="srcimgurl" class="layui-upload-img">
+                    </div>
+                </div>
+                <div class="layui-input-inline layui-btn-container" style="width: auto;">
+                    <button class="layui-btn layui-btn-primary" id="editimg">修改图片</button >
+                </div>
+                <div class="layui-form-mid layui-word-aux">头像的尺寸限定160x100px,大小在50kb以内</div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">
@@ -73,12 +78,14 @@
     </div>
 </div>
 <script>
-    layui.use(['form','jquery','layer','layedit','upload'],function() {
+    layui.config({
+        base: '/cnr/static/js/' //layui自定义layui组件目录
+    }).use(['form','jquery','layer','layedit','upload','croppers'],function() {
         $ = layui.jquery;
         var form = layui.form;
         var layer = layui.layer;
         var layedit = layui.layedit;
-        var upload = layui.upload;
+        var croppers = layui.croppers;
         layedit.set({
             //暴露layupload参数设置接口 --详细查看layupload参数说明
             uploadImage: {
@@ -118,19 +125,18 @@
             , height: '100%'
         });
         var index = layedit.build('context');
-        var newsPic = upload.render({
-            elem: '#newsPicUpload' //绑定元素
-            ,url: ctx+'/fastdfs/upload/' //上传接口
-            ,done: function(data){
-                //上传完毕回调
+        var newsPic = croppers.render({
+            elem: '#editimg'
+            ,saveW:160     //保存宽度
+            ,saveH:100
+            ,method: 'post'
+            ,mark:8/5    //选取比例
+            ,area:'900px'  //弹窗宽度
+            ,url: ctx+'/fastdfs/upload/'  //图片上传接口返回和（layui 的upload 模块）返回的JOSN一样
+            ,done: function(data){ //上传完毕回调
+                console.log("data:"+data)
                 $('#newsPic').val(data.path);
-                layer.alert(data.msg, {
-                        icon: 6
-                    });
-            }
-            ,error: function(){
-                //请求异常回调
-                layer.msg("请求异常-_-",{icon:1,time:1000});
+                $("#srcimgurl").attr('src',data.basicPath+data.path);
             }
         });
 

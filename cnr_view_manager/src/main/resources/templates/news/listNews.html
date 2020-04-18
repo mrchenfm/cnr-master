@@ -53,8 +53,7 @@
                     </form>
                 </div>
                 <div class="layui-card-header">
-                    <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
-                    <button class="layui-btn" onclick="xadmin.open('添加用户',ctx+'/admin/addUser',600,450)"><i class="layui-icon"></i>添加</button>
+                    <button class="layui-btn" onclick="xadmin.open('添加用户',ctx+'/admin/addUser',800,450)"><i class="layui-icon"></i>添加</button>
                 </div>
                 <div class="layui-card-body layui-table-body layui-table-main">
                     <table id="newsList" lay-filter="newsList" class="layui-table"></table>
@@ -99,8 +98,9 @@
                     ,{field: 'userName', title: '编辑人员',width: 120}
                     ,{field: 'auditName', title: '审核人',width: 120}
                     ,{field: 'auditStatusName', title: '审核状态',width: 120}
-                    ,{field: 'rejectReason', title: '驳回原因',width: 200}
-                    ,{field: 'pubTime', title: '发布时间',width: 160,templet: function (d) {
+                    ,{field: 'auditCount', title: '已审核次数',width: 100}
+                    ,{field: 'rejectReason', title: '驳回原因',width: 250}
+                    ,{field: 'pubTime', title: '发布时间',sort: true,width: 160,templet: function (d) {
                         return showTime(d.pubTime);
                     }}
                     ,{field: 'auditTime', title: '审核时间',width: 160,templet: function (d) {
@@ -157,11 +157,40 @@
         }
         function complain(d){//操作中显示的内容
             if(d.id!=null){
-                return [
-                    '<button  type="button" class="layui-btn layui-btn-xs update" lay-event="edit">修改</button>',
-                    '<button type="button" class="layui-btn layui-btn-xs update" lay-event="audit">确认</button>',
-                    '<button type="button" class="layui-btn layui-btn-xs layui-btn-danger delete" lay-event="reject">驳回</button>',
-                ].join('');
+                if(d.auditStatus ===3){
+                    return [
+                        '<button disabled  type="button" class="layui-btn layui-btn-xs layui-btn-disabled update" lay-event="edit">修改</button>',
+                        '<button disabled type="button" class="layui-btn layui-btn-xs layui-btn-disabled update" lay-event="audit">确认</button>',
+                        '<button disabled type="button" class="layui-btn layui-btn-xs layui-btn-disabled layui-btn-danger delete" lay-event="reject">驳回</button>',
+                    ].join('');
+                }
+                if(d.auditStatus === 8 ){
+                    return [
+                        '<button disabled  type="button" class="layui-btn layui-btn-xs layui-btn-disabled update" lay-event="edit">修改</button>',
+                        '<button disabled type="button" class="layui-btn layui-btn-xs layui-btn-disabled update" lay-event="audit">确认</button>',
+                        '<button disabled type="button" class="layui-btn layui-btn-xs layui-btn-disabled layui-btn-danger delete" lay-event="reject">驳回</button>',
+                    ].join('');
+                }else if(d.auditStatus === 9){
+                    return [
+                        '<button  type="button" class="layui-btn layui-btn-xs update" lay-event="edit">修改</button>',
+                        '<button disabled type="button" class="layui-btn layui-btn-xs layui-btn-disabled update" lay-event="audit">确认</button>',
+                        '<button disabled type="button" class="layui-btn layui-btn-xs layui-btn-danger layui-btn-disabled delete" lay-event="reject">驳回</button>',
+                    ].join('');
+                }else if(d.auditStatus === 7){
+                    return [
+                        '<button  type="button" class="layui-btn layui-btn-xs update" lay-event="edit">修改</button>',
+                        '<button  type="button" class="layui-btn layui-btn-xs update" lay-event="audit">确认</button>',
+                        '<button type="button" class="layui-btn layui-btn-xs layui-btn-danger delete" lay-event="reject">驳回</button>',
+                    ].join('');
+                }else if(d.auditStatus === -1){
+                    return [
+                        '<button  type="button" class="layui-btn layui-btn-xs update" lay-event="edit">修改</button>',
+                        '<button  type="button" class="layui-btn layui-btn-xs update" lay-event="audit">确认</button>',
+                        '<button type="button" class="layui-btn layui-btn-xs layui-btn-danger delete" lay-event="reject">驳回</button>',
+                    ].join('');
+                }else{
+                    return '';
+                }
             }else{
                 return '';
             }
