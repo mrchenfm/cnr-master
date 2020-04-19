@@ -149,6 +149,22 @@ public class NewsServiceImpl implements INewsService {
         }
     }
 
+    @Override
+    public NewsType findTypeById(String id) {
+        return newsMapper.findNewsTypeById(id);
+    }
+
+    @Override
+    public void deleteTypeById(String id) {
+        newsMapper.deleteByTypeId(id);
+    }
+
+    @Override
+    public void updateNewsTypeById(NewsType newsType) {
+        newsType.setUpdateTime(new Date());
+        newsMapper.updateNewsTypeById(newsType);
+    }
+
     /**
      * 生成内容对象
      * @param newsBO

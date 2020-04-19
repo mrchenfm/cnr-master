@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @version v1.0
@@ -22,4 +23,8 @@ public class NewsType implements Serializable {
     @TableId(value = "id", type = IdType.INPUT)
     private String id;
     private String typeName;
+
+    private Date createTime;
+
+    private Date updateTime;
 }

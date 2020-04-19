@@ -85,5 +85,26 @@ public interface NewsMapper {
      */
     void updateNewsMain(@Param("newsTitle")NewsTitle newsTitle);
 
+    /**
+     * 根据id查询新闻标题信息
+     * @param titleId
+     * @return
+     */
     NewsTitle findStatusByTitleId(String titleId);
+
+    /**
+     * 根据id查询新闻类型
+     * @param id
+     * @return
+     */
+    NewsType findNewsTypeById(@Param("id") String id);
+
+    /**
+     * 删除新闻类型
+     * @param id
+     */
+    void deleteByTypeId(@Param("id")String id);
+
+    void updateNewsTypeById(@Param("newsType") NewsType newsType);
+
 }

@@ -55,24 +55,6 @@ public class NewsController extends BaseController {
     }
 
     /**
-     * 转到新闻类别列表
-     * @return
-     */
-    @RequestMapping("/newsTypeList")
-    public String toNewsTypeList(){
-        return "news/newsTypeList";
-    }
-
-    /**
-     * 转到添加新闻类别页面
-     * @return
-     */
-    @RequestMapping("/addNewsType")
-    public String toAddNewsType(){
-        return "news/addNewsType";
-    }
-
-    /**
      * 新闻添加
      * @param newsBO
      * @return
@@ -104,44 +86,6 @@ public class NewsController extends BaseController {
         //log.info("【新闻类别】：{}", JSONUtils.toJSONString(typeList));
         model.addAttribute("types",typeList);
         return "news/addNews";
-    }
-
-    /**
-     * 删除新闻类别byID
-     * @param id
-     * @return
-     */
-    @RequestMapping("/deleteTypeById")
-    @ResponseBody
-    public Result deleteTypeById(String id){
-        return new Result();
-    }
-
-    /**
-     * 通过id修改新闻类别信息
-     * @param id
-     * @return
-     */
-    @RequestMapping("/updateType")
-    @ResponseBody
-    public Result updatTypeById(String id){
-        return new Result();
-    }
-
-    /**
-     * 列出新闻类别
-     * @param queryRequest
-     * @return
-     */
-    @RequestMapping("/list/type")
-    @ResponseBody
-    public Result listAllType(QueryRequest queryRequest){
-        IPage<NewsType> newsTypes = newsService.listAllTypesPage(queryRequest);
-        Map<String, Object> dataTable = getDataTable(newsTypes);
-
-        //Object roleJson = JSONArray.toJSON(dataTable);
-        Result result = Result.addMap(dataTable);
-        return result;
     }
 
     @RequestMapping("/add/type")

@@ -7,6 +7,9 @@
     <sql id="NewsContext">
         id, context, title_id
     </sql>
+    <delete id="deleteByTypeId">
+        delete from news_type where id=#{id}
+    </delete>
 
     <resultMap id="BaseTitleMap" type="com.ecut.cnr.framework.entity.news.NewsTitle">
         <id column="id" property="id"/>
@@ -105,6 +108,9 @@
         select * from news_title
         where id = #{titleId}
     </select>
+    <select id="findNewsTypeById" resultType="com.ecut.cnr.framework.entity.news.NewsType">
+        select * from news_type where id = #{id}
+    </select>
 
     <update id="updateNewsTitle">
         UPDATE news_title
@@ -170,6 +176,20 @@
         </set>
         <where>
             id = #{newsTitle.id}
+        </where>
+    </update>
+    <update id="updateNewsTypeById">
+        update news_type
+        <set>
+            <if test="newsType.typeName != null and newsType.typeName != '' ">
+                type_name = #{newsType.typeName},
+            </if>
+            <if test="newsType.updateTime != null">
+                update_time = #{newsType.updateTime },
+            </if>
+        </set>
+        <where>
+            id = #{newsType.id}
         </where>
     </update>
 </mapper>

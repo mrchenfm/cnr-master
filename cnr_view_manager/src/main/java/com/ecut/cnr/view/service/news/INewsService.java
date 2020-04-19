@@ -74,4 +74,19 @@ public interface INewsService {
      * @param newsBO
      */
     void updateByTtileId(NewsBO newsBO);
+
+    /**
+     * 根据id查询新闻类型
+     * @param id
+     * @return
+     */
+    NewsType findTypeById(String id);
+
+    void deleteTypeById(String id);
+
+    /**
+     * 修改新闻类型
+     * @param newsType
+     */
+    void updateNewsTypeById(NewsType newsType);
 }
