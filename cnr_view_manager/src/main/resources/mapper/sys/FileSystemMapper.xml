@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ecut.cnr.view.mapper.sys.FileSystemMapper">
+    <select id="listAllFile" resultType="com.ecut.cnr.framework.bo.sys.FileSystemBO">
+        select
+        sf.id as id,
+        sf.src as src,
+        sf.file_path as filePath,
+        sf.file_name as fileName,
+        sf.file_size as fileSize,
+        sf.file_type as fileType,
+        sf.create_time as createTime,
+        sf.update_time as updateTime,
+        su.username as userName
+        from
+        t_sys_file sf
+        left join t_sys_user su on su.id = sf.user_id
+        where 1=1
+        <if test="fileSearchDto.start != null">
+            AND sf.create >= #{fileSearchDto.start}
+        </if>
+        <if test="fileSearchDto.end != null">
+            AND sf.create &lt;= #{fileSearchDto.end}
+        </if>
+        <if test="fileSearchDto.fileType != null and fileSearchDto.fileType != '' ">
+            AND sf.file_type like CONCAT('%',#{fileSearchDto.fileType},'%')
+        </if>
+    </select>
+</mapper>

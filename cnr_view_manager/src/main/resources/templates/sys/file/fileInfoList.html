@@ -28,25 +28,19 @@
         <div class="layui-col-md12">
             <div class="layui-card">
                 <div class="layui-card-body ">
-                    <form class="layui-form layui-col-space5 layui-form-pane" action="" onsubmit="return false;">
+                    <form class="layui-form layui-col-space5 layui-form-pane"  action="" onsubmit="return false;">
                         <div class="layui-form-item">
-                            <label for="loginTimeRange" class="layui-form-label">
-                                <span class="x-red"></span>操作日期范围
+                            <label for="createTime" class="layui-form-label">
+                                <span class="x-red"></span>创建时间
                             </label>
                             <div class="layui-input-inline ui-time">
-                                <input type="text" id="loginTimeRange" class="layui-input" placeholder="选择时间" value="" kssj="" jssj="" />
+                                <input type="text" id="createTime" class="layui-input" placeholder="日期范围" value="" kssj="" jssj="" />
                             </div>
-                            <label for="userType" class="layui-form-label">
-                                <span class="x-red"></span>用户类型
+                            <label for="fileType" class="layui-form-label">
+                                <span class="x-red"></span>文件类型
                             </label>
                             <div class="layui-inline layui-show-xs-block">
-                                <input type="text" name="userType" id="userType"  placeholder="选择用户类型" autocomplete="off" class="layui-input">
-                            </div>
-                            <label for="userName" class="layui-form-label">
-                                <span class="x-red"></span>用户名
-                            </label>
-                            <div class="layui-inline layui-show-xs-block">
-                                <input type="text" name="userName" id="userName"  placeholder="选择用户名" autocomplete="off" class="layui-input">
+                                <input type="text" name="fileType" id="fileType"  placeholder="选择类型" autocomplete="off" class="layui-input">
                             </div>
                             <div class="layui-inline layui-show-xs-block">
                                 <button class="layui-btn" id="search"  data-type="reload"><i class="layui-icon">&#xe615;</i></button>
@@ -54,11 +48,8 @@
                         </div>
                     </form>
                 </div>
-                <div class="layui-card-header">
-                    <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
-                </div>
                 <div class="layui-card-body layui-table-body layui-table-main">
-                    <table id="loginLog" lay-filter="loginLog"></table>
+                    <table  class="layui-table" id="userList" lay-filter="userList" style="overflow:visible"></table>
                 </div>
             </div>
         </div>
@@ -66,20 +57,20 @@
 </div>
 </body>
 <script>
-    layui.use(['form','layer','table','laydate','jquery'], function(){
+    layui.use(['form','layer','table','jquery','laydate'], function(){
         var form=layui.form;
         var layer=layui.layer;
         var table=layui.table;
         var  $ = layui.jquery;
         var laydate = layui.laydate;
-        //第一个实例
         laydate.render({
-            elem: '#loginTimeRange'
+            elem: '#createTime'
             ,range: true
         });
+
         table.render({
-            elem: '#loginLog'
-            ,url: ctx+'admin/loginLog/list' //数据接口
+            elem: '#userList'
+            ,url: ctx+'fastdfs/files/list' //数据接口
             ,method:'post'
             ,contentType: 'application/json;charset=utf-8'
             ,page: true //开启分页
@@ -88,30 +79,24 @@
                 [ //表头
                     {checkbox:true,fixed: 'left'}//单选框
                     ,{field: 'id', title: 'ID', sort: true, fixed: 'left',width: 180}
-                    ,{field: 'username', title: '用户名',width: 120}
-                    ,{field: 'loginTime', title: '登入时间',width: 150,templet: function (d) {
-                        return showTime(d.loginTime);}}
-                    ,{field: 'location', title: '登入地址',width: 190}
-                    ,{field: 'type', title: '状态',
-                    templet: function(d){
-                        if(d.enabled==1){
-                            return '管理员';
-                        }else{
-                            return '用户';
-                        }
-                    },width: 120
-                    }
-                    ,{field: 'ip', title: 'IP地址',width: 120}
-                    ,{field: 'system', title: '操作系统',width: 120}
-                    ,{field: 'browser', title: '浏览器',width: 120}
-                    ,{templet: complain, title: '操作',fixed: 'right',display: 'none',width: 150}
+                    ,{field: 'userName', title: '用户名',width: 120}
+                    ,{field: 'src', title: '文件地址',width: 380}
+                    ,{field: 'fileName', title: '文件名称',width: 350}
+                    ,{field: 'filePath', title: '文件路径',width: 490}
+                    ,{field: 'fileSize', title: '文件大小',width: 100}
+                    ,{field: 'fileType', title: '文件类型',width: 100}
+                    ,{field: 'updateTime', title: '修改时间',sort: true,width: 160,templet: function (d) {
+                        return showTime(d.updateTime);}}
+                    ,{field: 'createTime', title: '创建时间',width: 160,templet: function (d) {
+                        return showTime(d.createTime);}}
+                    ,{templet: complain, title: '操作',fixed: 'right',width: 160}
                 ]
             ]
             ,response:{statusCode:200}
             ,request: {
                 pageName: 'page' //页码的参数名称，默认：page
             }
-            ,id : 'loginLog'
+            ,id: 'userList'
             ,parseData:function (res) {
                 return{
                     "code":res.code,
@@ -121,6 +106,7 @@
                 };
             },
         });
+
         $('#search').on('click', function(){
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
@@ -129,21 +115,30 @@
         var $ = layui.$, active = {
             reload: function () {
                 console.log("开始条件搜索！！！")
-                table.reload('loginLog', {
-                    page: {
-                        curr :1
+                table.reload('userList', {
+                    where: {
+                        createTime : $('#createTime').val(),
+                        fileType : $('#fileType').val()
                     }
-                    ,where: {
-                        loginTimeRange : $('#loginTimeRange').val(),
-                        userName : $('#userName').val()
+                    , page: {
+                        curr :1
                     }
                 });
             }
         };
-        function complain(d){//操作中显示的内容
-            if(d.id !=null){
+        function userPic(d){//操作中显示的内容
+            if(d.id!=null){
                 return [
-                    '<button  type="button" class="layui-btn layui-btn-xs update" lay-event="info">详情</button>',
+                    '<a type="button" style="color: #00FFFF" lay-event="pic">查看头像</a>',
+                ].join('');
+            }else{
+                return '';
+            }
+        }
+        function complain(d){//操作中显示的内容
+            if(d.id!=null){
+                return [
+                    '<button  type="button" class="layui-btn layui-btn-xs update" lay-event="pic">查看图片</button>',
                     '<button type="button" class="layui-btn layui-btn-xs layui-btn-danger delete" lay-event="del">删除</button>',
                 ].join('');
             }else{
@@ -151,18 +146,25 @@
             }
 
         }
+        //时间转换函数
+        function showTime(tempDate)
+        {
+            if(tempDate ==null){
+                return "-";
+            }
+            return layui.util.toDateString(tempDate, 'yyyy-MM-dd HH:mm:ss')
+        }
         //监听工具条
-        table.on('tool(loginLog)', function (obj) {
+        table.on('tool(userList)', function (obj) {
             var data = obj.data;
-            console.log(data)
             var layEvent = obj.event;
-            if(data.id !=null){
+            if(data.username!=null){
                 if (layEvent === 'del') {
                     layer.confirm('确认要删除吗？',function(id){
                         //发异步删除数据
                         console.log(id);
                         $.ajax({
-                            url:ctx + "admin/delete/menu",
+                            url:ctx + "admin/delete/user",
                             type:"post",
                             async:true,
                             cache:true,
@@ -177,26 +179,19 @@
                                 } else {
                                     layer.msg(data.msg,{icon:1,time:1000});
                                 }
+
                             },
                             error:function () {
                                 layer.msg("出错了",{icon:1,time:1000});
                             }
                         });
                     });
-                } else if (layEvent === 'info') {
-                    xadmin.open('编辑',ctx+'admin/menuUpdate?id='+data.id,600,400)
+                } else if (layEvent === 'pic') {
+                    xadmin.open('文件详情',ctx+'admin/userface?id='+data.id,600,500)
                 }
             }
         });
     });
-    //时间转换函数
-    function showTime(tempDate)
-    {
-        if(tempDate ==null){
-            return "-";
-        }
-        return layui.util.toDateString(tempDate, 'yyyy-MM-dd HH:mm:ss')
-    }
 </script>
 <script>var _hmt = _hmt || []; (function() {
     var hm = document.createElement("script");

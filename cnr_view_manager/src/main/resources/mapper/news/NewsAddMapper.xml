@@ -69,7 +69,7 @@
             AND nt.title like CONCAT('%',#{newsSearchDto.title},'%')
         </if>
         <if test="newsSearchDto.auditStatus != null and newsSearchDto.auditStatus != ''">
-            AND nt.auditStatus = #{newsSearchDto.auditStatus}
+            AND nt.audit_status = #{newsSearchDto.auditStatus}
         </if>
         <if test="newsSearchDto.pubStart != null">
             AND nt.pub_time >= #{newsSearchDto.pubStart}
@@ -78,10 +78,10 @@
             AND nt.pub_time &lt;=  #{newsSearchDto.pubEnd}
         </if>
         <if test="newsSearchDto.auditStart != null">
-            AND nt.audit_time >= #{newsSearchDto.pubStart}
+            AND nt.audit_time >= #{newsSearchDto.auditStart}
         </if>
         <if test="newsSearchDto.auditEnd != null">
-            AND nt.audit_time &lt;=  #{newsSearchDto.pubEnd}
+            AND nt.audit_time &lt;=  #{newsSearchDto.auditEnd}
         </if>
         <if test="newsSearchDto.fromUser != null and newsSearchDto.fromUser != ''">
             AND u1.username = #{newsSearchDto.fromUser}

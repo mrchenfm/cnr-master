@@ -19,6 +19,7 @@ import com.ecut.cnr.view.service.news.INewsService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -263,6 +264,9 @@ public class NewsController extends BaseController {
     @ResponseBody
     public Result updateNews(@RequestBody NewsBO newsBO){
         try {
+            if (!ObjectUtils.isEmpty(newsBO.getNewsPic())) {
+                newsBO.setNewsPic(CnrContants.BASE_URL_UPLOAD+newsBO.getNewsPic());
+            }
             newsService.updateByTtileId(newsBO);
         } catch (Exception e) {
             return  Result.error(e.getMessage());

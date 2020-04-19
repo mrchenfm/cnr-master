@@ -70,12 +70,12 @@
                 toolbar: true,
                 cols: [
                     [
-                        {type: 'numbers', title: '编号',width: 180},
-                        {field: 'menuName', title: '资源名称',width: 150},
+                        {type: 'numbers', title: '编号',width: 80},
+                        {field: 'menuName', title: '资源名称',width: 200},
                         {field: 'url', title: 'URL',width: 200},
                         {field: 'icon', title: '图标',width: 120},
                         {field: 'perms', title: '权限标识',width: 150},
-                        {field: 'orderNum', title: '排序',width: 50},
+                        {field: 'orderNum', title: '排序',width: 80},
                         {field: 'type', title: '类型',
                             templet: function(d){
                                 if(d.type==0){
@@ -85,7 +85,7 @@
                                 }
                             },width: 100
                         },
-                        {templet: complain, title: '操作',fixed: 'right',display: 'none',width: 220}
+                        {templet: complain, title: '操作',width: 220}
                     ]
                 ],
                 done: function () {

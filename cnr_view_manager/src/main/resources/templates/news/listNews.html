@@ -28,27 +28,60 @@
         <div class="layui-col-md12">
             <div class="layui-card">
                 <div class="layui-card-body ">
-                    <form class="layui-form layui-col-space5" action="" onsubmit="return false;">
-                        <div class="layui-inline layui-show-xs-block">
-                            <input class="layui-input"   placeholder="发布日期" name="pubTimeRange" id="pubTimeRange">
-                        </div>
-                        <div class="layui-inline layui-show-xs-block">
-                            <input class="layui-input"  placeholder="审核日期" name="auditTimeRange" id="auditTimeRange">
-                        </div>
-                        <div class="layui-inline layui-show-xs-block">
-                            <input type="text" name="title" id = "title"  placeholder="请输标题" autocomplete="off" class="layui-input">
-                        </div>
-                        <div class="layui-inline layui-show-xs-block">
-                            <input type="text" name="fromUser" id = "fromUser"  placeholder="发布人" autocomplete="off" class="layui-input">
-                        </div>
-                        <div class="layui-inline layui-show-xs-block">
-                            <input type="text" name="auditStatus" id = "auditStatus"  placeholder="审核状态" autocomplete="off" class="layui-input">
-                        </div>
-                        <div class="layui-inline layui-show-xs-block">
-                            <input type="text" name="auditUser" id = "auditUser"  placeholder="审核人" autocomplete="off" class="layui-input">
-                        </div>
-                        <div class="layui-inline layui-show-xs-block">
-                            <button class="layui-btn" data-type="reload"   id="search"><i class="layui-icon">&#xe615;</i></button>
+                    <form class="layui-form layui-col-space5 layui-form-pane" action="" onsubmit="return false;">
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <label for="pubTimeRange" class="layui-form-label">
+                                    <span class="x-red"></span>发布日期
+                                </label>
+                                <div class="layui-inline">
+                                    <input class="layui-input"   placeholder="发布日期" name="pubTimeRange" id="pubTimeRange">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label for="auditTimeRange" class="layui-form-label">
+                                    <span class="x-red"></span>审核日期
+                                </label>
+                                <div class="layui-inline">
+                                    <input class="layui-input"  placeholder="审核日期" name="auditTimeRange" id="auditTimeRange">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label for="title" class="layui-form-label">
+                                    标题
+                                </label>
+                                <div class="layui-inline">
+                                    <input type="text" name="title" id = "title"  placeholder="请输标题" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label for="fromUser" class="layui-form-label">
+                                    <span class="x-red"></span>发布人
+                                </label>
+                                <div class="layui-inline">
+                                    <input type="text" name="fromUser" id = "fromUser"  placeholder="输入发布人" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label for="auditStatus" class="layui-form-label">
+                                    <span class="x-red"></span>审核状态
+                                </label>
+                                <div class="layui-inline layui-show-xs-block">
+                                    <input type="text" name="auditStatus" id = "auditStatus"  placeholder="审核状态" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label for="auditUser" class="layui-form-label">
+                                    <span class="x-red"></span>审核人
+                                </label>
+                                <div class="layui-inline">
+                                    <input type="text" name="auditUser" id = "auditUser"  placeholder="输入审核人" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+
+                            <div class="layui-inline">
+                                <button class="layui-btn" data-type="reload"   id="search"><i class="layui-icon">&#xe615;</i></button>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -228,11 +261,11 @@
                         });
                     });
                 } else if (layEvent === 'reject') {
-                    xadmin.open('驳回页面',ctx+'news/audit/reject/page?id='+data.id);
+                    xadmin.open('驳回页面',ctx+'news/audit/reject/page?id='+data.id,600,500,'true');
                 }else if (layEvent === 'show') {
-                    xadmin.open('内容详情',ctx+'news/show?id='+data.id,600,500);
+                    xadmin.open('内容详情',ctx+'news/show?id='+data.id,600,500,'true');
                 }else if (layEvent === 'edit') {
-                    xadmin.open('内容修改',ctx+'news/update/page?id='+data.id,600,500,'true');
+                    xadmin.open('内容修改',ctx+'news/update/page?id='+data.id,1000,500,'true');
                 }
             }
         });

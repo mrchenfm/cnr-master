@@ -1,6 +1,11 @@
 package com.ecut.cnr.view.utils;
 
+import com.ecut.cnr.framework.common.constants.CnrContants;
+import com.ecut.cnr.framework.common.utils.DateUtils;
+import com.ecut.cnr.framework.common.utils.IdUtils;
+import com.ecut.cnr.framework.fastdfs.FileSystem;
 import com.ecut.cnr.view.config.fastdfs.FdfsConfig;
+import com.ecut.cnr.view.service.sys.IFileSystemService;
 import com.github.tobato.fastdfs.domain.MateData;
 import com.github.tobato.fastdfs.domain.StorePath;
 import com.github.tobato.fastdfs.exception.FdfsUnsupportStorePathException;
@@ -12,8 +17,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.security.auth.Subject;
 import java.io.*;
 import java.nio.charset.Charset;
+import java.util.Date;
 import java.util.Set;
 
 /**
@@ -29,7 +36,12 @@ import java.util.Set;
 public class CommonFileUtil {
 
     @Autowired
+    IdUtils idUtils;
+    @Autowired
     private FastFileStorageClient storageClient;
+
+    @Autowired
+    private IFileSystemService fileSystemService;
 
 
     /**
@@ -38,10 +50,25 @@ public class CommonFileUtil {
      * @return
      * @throws IOException
      */
-    public String uploadFile(MultipartFile file) throws IOException {
+    public String uploadFile(MultipartFile file,String id) throws IOException {
         StorePath storePath = storageClient.uploadFile(file.getInputStream(), file.getSize(),
                 FilenameUtils.getExtension(file.getOriginalFilename()), null);
+        FileSystem fileSystem = new FileSystem();
+        generateSysFileInfo(file, id, storePath, fileSystem);
+        fileSystemService.save(fileSystem);
         return getResAccessUrl(storePath);
+    }
+
+    private void generateSysFileInfo(MultipartFile file, String id, StorePath storePath, FileSystem fileSystem) {
+        fileSystem.setId(String.valueOf(idUtils.nextId()));
+        fileSystem.setSrc(getResAccessUrl(storePath));
+        fileSystem.setFilePath(CnrContants.BASE_URL_UPLOAD+getResAccessUrl(storePath));
+        fileSystem.setFileSize(file.getSize());
+        fileSystem.setFileType(file.getContentType());
+        fileSystem.setFileName(storePath.getPath());
+        fileSystem.setUserId(id);
+        fileSystem.setUpdateTime(new Date());
+        fileSystem.setCreateTime(new Date());
     }
 
     /**

@@ -28,12 +28,17 @@
         <div class="layui-col-md12">
             <div class="layui-card">
                 <div class="layui-card-body ">
-                    <form class="layui-form layui-col-space5">
-                        <div class="layui-inline layui-show-xs-block">
-                            <input type="text" name="username"  placeholder="请输入角色名称" autocomplete="off" class="layui-input">
-                        </div>
-                        <div class="layui-inline layui-show-xs-block">
-                            <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
+                    <form class="layui-form layui-col-space5 layui-form-pane">
+                        <div class="layui-form-item">
+                            <label for="createTime" class="layui-form-label">
+                                <span class="x-red"></span>创建时间
+                            </label>
+                            <div class="layui-inline layui-show-xs-block">
+                                <input type="text" id="createTime" name="createTime"  placeholder="选择时间" autocomplete="off" class="layui-input">
+                            </div>
+                            <div class="layui-inline layui-show-xs-block">
+                                <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
+                            </div>
                         </div>
                     </form>
                 </div>

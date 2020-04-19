@@ -1,24 +1,20 @@
-package com.ecut.cnr.framework.fastdfs;
+package com.ecut.cnr.framework.bo.sys;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * @version v1.0
  * @ProjectName: cnr_master
- * @ClassName: FileSystem
+ * @ClassName: FileSystemBO
  * @Description: TODO(一句话描述该类的功能)
  * @Author: fangming_chen
- * @Date: 2020/03/01 19:01
+ * @Date: 2020/04/19 12:44
  */
 @Data
-@Slf4j
-@TableName(value = "t_sys_file")
-public class FileSystem {
-
+public class FileSystemBO implements Serializable {
     private String id;
     /**
      * 文件目录
@@ -49,8 +45,9 @@ public class FileSystem {
      */
     private String userId;
 
+    private String userName;
+
     private Date createTime;
 
     private Date updateTime;
-
 }

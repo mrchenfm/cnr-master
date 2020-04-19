@@ -1,19 +1,26 @@
 package com.ecut.cnr.view.controller.fastdfs;
 
 import com.alibaba.druid.support.json.JSONUtils;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.ecut.cnr.framework.bo.news.NewQueryBO;
+import com.ecut.cnr.framework.bo.sys.FileSystemBO;
+import com.ecut.cnr.framework.bo.sys.UserInfoBO;
 import com.ecut.cnr.framework.common.Result;
+import com.ecut.cnr.framework.common.base.BaseController;
 import com.ecut.cnr.framework.common.constants.CnrContants;
+import com.ecut.cnr.framework.common.enums.ErrorEnum;
+import com.ecut.cnr.framework.dto.sys.FileSearchDto;
+import com.ecut.cnr.view.service.sys.IFileSystemService;
 import com.ecut.cnr.view.utils.CommonFileUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.util.ObjectUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.FileNotFoundException;
@@ -35,10 +42,13 @@ import java.util.Map;
 @Controller
 @Slf4j
 @RequestMapping("/fastdfs")
-public class FileServerController {
+public class FileServerController extends BaseController {
 
     @Autowired
     private CommonFileUtil fileUtil;
+
+    @Autowired
+    private IFileSystemService fileSystemService;
 
     @RequestMapping("/fileUpload")
     public String fileUpload(@RequestParam("fileName") MultipartFile file){
@@ -70,7 +80,7 @@ public class FileServerController {
         return "/success";
     }
 
-    //使用fastdfs进行文件上传
+    //使用fastdfs，富文本编辑进行文件上传
     @PostMapping("/uploadFileToFast")
     @ResponseBody
     public String uoloadFileToFast(@RequestParam("file")MultipartFile file) throws IOException{
@@ -78,7 +88,10 @@ public class FileServerController {
         if(file.isEmpty()){
             log.info("文件不存在");
         }
-        String path = fileUtil.uploadFile(file);
+        //构造驳回参数
+        Subject subject = SecurityUtils.getSubject();
+        UserInfoBO userInfoBO = (UserInfoBO) subject.getPrincipal();
+        String path = fileUtil.uploadFile(file,userInfoBO.getId());
         log.info("文件路径：{}",path);
         Result result = new Result();
         Map<String,Object> map = new HashMap<String,Object>();
@@ -91,6 +104,12 @@ public class FileServerController {
         return s;
     }
 
+    /**
+     * 普通图片上传
+     * @param file
+     * @return
+     * @throws IOException
+     */
     @PostMapping("/upload")
     @ResponseBody
     public Result upload(@RequestParam("file")MultipartFile file) throws IOException{
@@ -98,7 +117,9 @@ public class FileServerController {
         if(file.isEmpty()){
             log.info("文件不存在");
         }
-        String path = fileUtil.uploadFile(file);
+        Subject subject = SecurityUtils.getSubject();
+        UserInfoBO userInfoBO = (UserInfoBO) subject.getPrincipal();
+        String path = fileUtil.uploadFile(file,userInfoBO.getId());
         log.info("文件路径：{}",path);
         if(ObjectUtils.isEmpty(path)){
             return Result.error("上传失败！");
@@ -107,6 +128,34 @@ public class FileServerController {
         res.put("path",path);
         res.put("basicPath",CnrContants.BASE_URL_UPLOAD);
         return res;
+    }
+
+    /**
+     * 跳转页面
+     * @return
+     */
+    @RequestMapping("/imgs/list")
+    public String toFileListPage(){
+        return "/sys/file/fileInfoList";
+    }
+
+    /**
+     * file列表
+     * @return
+     */
+    @RequestMapping("/files/list")
+    @ResponseBody
+    public Result fileInfoList(@RequestBody FileSearchDto fileSearchDto){
+        Map<String, Object> dataTable = null;
+        try {
+            IPage<FileSystemBO> allSystemLogs = fileSystemService.listAllFilePage(fileSearchDto);
+            dataTable = getDataTable(allSystemLogs);
+        } catch (Exception e) {
+            log.error("查询文件列表报错：{}",e);
+            return Result.error(ErrorEnum.SQL_ILLEGAL);
+        }
+        Result result = Result.addMap(dataTable);
+        return result;
     }
 
 }
