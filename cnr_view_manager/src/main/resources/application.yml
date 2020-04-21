@@ -50,6 +50,18 @@ spring:
 
       jmx:
         enabled: false
+      fastdfs:
+        enabled: enable
+        connect_timeout: 20000
+        network_timeout: 20000
+        charset: UTF-8
+        tracker_http_port: 80
+        anti_steal_token: false
+        secret_key:
+        tracker_server: 193.112.206.32:22122
+        min_pool_size: 21
+        max_pool_size: 100
+        wait_times: 200
 mybatis-plus:
   #mapper文件
   mapper-locations: classpath:mapper/**/*.xml

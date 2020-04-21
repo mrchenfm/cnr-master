@@ -2,7 +2,6 @@ package com.ecut.cnr.view.controller.fastdfs;
 
 import com.alibaba.druid.support.json.JSONUtils;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.ecut.cnr.framework.bo.news.NewQueryBO;
 import com.ecut.cnr.framework.bo.sys.FileSystemBO;
 import com.ecut.cnr.framework.bo.sys.UserInfoBO;
 import com.ecut.cnr.framework.common.Result;
@@ -10,24 +9,20 @@ import com.ecut.cnr.framework.common.base.BaseController;
 import com.ecut.cnr.framework.common.constants.CnrContants;
 import com.ecut.cnr.framework.common.enums.ErrorEnum;
 import com.ecut.cnr.framework.dto.sys.FileSearchDto;
+import com.ecut.cnr.view.fastdfs.FastDFSService;
 import com.ecut.cnr.view.service.sys.IFileSystemService;
-import com.ecut.cnr.view.utils.CommonFileUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
+import org.csource.common.MyException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.FileCopyUtils;
-import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import javax.annotation.Resource;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -45,53 +40,25 @@ import java.util.Map;
 public class FileServerController extends BaseController {
 
     @Autowired
-    private CommonFileUtil fileUtil;
-
-    @Autowired
     private IFileSystemService fileSystemService;
 
-    @RequestMapping("/fileUpload")
-    public String fileUpload(@RequestParam("fileName") MultipartFile file){
+    @Resource
+    private FastDFSService fastDFSService;
 
-        String targetFilePath = "E:/opt/uploads/";
 
-        if(file.isEmpty()){
-            log.info("this file is empty");
-        }
-
-        String newFileName = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date());
-        //获取原来文件名称
-        String fileSuffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
-
-        if(!fileSuffix.equals(".jpg") || !fileSuffix.equals(".png")){
-            log.info("文件格式不正确");
-        }
-        //拼装新的文件名
-        String targetFileName = targetFilePath + newFileName + fileSuffix;
-        //上传文件
-        try {
-            FileCopyUtils.copy(file.getInputStream(),new FileOutputStream(targetFileName));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return "/success";
-    }
-
-    //使用fastdfs，富文本编辑进行文件上传
     @PostMapping("/uploadFileToFast")
     @ResponseBody
-    public String uoloadFileToFast(@RequestParam("file")MultipartFile file) throws IOException{
+    public String uoloadFileToFast1(@RequestParam("file")MultipartFile file) throws IOException, MyException {
 
         if(file.isEmpty()){
             log.info("文件不存在");
         }
+        String name = file.getOriginalFilename();
+        String path = fastDFSService.uploadFile(file.getBytes(), name.substring(name.lastIndexOf(".")+1));
         //构造驳回参数
         Subject subject = SecurityUtils.getSubject();
         UserInfoBO userInfoBO = (UserInfoBO) subject.getPrincipal();
-        String path = fileUtil.uploadFile(file,userInfoBO.getId());
+        fileSystemService.saveFileInfo(userInfoBO.getId(),path,file.getSize(),file.getContentType());
         log.info("文件路径：{}",path);
         Result result = new Result();
         Map<String,Object> map = new HashMap<String,Object>();
@@ -112,21 +79,27 @@ public class FileServerController extends BaseController {
      */
     @PostMapping("/upload")
     @ResponseBody
-    public Result upload(@RequestParam("file")MultipartFile file) throws IOException{
+    public Result upload1(@RequestParam("file")MultipartFile file) {
 
         if(file.isEmpty()){
             log.info("文件不存在");
+            new Result().put("msg", "上传失败");
         }
-        Subject subject = SecurityUtils.getSubject();
-        UserInfoBO userInfoBO = (UserInfoBO) subject.getPrincipal();
-        String path = fileUtil.uploadFile(file,userInfoBO.getId());
-        log.info("文件路径：{}",path);
-        if(ObjectUtils.isEmpty(path)){
-            return Result.error("上传失败！");
+        String path = null;
+        Result res = null;
+        try {
+            Subject subject = SecurityUtils.getSubject();
+            UserInfoBO userInfoBO = (UserInfoBO) subject.getPrincipal();
+            String name = file.getOriginalFilename();
+            path = fastDFSService.uploadFile(file.getBytes(), name.substring(name.lastIndexOf(".")+1));
+            fileSystemService.saveFileInfo(userInfoBO.getId(),path,file.getSize(),file.getContentType());
+            res = new Result().put("msg", "上传成功");
+            res.put("path",path);
+            res.put("basicPath",CnrContants.BASE_URL_UPLOAD);
+        } catch (Exception e) {
+            res = new Result().put("msg", "上传失败");
         }
-        Result res = new Result().put("msg", "上传成功");
-        res.put("path",path);
-        res.put("basicPath",CnrContants.BASE_URL_UPLOAD);
+
         return res;
     }
 

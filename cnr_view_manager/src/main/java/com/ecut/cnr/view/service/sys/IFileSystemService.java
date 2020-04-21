@@ -22,4 +22,13 @@ public interface IFileSystemService extends IService<FileSystem> {
      * @return
      */
     IPage<FileSystemBO> listAllFilePage(FileSearchDto fileSearchDto);
+
+    /**
+     * 保存文件信息
+     * @param id
+     * @param path
+     * @param size
+     * @param contentType
+     */
+    void saveFileInfo(String id, String path, long size, String contentType);
 }

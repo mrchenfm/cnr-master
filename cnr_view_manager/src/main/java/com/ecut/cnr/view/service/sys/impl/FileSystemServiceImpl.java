@@ -3,9 +3,10 @@ package com.ecut.cnr.view.service.sys.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.ecut.cnr.framework.bo.news.NewQueryBO;
 import com.ecut.cnr.framework.bo.sys.FileSystemBO;
+import com.ecut.cnr.framework.common.constants.CnrContants;
 import com.ecut.cnr.framework.common.utils.DateUtils;
+import com.ecut.cnr.framework.common.utils.IdUtils;
 import com.ecut.cnr.framework.dto.sys.FileSearchDto;
 import com.ecut.cnr.framework.fastdfs.FileSystem;
 import com.ecut.cnr.view.mapper.sys.FileSystemMapper;
@@ -13,6 +14,9 @@ import com.ecut.cnr.view.service.sys.IFileSystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
+
+import javax.annotation.Resource;
+import java.util.Date;
 
 /**
  * @version v1.0
@@ -27,6 +31,9 @@ public class FileSystemServiceImpl extends ServiceImpl<FileSystemMapper, FileSys
 
     @Autowired
     private FileSystemMapper fileSystemMapper;
+    @Resource
+    private IdUtils idUtils;
+
 
     @Override
     public IPage<FileSystemBO> listAllFilePage(FileSearchDto fileSearchDto) {
@@ -37,5 +44,20 @@ public class FileSystemServiceImpl extends ServiceImpl<FileSystemMapper, FileSys
         Page<FileSystemBO> page = new Page<>(fileSearchDto.getPage(), fileSearchDto.getLimit());
         IPage<FileSystemBO> files = fileSystemMapper.listAllFile(page,fileSearchDto);
         return files;
+    }
+
+    @Override
+    public void saveFileInfo(String id, String path, long size, String contentType) {
+        FileSystem fileSystem = new FileSystem();
+        fileSystem.setId(String.valueOf(idUtils.nextId()));
+        fileSystem.setSrc(path);
+        fileSystem.setFilePath(CnrContants.BASE_URL_UPLOAD+path);
+        fileSystem.setFileSize(size);
+        fileSystem.setFileType(contentType);
+        fileSystem.setFileName(path.substring(path.lastIndexOf("/")+1));
+        fileSystem.setUserId(id);
+        fileSystem.setUpdateTime(new Date());
+        fileSystem.setCreateTime(new Date());
+        this.baseMapper.insert(fileSystem);
     }
 }
