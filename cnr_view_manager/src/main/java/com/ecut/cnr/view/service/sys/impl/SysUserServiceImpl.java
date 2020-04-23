@@ -3,24 +3,33 @@ package com.ecut.cnr.view.service.sys.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.ecut.cnr.framework.common.constants.CnrContants;
 import com.ecut.cnr.framework.common.utils.DateUtils;
 import com.ecut.cnr.framework.common.utils.JsonUtils;
 import com.ecut.cnr.framework.dto.sys.UserSearchDto;
 import com.ecut.cnr.framework.entity.sys.SysUser;
 import com.ecut.cnr.framework.bo.sys.UserInfoBO;
 import com.ecut.cnr.framework.dto.sys.SysUserDto;
+import com.ecut.cnr.framework.fastdfs.FileSystem;
 import com.ecut.cnr.framework.request.sys.QueryRequest;
+import com.ecut.cnr.view.fastdfs.FastDFSService;
 import com.ecut.cnr.view.mapper.sys.SysRoleMapper;
 import com.ecut.cnr.view.mapper.sys.SysUserMapper;
+import com.ecut.cnr.view.service.sys.IFileSystemService;
 import com.ecut.cnr.view.service.sys.ISysUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
+import org.csource.common.MyException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
+import java.io.IOException;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -39,6 +48,12 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper,SysUser> imple
 
     @Autowired
     private SysRoleMapper sysRoleMapper;
+
+    @Resource
+    FastDFSService fastDFSService;
+
+    @Resource
+    IFileSystemService fileSystemService;
 
     @Override
     public UserInfoBO selectUserByUsername(String username){
@@ -135,6 +150,34 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper,SysUser> imple
         }
         allUsers.setRecords(records);
         return allUsers;
+    }
+
+    @Override
+    public void updatePassword(SysUser sysUser) {
+        sysUser.setUpdateTime(new Date());
+        sysUserMapper.updatePasswordOrPic(sysUser);
+    }
+
+    @Override
+    public String updatePic(MultipartFile file, UserInfoBO userInfoBO) throws IOException, MyException {
+        String extName = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1);
+        String path = fastDFSService.uploadFile(file.getBytes(), extName);
+        int count = fileSystemService.saveFileInfo(userInfoBO.getId(), path, file.getSize(), file.getContentType());
+        if(count>0){
+            SysUser sysUser = new SysUser();
+            sysUser.setId(userInfoBO.getId());
+            sysUser.setUserface(CnrContants.BASE_URL_UPLOAD+path);
+            SysUser sysUser1 = sysUserMapper.selectByUsername(userInfoBO.getUsername());
+            FileSystem fileSystem = fileSystemService.findByUrl(sysUser1.getUserface());
+            int i = sysUserMapper.updatePasswordOrPic(sysUser);
+            if(i>0){
+                if(fileSystem != null && fileSystem.getSrc() != null){
+                    fastDFSService.deleteFile(fileSystem.getSrc());
+                    fileSystemService.removeById(fileSystem.getId());
+                }
+            }
+        }
+        return path;
     }
 
 }

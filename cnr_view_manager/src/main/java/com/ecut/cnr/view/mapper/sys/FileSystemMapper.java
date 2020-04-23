@@ -28,4 +28,12 @@ public interface FileSystemMapper extends BaseMapper<FileSystem> {
      * @return
      */
     IPage<FileSystemBO> listAllFile(Page<FileSystemBO> page, @Param("fileSearchDto") FileSearchDto fileSearchDto);
+
+    /**
+     * 通过文件地址找到文件信息
+     * @param userface
+     * @return
+     */
+    FileSystem findByfilePath(@Param("userface") String userface);
+
 }

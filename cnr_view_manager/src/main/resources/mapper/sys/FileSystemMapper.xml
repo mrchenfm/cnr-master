@@ -26,4 +26,9 @@
             AND sf.file_type like CONCAT('%',#{fileSearchDto.fileType},'%')
         </if>
     </select>
+    <select id="findByfilePath" resultType="com.ecut.cnr.framework.fastdfs.FileSystem">
+        select *
+        from t_sys_file
+        where file_path =#{userface}
+    </select>
 </mapper>

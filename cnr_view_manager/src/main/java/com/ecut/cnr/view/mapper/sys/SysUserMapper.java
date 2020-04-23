@@ -55,4 +55,10 @@ public interface SysUserMapper extends BaseMapper<SysUser>{
     Integer saveRole(String userId, String roleId);
 
     void deleteAllRole(@Param("id") String id);
+
+    /**
+     * 修改用户密码
+     * @param sysUser
+     */
+    int updatePasswordOrPic(@Param("sysUser") SysUser sysUser);
 }

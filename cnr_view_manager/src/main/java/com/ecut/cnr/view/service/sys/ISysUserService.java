@@ -7,7 +7,10 @@ import com.ecut.cnr.framework.entity.sys.SysUser;
 import com.ecut.cnr.framework.bo.sys.UserInfoBO;
 import com.ecut.cnr.framework.dto.sys.SysUserDto;
 import com.ecut.cnr.framework.request.sys.QueryRequest;
+import org.csource.common.MyException;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -61,5 +64,18 @@ public interface ISysUserService extends IService<SysUser> {
      * @return
      */
     IPage<SysUserDto> selectAllUsers(UserSearchDto userSearchDto);
+
+    /**
+     * 修改密码
+     * @param sysUser
+     */
+    void updatePassword(SysUser sysUser);
+
+    /**
+     * 修改用户头像
+     * @param file
+     * @param userInfoBO
+     */
+    String updatePic(MultipartFile file, UserInfoBO userInfoBO) throws IOException, MyException;
 }
 

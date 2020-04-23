@@ -47,7 +47,12 @@ public class FileSystemServiceImpl extends ServiceImpl<FileSystemMapper, FileSys
     }
 
     @Override
-    public void saveFileInfo(String id, String path, long size, String contentType) {
+    public int saveFileInfo(String id, String path, long size, String contentType) {
+        FileSystem fileSystem = getFileSystem(id, path, size, contentType);
+        return this.baseMapper.insert(fileSystem);
+    }
+
+    private FileSystem getFileSystem(String id, String path, long size, String contentType) {
         FileSystem fileSystem = new FileSystem();
         fileSystem.setId(String.valueOf(idUtils.nextId()));
         fileSystem.setSrc(path);
@@ -58,6 +63,17 @@ public class FileSystemServiceImpl extends ServiceImpl<FileSystemMapper, FileSys
         fileSystem.setUserId(id);
         fileSystem.setUpdateTime(new Date());
         fileSystem.setCreateTime(new Date());
-        this.baseMapper.insert(fileSystem);
+        return fileSystem;
+    }
+
+    @Override
+    public int updateFileInfo(String id, String path, long size, String contentType) {
+        FileSystem fileSystem = getFileSystem(id, path, size, contentType);
+        return this.baseMapper.updateById(fileSystem);
+    }
+
+    @Override
+    public FileSystem findByUrl(String userface) {
+        return fileSystemMapper.findByfilePath(userface);
     }
 }

@@ -30,5 +30,16 @@ public interface IFileSystemService extends IService<FileSystem> {
      * @param size
      * @param contentType
      */
-    void saveFileInfo(String id, String path, long size, String contentType);
+    int saveFileInfo(String id, String path, long size, String contentType);
+
+    /**
+     * 修改文件信息
+     * @param id
+     * @param path
+     * @param size
+     * @param contentType
+     */
+    int updateFileInfo(String id, String path, long size, String contentType);
+
+    FileSystem findByUrl(String userface);
 }

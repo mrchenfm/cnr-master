@@ -6,6 +6,25 @@
         SET enabled = #{sysUser.enabled}
         where id = #{sysUser.id}
     </update>
+    <update id="updatePasswordOrPic">
+         UPDATE t_sys_user
+        <set>
+            <if test="sysUser.password != null">
+                password = #{sysUser.password},
+            </if>
+            <if test="sysUser.salt != null">
+                salt = #{sysUser.salt},
+            </if>
+            <if test="sysUser.userface != null">
+                userface = #{sysUser.userface}
+            </if>
+        </set>
+        <where>
+            <if test="sysUser.id != null">
+                id = #{sysUser.id}
+            </if>
+        </where>
+    </update>
     <insert id="saveRole">
         INSERT into t_user_role(user_id,role_id) values(#{userId},#{roleId})
     </insert>
