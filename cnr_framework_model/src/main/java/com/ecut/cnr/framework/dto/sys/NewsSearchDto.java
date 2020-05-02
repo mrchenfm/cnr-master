@@ -39,4 +39,6 @@ public class NewsSearchDto extends QueryRequest implements Serializable {
     private String pubTimeRange;
 
     private String auditTimeRange;
+
+    private String typeId;
 }

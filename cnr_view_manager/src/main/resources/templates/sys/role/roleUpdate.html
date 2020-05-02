@@ -23,6 +23,7 @@
 <body>
 <div class="layui-fluid">
     <div class="layui-row">
+        <input id="ids" hidden th:value="${perms}">
         <form action="" method="post" class="layui-form layui-form-pane">
             <div class="layui-form-item">
                 <label for="name" class="layui-form-label">
@@ -64,8 +65,7 @@
     </div>
 </div>
 <script>
-    var perms = [[${roleInfoBO.privileges}]];
-    console.log(perms[1])
+
     layui.config({
         base: '/cnr/static/lib/',
         debug: true
@@ -77,7 +77,9 @@
             layer = layui.layer,
             laydate = layui.laydate,
             eleTree = layui.eleTree;
-
+        var perms = new Array();
+        perms = JSON.parse($("#ids").val());
+        console.log(JSON.stringify(perms))
 
         var menuTree = eleTree.render({
             elem: '.menu-tree',
@@ -85,7 +87,9 @@
             showCheckbox: true,
             accordion: true,
             checkStrictly: true,
+            defaultExpandAll: true,
             renderAfterExpand: false,
+            defaultCheckedKeys: perms,
             request: {
                 name: "menuName",
                 key: "id",
@@ -99,8 +103,11 @@
                 dataName: "data"
             }
         });
-        console.log(perms[1])
-
+       /* $(function () {
+            for(let i in perms){
+                menuTree.(i,true,true);
+            }
+        });*/
 
         //监听提交
         form.on('submit(update)', function(data){

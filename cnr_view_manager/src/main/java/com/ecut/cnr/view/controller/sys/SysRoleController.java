@@ -1,5 +1,6 @@
 package com.ecut.cnr.view.controller.sys;
 
+import com.alibaba.druid.support.json.JSONUtils;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.ecut.cnr.framework.common.Result;
 import com.ecut.cnr.framework.common.base.BaseController;
@@ -96,6 +97,7 @@ public class SysRoleController extends BaseController {
     public String toRoleUpdate(Model model,@RequestParam String id){
         RoleInfoBO roleInfoBO = sysRoleService.findAllById(id);
         model.addAttribute("roleInfoBO",roleInfoBO);
+        model.addAttribute("perms", JSONUtils.toJSONString(roleInfoBO.getPrivileges()));
         return "sys/role/roleUpdate";
     }
 
@@ -127,6 +129,14 @@ public class SysRoleController extends BaseController {
         return new Result();
     }
 
-
+    @RequestMapping("/get/perms")
+    @ResponseBody
+    public Result getAllPerms(@RequestBody RoleInfoBO roleInfoBO){
+        RoleInfoBO roleInfoBO1 = sysRoleService.findAllById(roleInfoBO.getId());
+        if(roleInfoBO1.getPrivileges().size()>0){
+            return new Result().put("allPerms",roleInfoBO1.getPrivileges());
+        }
+        return new Result();
+    }
 
 }

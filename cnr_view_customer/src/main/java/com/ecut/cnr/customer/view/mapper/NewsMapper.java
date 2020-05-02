@@ -23,25 +23,6 @@ import java.util.List;
 @Component
 @Mapper
 public interface NewsMapper {
-    /**
-     * 添加新闻标题
-     * @return
-     * @param newsTitle
-     */
-    int addNewsTitle(@Param("newsTitle") NewsTitle newsTitle);
-
-    /**
-     * 添加新闻内容
-     * @param newsContext
-     * @return
-     */
-    int addNewsContext(@Param("newsContext") NewsContext newsContext);
-
-    /**
-     * 获取所有新闻类型
-     * @return
-     */
-    List<NewsType> getAllType();
 
     /**
      * 分页查询新闻信息
@@ -52,9 +33,8 @@ public interface NewsMapper {
     IPage<NewQueryBO> selectAllPage(Page<NewQueryBO> page, Object o);
 
     /**
-     * 根据titleId查询context
-     * @param id
+     * 查询所有新闻信息
      * @return
      */
-    List<NewsContext> findContextByTitleId(@Param("id") String id);
+    List<NewQueryBO> findAll();
 }

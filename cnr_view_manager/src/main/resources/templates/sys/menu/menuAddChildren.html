@@ -28,8 +28,9 @@
                     <span class="x-red">*</span>父级菜单
                 </label>
                 <div class="layui-input-inline">
-                    <input type="text" id="parentId" name="parentId" required="" lay-verify="required"
-                           autocomplete="off" class="layui-input" th:value="${sysMenu.id}" disabled th:title="${sysMenu.menuName}">
+                    <input hidden id="parentId" name="parentId" th:value="${sysMenu.id}">
+                    <input type="text" id="parentName" name="parentName" required="" lay-verify="required"
+                           autocomplete="off" class="layui-input" th:value="${sysMenu.menuName}" disabled th:title="${sysMenu.menuName}">
                 </div>
             </div>
             <div class="layui-form-item">
