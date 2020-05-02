@@ -17,6 +17,8 @@ import java.util.Date;
 public class SysUserDto {
     private String id;
 
+    private String deptId;
+
     private String username;
 
     private String password;

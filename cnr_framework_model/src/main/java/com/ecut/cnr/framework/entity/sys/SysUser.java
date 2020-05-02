@@ -32,6 +32,7 @@ public class SysUser implements Serializable {
     @TableId(value = "id",type = IdType.INPUT)
     private String id;
 
+    private String deptId;
     @ApiModelProperty(value = "用户名")
     private String username;
 

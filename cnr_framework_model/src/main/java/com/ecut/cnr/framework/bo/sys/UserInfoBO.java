@@ -18,6 +18,7 @@ public class UserInfoBO {
 
     private String id;
 
+    private String deptId;
     private String username;
 
     private String password;

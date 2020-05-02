@@ -79,21 +79,27 @@ public class DeptController {
     public Result saveDept(@RequestBody Dept dept){
         Subject subject = SecurityUtils.getSubject();
         UserInfoBO userInfoBO = (UserInfoBO) subject.getPrincipal();
-        generateDept(dept, userInfoBO);
+        SysUser sysUser = sysUserService.getById(dept.getMaster());
+        generateDept(dept, userInfoBO,sysUser);
         boolean b = this.deptService.saveOrUpdate(dept);
         if(!b){
             return Result.error("添加失败");
         }
+        sysUserService.updateById(sysUser);
         return new Result();
     }
 
-    private void generateDept(@RequestBody Dept dept, UserInfoBO userInfoBO) {
+    private void generateDept(@RequestBody Dept dept, UserInfoBO userInfoBO,SysUser sysUser) {
         dept.setId(String.valueOf(idUtils.nextId()));
         dept.setCreateBy(userInfoBO.getId());
         dept.setCreateDate(new Date());
         dept.setDelFlag(0);
+        dept.setMasterName(sysUser.getUsername());
+        dept.setPhone(sysUser.getPhone());
+        dept.setEmail(sysUser.getEmail());
         dept.setUpdateBy(userInfoBO.getId());
         dept.setUpdateDate(new Date());
+        sysUser.setDeptId(dept.getId());
     }
 
     @PostMapping("/update/dept/master")
