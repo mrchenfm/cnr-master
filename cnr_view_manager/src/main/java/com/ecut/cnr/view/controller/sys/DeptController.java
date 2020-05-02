@@ -60,6 +60,8 @@ public class DeptController {
 
     @GetMapping("/deptAddChildren")
     public String toDeptAddChildren(Model model, String id){
+        List<SysUser> list = sysUserService.list(null);
+        model.addAttribute("users",list);
         Dept dept = this.deptService.getById(id);
         model.addAttribute("dept",dept);
         return "sys/dept/addChildrenDept";
@@ -68,7 +70,7 @@ public class DeptController {
     @GetMapping("/deptUpdate")
     public String toDeptUpdate(Model model,String id){
         List<SysUser> list = sysUserService.list(null);
-        model.addAttribute("employee",list);
+        model.addAttribute("users",list);
         Dept dept = this.deptService.getById(id);
         model.addAttribute("dept", dept);
         return "sys/dept/addDeptMaster";
@@ -107,16 +109,21 @@ public class DeptController {
     public Result saveDeptMaster(@RequestBody Dept dept){
         Subject subject = SecurityUtils.getSubject();
         UserInfoBO userInfoBO = (UserInfoBO) subject.getPrincipal();
-        generateDeptNotId(dept, userInfoBO);
-        Result result = deptService.saveDeptMaster(dept);
+        SysUser sysUser = sysUserService.getById(dept.getMaster());
+        generateDeptNotId(dept, userInfoBO,sysUser);
+
+        Result result = deptService.saveDeptMaster(dept,sysUser);
         return result;
     }
 
-    private void generateDeptNotId(Dept dept, UserInfoBO userInfoBO) {
-        dept.setCreateBy(userInfoBO.getId());
-        dept.setCreateDate(new Date());
+    private void generateDeptNotId(Dept dept, UserInfoBO userInfoBO,SysUser sysUser) {
+
+        dept.setMasterName(sysUser.getUsername());
+        dept.setPhone(sysUser.getPhone());
+        dept.setEmail(sysUser.getEmail());
         dept.setUpdateBy(userInfoBO.getId());
         dept.setUpdateDate(new Date());
+        sysUser.setDeptId(dept.getId());
     }
 
 

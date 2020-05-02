@@ -19,6 +19,8 @@ public class SysUserDto {
 
     private String deptId;
 
+    private String deptName;
+
     private String username;
 
     private String password;

@@ -16,7 +16,7 @@ import java.util.Date;
  * @Create by fangming_chen
  */
 @Data
-@TableName("t_dept")
+@TableName("t_sys_dept")
 public class Dept implements Serializable{
 
     private static final long serialVersionUID = 5702271568363798328L;

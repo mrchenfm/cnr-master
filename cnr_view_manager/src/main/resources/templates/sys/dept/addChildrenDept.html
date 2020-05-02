@@ -41,6 +41,17 @@
                 </div>
             </div>
             <div class="layui-form-item">
+                <label class="layui-form-label">
+                    <span class="x-red">*</span>主负责人
+                </label>
+                <div class="layui-input-inline">
+                    <select name="master" lay-verify="required" lay-search="">
+                        <option value="">选择负责人</option>
+                        <option th:each="user : ${users}" th:value="${user.id}" th:text="${user.username+'：'+user.phone}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
                 <label for="orderNum" class="layui-form-label">
                     <span class="x-red">*</span>排序编号
                 </label>

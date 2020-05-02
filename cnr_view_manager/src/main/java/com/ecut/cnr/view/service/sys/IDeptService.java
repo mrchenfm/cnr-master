@@ -3,6 +3,7 @@ package com.ecut.cnr.view.service.sys;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ecut.cnr.framework.common.Result;
 import com.ecut.cnr.framework.entity.sys.Dept;
+import com.ecut.cnr.framework.entity.sys.SysUser;
 
 /**
  * @Auther: fangming_chen
@@ -13,5 +14,5 @@ public interface IDeptService extends IService<Dept> {
 
     Result deleteById(String id);
 
-    Result saveDeptMaster(Dept dept);
+    Result saveDeptMaster(Dept dept, SysUser sysUser);
 }

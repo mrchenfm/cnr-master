@@ -39,18 +39,20 @@
         SELECT * FROM t_sys_user WHERE username = #{username}
     </select>
     <select id="findAllUsers" resultType="com.ecut.cnr.framework.dto.sys.SysUserDto">
-        SELECT *
-        FROM t_sys_user
+        SELECT tu.*,
+        td.dept_name as deptName
+        FROM t_sys_user tu
+        left join t_sys_dept td on td.id = tu.dept_id
         where 1=1
         <if test="userSearchDto != null">
             <if test="userSearchDto.start != null">
-                AND create_time >= #{userSearchDto.start}
+                AND tu.create_time >= #{userSearchDto.start}
             </if>
             <if test="userSearchDto.end != null">
-                AND create_time &lt;= #{userSearchDto.end}
+                AND tu.create_time &lt;= #{userSearchDto.end}
             </if>
             <if test="userSearchDto.username != null and userSearchDto.username != ''">
-                AND username = #{userSearchDto.username}
+                AND tu.username = #{userSearchDto.username}
             </if>
         </if>
     </select>

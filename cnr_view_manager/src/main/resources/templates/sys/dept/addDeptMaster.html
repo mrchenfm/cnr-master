@@ -33,12 +33,14 @@
                 </div>
             </div>
             <div class="layui-form-item">
-                <label for="master" class="layui-form-label">
+                <label class="layui-form-label">
                     <span class="x-red">*</span>主负责人
                 </label>
                 <div class="layui-input-inline">
-                    <input type="text" id="master" name="master" required="" lay-verify="required"
-                           autocomplete="off" class="layui-input">
+                    <select name="master" lay-verify="required" lay-search="">
+                        <option value="">选择负责人</option>
+                        <option th:each="user : ${users}" th:attr="selected = ${dept.master.equals(user.id) ? true :false}" th:value="${user.id}" th:text="${user.username+'：'+user.phone}"></option>
+                    </select>
                 </div>
             </div>
             <div class="layui-form-item">
@@ -46,13 +48,13 @@
                     <span class="x-red">*</span>备注信息
                 </label>
                 <div class="layui-input-block">
-                    <textarea id="remark" name="remark" placeholder="备注" th:value="${dept.remark}" readonly class="layui-textarea"></textarea>
+                    <textarea id="remark" name="remark" th:text="${dept.remark}" placeholder="备注" th:value="${dept.remark}" readonly class="layui-textarea"></textarea>
                 </div>
             </div>
 
             <div class="layui-form-item">
                 <button  class="layui-btn" lay-filter="add" lay-submit>
-                    添加负责人
+                    修改负责人
                 </button>
             </div>
         </form>
@@ -92,7 +94,7 @@
                 console.log(data.field);
                 //发异步，把数据提交给后端
                 $.ajax({
-                    url: ctx+"company/update/dept/master",
+                    url: ctx+"admin/update/dept/master",
                     type: "post",
                     data: JSON.stringify(data.field),
                     dataType: "json",
