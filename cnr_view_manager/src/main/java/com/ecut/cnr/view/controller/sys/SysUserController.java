@@ -8,11 +8,13 @@ import com.ecut.cnr.framework.common.constants.CnrContants;
 import com.ecut.cnr.framework.common.enums.ErrorEnum;
 import com.ecut.cnr.framework.common.utils.IdUtils;
 import com.ecut.cnr.framework.dto.sys.UserSearchDto;
+import com.ecut.cnr.framework.entity.sys.Dept;
 import com.ecut.cnr.framework.entity.sys.SysRole;
 import com.ecut.cnr.framework.entity.sys.SysUser;
 import com.ecut.cnr.framework.bo.sys.UserInfoBO;
 import com.ecut.cnr.framework.dto.sys.SysUserDto;
 import com.ecut.cnr.framework.request.sys.QueryRequest;
+import com.ecut.cnr.view.service.sys.IDeptService;
 import com.ecut.cnr.view.service.sys.ISysRoleService;
 import com.ecut.cnr.view.service.sys.ISysUserService;
 import lombok.extern.slf4j.Slf4j;
@@ -52,6 +54,9 @@ public class SysUserController extends BaseController{
 
     @Autowired
     private IdUtils idUtils;
+
+    @Autowired
+    private IDeptService deptService;
 
     /**
      * 查询管理员列表
@@ -100,7 +105,9 @@ public class SysUserController extends BaseController{
     @RequestMapping("/addUser")
     public String  toAddPage(Model model){
         List<SysRole> allRole = sysRoleService.list(null);
+        List<Dept> list = deptService.list(null);
         model.addAttribute("allRole",allRole);
+        model.addAttribute("depts",list);
         return "sys/user/operateUser";
     }
     @RequiresPermissions("USER_SAVER")

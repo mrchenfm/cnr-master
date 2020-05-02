@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         events: function(info, successCallback, failureCallback) {
 
-            $.get("/eos/admin/meeting/getByParams", {roomId: roomId, sTime: info.start.valueOf(), eTime: info.end.valueOf()}, function (res) {
+            $.get("/cnr/admin/meeting/getByParams", {roomId: roomId, sTime: info.start.valueOf(), eTime: info.end.valueOf()}, function (res) {
                 if(res.code == 200) {
                     successCallback(res.data);
                 }else {
@@ -170,7 +170,7 @@ function openEditLayer(info){
                 d.field.etime = dataStr + " " + d.field.etime + ":00";
                 $.ajax({
                     type: 'POST',
-                    url: '/eos/admin/meeting/update',//发送请求
+                    url: '/cnr/admin/meeting/update',//发送请求
                     contentType: "application/json; charset=utf-8",
                     async: true,
                     data: JSON.stringify(d.field),
@@ -214,7 +214,7 @@ function openLayer(info){
                 console.log(JSON.stringify(d.field))
                 $.ajax({
                     type: 'POST',
-                    url: '/eos/admin/meeting/create',//发送请求
+                    url: '/cnr/admin/meeting/create',//发送请求
                     contentType: "application/json; charset=utf-8",
                     async: true,
                     data: JSON.stringify(d.field),
@@ -258,7 +258,7 @@ function del(){
     }, function (i) {
         layer.close(i);
         layer.load(2);
-        $.post("/eos/admin/meeting/deleteByID", {id: id}, function (res){
+        $.post("/cnr/admin/meeting/deleteByID", {id: id}, function (res){
             layer.closeAll('loading');
             if(res.code == 200){
                 // layer.msg("删除成功");

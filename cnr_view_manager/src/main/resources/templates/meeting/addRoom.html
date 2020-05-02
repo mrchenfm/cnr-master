@@ -67,7 +67,7 @@
 </div>
 <script>
     layui.config({
-        base: '/eos/static/lib/',
+        base: '/cnr/static/lib/',
         debug: true
     }).extend({
         eleTree: 'elemTree/eleTree'
@@ -98,7 +98,7 @@
         //监听提交
         form.on('submit(add)', function(data){
             $.ajax({
-                url: ctx+"company/addRoom",
+                url: ctx+"admin/addRoom",
                 type: "post",
                 data: JSON.stringify(data.field),
                 dataType: "json",

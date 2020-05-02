@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ecut.cnr.view.mapper.meeting.MeetingMapper">
+    <select id="getErpCalendarTaskByParams" resultType="com.ecut.cnr.framework.entity.meeting.MeetingInfo">
+ select *
+        from t_meeting_info
+        where room_id=#{roomId}
+        and stime &gt;=#{sTime} and etime &lt;=#{eTime}
+    </select>
+</mapper>

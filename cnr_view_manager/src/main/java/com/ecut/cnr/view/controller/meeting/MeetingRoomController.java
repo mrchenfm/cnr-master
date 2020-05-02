@@ -41,7 +41,7 @@ public class MeetingRoomController extends BaseController {
 
     @RequestMapping("/room/manager")
     public String toRoomList(){
-        return "/meeting/roomList";
+        return "meeting/roomList";
     }
 
     @RequestMapping("/rooms")
@@ -57,7 +57,7 @@ public class MeetingRoomController extends BaseController {
 
     @RequestMapping("/roomAdd")
     public String toAddRoom(){
-        return "/meeting/addRoom";
+        return "meeting/addRoom";
     }
     @RequestMapping("/addRoom")
     @ResponseBody
@@ -81,7 +81,7 @@ public class MeetingRoomController extends BaseController {
     public String toUpdateRoom(Model model,String id){
         MeetingRoomInfo byId = meetingRoomService.getById(id);
         model.addAttribute("room",byId);
-        return "/meeting/updateRoom";
+        return "meeting/updateRoom";
     }
 
     @RequestMapping("/update/room")

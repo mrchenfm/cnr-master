@@ -29,7 +29,7 @@ public class Result extends HashMap<String,Object> {
 
 
     public static Result ok(){
-        return error(ErrorEnum.UNKNOWN);
+        return new Result();
     }
 
     public static Result error(){
