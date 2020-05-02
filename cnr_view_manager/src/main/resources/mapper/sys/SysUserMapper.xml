@@ -36,7 +36,7 @@
     </delete>
 
     <select id="selectByUsername" resultType="com.ecut.cnr.framework.entity.sys.SysUser">
-        SELECT * FROM t_sys_user WHERE username = #{username}
+        SELECT * FROM t_sys_user WHERE email = #{username}
     </select>
     <select id="findAllUsers" resultType="com.ecut.cnr.framework.dto.sys.SysUserDto">
         SELECT tu.*,

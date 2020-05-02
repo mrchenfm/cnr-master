@@ -104,9 +104,9 @@ public class LoginController extends BaseController {
         }*/
 
         // 用户信息
-        UsernamePasswordToken token = new UsernamePasswordToken(loginRequest.getUsername(), loginRequest.getPassword());
+        UsernamePasswordToken token = new UsernamePasswordToken(loginRequest.getEmail(), loginRequest.getPassword());
         //request.setAttribute("token",token);
-        UserInfoBO userInfoBO = sysUserService.selectUserByUsername(loginRequest.getUsername());
+        UserInfoBO userInfoBO = sysUserService.selectUserByUsername(loginRequest.getEmail());
         /*if(userInfoBO == null || !userInfoBO.getPassword().equals(new Sha256Hash(loginRequest.getPassword(),userInfoBO.getSalt()).toHex())){
             // 用户名或密码错误
             return Result.error(ErrorEnum.USERNAME_OR_PASSWORD_WRONG);

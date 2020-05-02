@@ -1,5 +1,7 @@
 package com.ecut.cnr.view.service.meeting;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ecut.cnr.framework.entity.meeting.MeetingRoomInfo;
 
@@ -12,4 +14,5 @@ import com.ecut.cnr.framework.entity.meeting.MeetingRoomInfo;
  * @Date: 2020/04/29 22:17
  */
 public interface IMeetingRoomService extends IService<MeetingRoomInfo> {
+    IPage<MeetingRoomInfo> pageAll(Page<MeetingRoomInfo> page);
 }

@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.ecut.cnr.view.mapper.meeting.MeetingRoomMapper">
+    <select id="findAllPage" resultType="com.ecut.cnr.framework.entity.meeting.MeetingRoomInfo">
+        select tr.*,
+        tu.username as createUser
+        from t_meeting_room_info tr
+        left join t_sys_user tu on tr.create_by = tu.id
+    </select>
 </mapper>

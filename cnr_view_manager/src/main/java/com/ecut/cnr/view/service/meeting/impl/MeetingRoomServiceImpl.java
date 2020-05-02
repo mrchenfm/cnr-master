@@ -1,5 +1,7 @@
 package com.ecut.cnr.view.service.meeting.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ecut.cnr.framework.entity.meeting.MeetingRoomInfo;
 import com.ecut.cnr.view.mapper.meeting.MeetingRoomMapper;
@@ -16,4 +18,9 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class MeetingRoomServiceImpl extends ServiceImpl<MeetingRoomMapper, MeetingRoomInfo> implements IMeetingRoomService {
+
+    @Override
+    public IPage<MeetingRoomInfo> pageAll(Page<MeetingRoomInfo> page) {
+        return this.baseMapper.findAllPage(page);
+    }
 }

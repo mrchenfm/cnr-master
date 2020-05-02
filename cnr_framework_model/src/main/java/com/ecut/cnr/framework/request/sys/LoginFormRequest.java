@@ -14,4 +14,6 @@ public class LoginFormRequest {
     private String password;
     private String captcha;
     private String uuid;
+
+    private String email;
 }

@@ -1,6 +1,8 @@
 package com.ecut.cnr.view.mapper.meeting;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ecut.cnr.framework.entity.meeting.MeetingRoomInfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
@@ -16,4 +18,5 @@ import org.springframework.stereotype.Component;
 @Mapper
 @Component
 public interface MeetingRoomMapper extends BaseMapper<MeetingRoomInfo> {
+    IPage<MeetingRoomInfo> findAllPage(Page<MeetingRoomInfo> page);
 }

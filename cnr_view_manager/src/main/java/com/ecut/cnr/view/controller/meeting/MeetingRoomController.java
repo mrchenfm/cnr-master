@@ -48,7 +48,7 @@ public class MeetingRoomController extends BaseController {
     @ResponseBody
     public Result rooms(@RequestBody QueryRequest queryRequest){
         Page<MeetingRoomInfo> page = new Page<>(queryRequest.getPage(),queryRequest.getLimit());
-        IPage<MeetingRoomInfo> page1 = meetingRoomService.page(page, null);
+        IPage<MeetingRoomInfo> page1 = meetingRoomService.pageAll(page);
         Map<String, Object> dataTable = getDataTable(page1);
         //Object roleJson = JSONArray.toJSON(dataTable);
         Result result = Result.addMap(dataTable);

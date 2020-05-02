@@ -1,5 +1,6 @@
 package com.ecut.cnr.framework.entity.meeting;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -27,6 +28,9 @@ public class MeetingRoomInfo implements Serializable {
     private Integer maxPerson;
 
     private String createBy;
+
+    @TableField(exist = false)
+    private String createUser;
 
     private Date createDate;
 
