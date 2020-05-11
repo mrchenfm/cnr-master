@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en" class="x-admin-sm" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎页面-X-admin2.2</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="stylesheet" th:href="@{/static/css/font.css}">
+    <link rel="stylesheet" th:href="@{/static/css/xadmin.css}">
+    <script th:src="@{/static/lib/layui/layui.js}" charset="utf-8"></script>
+    <script type="text/javascript" th:src="@{/static/js/xadmin.js}"></script>
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<div class="x-nav">
+    <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" onclick="location.reload()" title="刷新">
+        <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i></a>
+</div>
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body ">
+                    <form class="layui-form layui-col-space5 layui-form-pane" action="" onsubmit="return false;">
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <label for="pubTimeRange" class="layui-form-label">
+                                    <span class="x-red"></span>发布日期
+                                </label>
+                                <div class="layui-inline">
+                                    <input class="layui-input"   placeholder="发布日期" name="pubTimeRange" id="pubTimeRange">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label for="auditTimeRange" class="layui-form-label">
+                                    <span class="x-red"></span>审核日期
+                                </label>
+                                <div class="layui-inline">
+                                    <input class="layui-input"  placeholder="审核日期" name="auditTimeRange" id="auditTimeRange">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label for="title" class="layui-form-label">
+                                    标题
+                                </label>
+                                <div class="layui-inline">
+                                    <input type="text" name="title" id = "title"  placeholder="请输标题" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label for="fromUser" class="layui-form-label">
+                                    <span class="x-red"></span>发布人
+                                </label>
+                                <div class="layui-inline">
+                                    <input type="text" name="fromUser" id = "fromUser"  placeholder="输入发布人" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label for="auditStatus" class="layui-form-label">
+                                    <span class="x-red"></span>审核状态
+                                </label>
+                                <div class="layui-inline layui-show-xs-block">
+                                    <input type="text" name="auditStatus" id = "auditStatus"  placeholder="审核状态" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label for="auditUser" class="layui-form-label">
+                                    <span class="x-red"></span>审核人
+                                </label>
+                                <div class="layui-inline">
+                                    <input type="text" name="auditUser" id = "auditUser"  placeholder="输入审核人" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+
+                            <div class="layui-inline">
+                                <button class="layui-btn" data-type="reload"   id="search"><i class="layui-icon">&#xe615;</i></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="layui-card-body layui-table-body layui-table-main">
+                    <table id="newsList" lay-filter="newsList" class="layui-table"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    layui.use(['form','layer','table','laydate','jquery'], function(){
+        var form=layui.form;
+        var layer=layui.layer;
+        var table=layui.table;
+        var  $ = layui.jquery;
+        //第一个实例
+        var laydate = layui.laydate;
+        laydate.render({
+            elem: '#pubTimeRange'
+            ,range: true
+        });
+        laydate.render({
+            elem: '#auditTimeRange'
+            ,range: true
+        });
+        table.render({
+            elem: '#newsList'
+            ,url: ctx+'news/list/personal/all' //数据接口
+            ,method:'post'
+            ,contentType: 'application/json;charset=utf-8'
+            ,page: true //开启分页
+            ,toolbar: true
+            ,cols: [
+                [ //表头
+                    {checkbox:true,fixed: 'left'}//单选框
+                    ,{field: 'id', title: 'ID', sort: true, fixed: 'left',width: 180}
+                    ,{field: 'title', title: '新闻标题',width: 300}
+                    ,{field: 'typeName', title: '新闻类别',width: 120}
+                    ,{templet: contextInfo, title: '新闻内容',width: 120}
+                    ,{field: 'readTimes', title: '阅读次数',width: 120}
+                    ,{field: 'commentTimes', title: '评论次数',width: 120}
+                    ,{field: 'userName', title: '编辑人员',width: 120}
+                    ,{field: 'auditName', title: '审核人',width: 120}
+                    ,{field: 'auditStatusName', title: '审核状态',width: 120}
+                    ,{field: 'auditCount', title: '已审核次数',width: 100}
+                    ,{field: 'rejectReason', title: '驳回原因',width: 250}
+                    ,{field: 'pubTime', title: '发布时间',sort: true,width: 160,templet: function (d) {
+                        return showTime(d.pubTime);
+                    }}
+                    ,{field: 'auditTime', title: '审核时间',width: 160,templet: function (d) {
+                        return showTime(d.auditTime);
+                    }}
+                    ,{templet: complain, title: '操作',fixed: 'right',width: 190}
+                ]
+            ]
+            ,response:{statusCode:200}
+            ,request: {
+                pageName: 'page' //页码的参数名称，默认：page
+            }
+            ,id :'newsList'
+            ,parseData:function (res) {
+                return{
+                    "code":res.code,
+                    "msg":res.msg,
+                    "count":res.count,
+                    "data":res.data
+                };
+            },
+        });
+        $('#search').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+        //根据搜索条件重加载表格
+        var $ = layui.$, active = {
+            reload: function () {
+                console.log("开始条件搜索！！！")
+                table.reload('newsList', {
+                    where: {
+                        auditTimeRange : $('#auditTimeRange').val(),
+                        pubTimeRange : $('#pubTimeRange').val(),
+                        title : $('#title').val(),
+                        fromUser:$('#fromUser').val(),
+                        auditUser:$('#auditUser').val(),
+                        auditStatus:$('#auditStatus').val()
+                    }
+                    , page: {
+                        curr :1
+                    }
+                });
+            }
+        };
+        function contextInfo(d){//操作中显示的内容
+            if(d.id!=null){
+                return [
+                    '<a type="button" style="color: #00FFFF" lay-event="show">查看内容</a>',
+                ].join('');
+            }else{
+                return '';
+            }
+        }
+        function complain(d){//操作中显示的内容
+            if(d.id!=null){
+                if(d.auditStatus ===3){
+                    return [
+                        '<button disabled type="button" class="layui-btn layui-btn-xs update" lay-event="reject">查看详情</button>',
+                        '<button disabled  type="button" class="layui-btn layui-btn-xs layui-btn-disabled update" lay-event="edit">修改</button>',
+                    ].join('');
+                }
+                if(d.auditStatus === 8 ){
+                    return [
+                        '<button disabled type="button" class="layui-btn layui-btn-xs update" lay-event="reject">查看详情</button>',
+                        '<button disabled  type="button" class="layui-btn layui-btn-xs layui-btn-disabled update" lay-event="edit">修改</button>',
+                    ].join('');
+                }else if(d.auditStatus === 9){
+                    return [
+                        '<button disabled type="button" class="layui-btn layui-btn-xs update" lay-event="reject">查看详情</button>',
+                        '<button  type="button" class="layui-btn layui-btn-xs update" lay-event="edit">修改</button>',
+                    ].join('');
+                }else if(d.auditStatus === 7){
+                    return [
+                        '<button disabled type="button" class="layui-btn layui-btn-xs update" lay-event="reject">查看详情</button>',
+                        '<button  type="button" class="layui-btn layui-btn-xs update" lay-event="edit">修改</button>',
+                    ].join('');
+                }else if(d.auditStatus === -1){
+                    return [
+                        '<button disabled type="button" class="layui-btn layui-btn-xs update" lay-event="reject">查看详情</button>',
+                        '<button  type="button" class="layui-btn layui-btn-xs update" lay-event="edit">修改</button>',
+                    ].join('');
+                }else{
+                    return '';
+                }
+            }else{
+                return '';
+            }
+
+        }
+        //监听工具条
+        table.on('tool(newsList)', function (obj) {
+            var data = obj.data;
+            var layEvent = obj.event;
+            if(data.id!=null){
+                if (layEvent === 'audit') {
+                    layer.confirm('确认通过吗？',function(req){
+                        console.log(data.id);
+                        $.ajax({
+                            url: ctx + "news/audit/sure",
+                            type: "post",
+                            data: JSON.stringify({
+                                "id": data.id}),
+                            dataType: "json",
+                            contentType: "application/json",
+                            success: function (data) {
+                                if (data.code == 200) {
+                                    layer.alert("审核通过", {
+                                            icon: 6
+                                        },
+                                        function () {
+                                            //关闭当前frame
+                                            xadmin.close();
+
+                                            // 可以对父窗口进行刷新
+                                            xadmin.father_reload();
+                                        });
+                                } else {
+                                    layer.msg(data.msg, {icon: 1, time: 1000});
+                                }
+
+                            }
+                        });
+                    });
+                } else if (layEvent === 'reject') {
+                    xadmin.open('新闻资讯',ctx+'news/show?id='+data.id,600,500,'true');
+                }else if (layEvent === 'show') {
+                    xadmin.open('内容详情',ctx+'news/show?id='+data.id,600,500,'true');
+                }else if (layEvent === 'edit') {
+                    xadmin.open('内容修改',ctx+'news/update/page?id='+data.id,1000,500,'true');
+                }
+            }
+        });
+    });
+    //时间转换函数
+    function showTime(tempDate)
+    {
+        if(tempDate ==null){
+            return "-";
+        }
+        return layui.util.toDateString(tempDate, 'yyyy-MM-dd HH:mm:ss')
+    }
+</script>
+<script>var _hmt = _hmt || []; (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+<script th:inline="javascript">
+    var ctx = [[@{/}]]
+</script>
+
+</html>

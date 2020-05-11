@@ -20,6 +20,7 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = true)
 public class NewsSearchDto extends QueryRequest implements Serializable {
 
+    private String userId;
     private Date pubStart;
 
     private Date pubEnd;

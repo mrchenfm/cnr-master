@@ -92,6 +92,9 @@
         <if test="newsSearchDto.auditUser != null and newsSearchDto.auditUser != ''">
             AND u2.username = #{newsSearchDto.auditUser}
         </if>
+        <if test="newsSearchDto.userId != null and newsSearchDto.userId != ''">
+            AND nt.user_id = #{newsSearchDto.userId}
+        </if>
         Order by nt.id
     </select>
     <select id="findContextByTitleId" resultType="com.ecut.cnr.framework.entity.news.NewsContext">

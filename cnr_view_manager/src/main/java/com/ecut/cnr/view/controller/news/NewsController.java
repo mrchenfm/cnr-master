@@ -54,6 +54,11 @@ public class NewsController extends BaseController {
         return "news/listNews";
     }
 
+    @RequestMapping("/my/pub")
+    public String listMyNews(){
+        return "news/myNewsList";
+    }
+
     /**
      * 新闻添加
      * @param newsBO
@@ -106,6 +111,25 @@ public class NewsController extends BaseController {
     @RequestMapping("/list/all")
     @ResponseBody
     public Result listAllNews(@RequestBody NewsSearchDto newsSearchDto){
+
+        IPage<NewQueryBO> allSystemLogs = newsService.listAllNewsPage(newsSearchDto);
+        Map<String, Object> dataTable = getDataTable(allSystemLogs);
+        //Object roleJson = JSONArray.toJSON(dataTable);
+        Result result = Result.addMap(dataTable);
+
+        return result;
+    }
+
+    /**
+     * 查询所有新闻信息
+     * @return
+     */
+    @RequestMapping("/list/personal/all")
+    @ResponseBody
+    public Result listAllMyNews(@RequestBody NewsSearchDto newsSearchDto){
+        Subject subject = SecurityUtils.getSubject();
+        UserInfoBO userInfoBO = (UserInfoBO) subject.getPrincipal();
+        newsSearchDto.setUserId(userInfoBO.getId());
         IPage<NewQueryBO> allSystemLogs = newsService.listAllNewsPage(newsSearchDto);
         Map<String, Object> dataTable = getDataTable(allSystemLogs);
         //Object roleJson = JSONArray.toJSON(dataTable);
