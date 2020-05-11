@@ -2,17 +2,17 @@
 <html lang="en" class="x-admin-sm" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"><head>
   <meta charset="UTF-8">
-  <title>微新闻</title>
+  <title>校园新闻详情</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
-  <link rel="stylesheet" type="text/css" href="../res/layui/css/layui.css">
-  <link rel="stylesheet" type="text/css" href="../res/static/css/main.css">
+  <link rel="stylesheet" type="text/css" th:href="@{/static/layui/css/layui.css}">
+  <link rel="stylesheet" type="text/css" th:href="@{/static/css/main.css}">
 </head>
 <body class="micronews">
   <div class="micronews-header-wrap">
     <div class="micronews-header w1000 layui-clear">
       <h1 class="logo">
         <a href="index.html">
-          <img src="../res/static/images/LOGO.png" alt="logo">
+          <img th:src="@{/static/images/LOGO.png}" alt="logo">
           <span class="layui-hide">LOGO</span>
         </a>
       </h1>
@@ -46,14 +46,10 @@
         <i class="layui-icon layui-icon-more-vertical"></i>
       </div>
       <div class="mobile-nav">
-        <ul class="layui-nav" lay-filter="">
-          <li class="layui-nav-item"><a href="index.html">最新</a></li>
-          <li class="layui-nav-item  layui-this"><a href="list.html">娱乐</a></li>
-          <li class="layui-nav-item"><a href="list.html">生活</a></li>
-          <li class="layui-nav-item"><a href="list.html">财经</a></li>
-          <li class="layui-nav-item"><a href="list.html">科技</a></li>
-          <li class="layui-nav-item"><a href="list.html">军事</a></li>
-        </ul>
+        <p class="nav">
+          <a href="index.html" class="active">最新</a>
+          <a href="" class="active" th:each="types : ${newsTypes}" th:text="${types.typeName}"></a>
+        </p>
       </div>  
     </div>
   </div>

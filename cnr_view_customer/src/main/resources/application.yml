@@ -5,7 +5,7 @@ server:
     max-threads: 1000
     min-spare-threads: 30
   #端口配置
-  port: 8082
+  port: 8089
   #连接超时时间
   connection-timeout: 5000ms
   servlet:

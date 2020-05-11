@@ -64,7 +64,7 @@
                   <img th:src="${newInfo.newsPic}">
                 </a>
                 <div class="item-info">
-                  <h4><a href="details.html" th:text="${newInfo.title}"></a></h4>
+                  <h4><a th:href="'new/detail?id='+${newInfo.id}" th:text="${newInfo.title}"></a></h4>
                   <div class="b-txt">
                     <span class="label" th:text="${newInfo.typeName}"></span>
                     <span class="icon message">

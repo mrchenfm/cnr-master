@@ -26,4 +26,9 @@ public class CnrContants {
      */
     public static final String BASE_PASSWORD = "123456";
 
+    /**
+     * 隐私加密密钥
+     */
+    public static final String ENCRYPT_BASE_KEY = "QyS6ctIku@g1luWA";
+
 }
