@@ -98,7 +98,7 @@ public class SysRoleController extends BaseController {
         return "sys/role/roleAdd";
     }
 
-    //@RequiresPermissions("ROLE_UPDATE")
+    @RequiresPermissions("ROLE_UPDATE")
     @GetMapping("/roleUpdate")
     public String toRoleUpdate(Model model,@RequestParam String id){
         RoleInfoBO roleInfoBO = sysRoleService.findAllById(id);
@@ -126,7 +126,7 @@ public class SysRoleController extends BaseController {
      * @param roleInfoBO
      * @return
      */
-    //@RequiresPermissions("ROLE_UPDATE")
+    @RequiresPermissions("ROLE_UPDATE")
     @RequestMapping("/update/role")
     @ResponseBody
     public Result updateRole(@RequestBody RoleInfoBO roleInfoBO){

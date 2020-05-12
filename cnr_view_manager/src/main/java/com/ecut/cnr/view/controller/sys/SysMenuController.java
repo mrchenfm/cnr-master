@@ -53,13 +53,13 @@ public class SysMenuController {
         Object toJSON = com.alibaba.fastjson.JSONArray.toJSON(menuTree);
         return new Result().put("data",toJSON);
     }
-    //@RequiresPermissions("MENU_ADD")
+    @RequiresPermissions("MENU_ADD")
     @GetMapping("/menuAdd")
     public String toMenuAdd(){
         return "sys/menu/menuAdd";
     }
 
-    //@RequiresPermissions("MENU_ADD")
+    @RequiresPermissions("MENU_ADD")
     @GetMapping("/menuAddChildren")
     public String toMenuAddChildren(Model model,String id){
         SysMenu menu = this.sysMenuService.getById(id);
@@ -76,7 +76,7 @@ public class SysMenuController {
         return "sys/menu/menuUpdate";
     }
 
-   // @RequiresPermissions("MENU_ADD")
+    @RequiresPermissions("MENU_ADD")
     @PostMapping("/save/menu")
     @ResponseBody
     public Result saveMenu(@RequestBody SysMenu sysMenu){
