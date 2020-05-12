@@ -7,6 +7,7 @@ import com.ecut.cnr.framework.MenuUtils;
 import com.ecut.cnr.framework.entity.sys.SysMenu;
 import com.ecut.cnr.framework.dto.sys.SysMenuDto;
 import com.ecut.cnr.view.service.sys.ISysMenuService;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -52,11 +53,13 @@ public class SysMenuController {
         Object toJSON = com.alibaba.fastjson.JSONArray.toJSON(menuTree);
         return new Result().put("data",toJSON);
     }
+    //@RequiresPermissions("MENU_ADD")
     @GetMapping("/menuAdd")
     public String toMenuAdd(){
         return "sys/menu/menuAdd";
     }
 
+    //@RequiresPermissions("MENU_ADD")
     @GetMapping("/menuAddChildren")
     public String toMenuAddChildren(Model model,String id){
         SysMenu menu = this.sysMenuService.getById(id);
@@ -64,6 +67,7 @@ public class SysMenuController {
         return "sys/menu/menuAddChildren";
     }
 
+    @RequiresPermissions("MENU_UPDATE")
     @GetMapping("/menuUpdate")
     public String toMenuUpdate(Model model,String id){
         SysMenu menu = this.sysMenuService.getById(id);
@@ -72,6 +76,7 @@ public class SysMenuController {
         return "sys/menu/menuUpdate";
     }
 
+   // @RequiresPermissions("MENU_ADD")
     @PostMapping("/save/menu")
     @ResponseBody
     public Result saveMenu(@RequestBody SysMenu sysMenu){
@@ -83,6 +88,7 @@ public class SysMenuController {
         return new Result();
     }
 
+    @RequiresPermissions("MENU_UPDATE")
     @PostMapping("/update/menu")
     @ResponseBody
     public Result updateMenu(@RequestBody SysMenu sysMenu){
@@ -93,6 +99,7 @@ public class SysMenuController {
         return new Result();
     }
 
+    @RequiresPermissions("MENU_DELETE")
     @PostMapping("/delete/menu")
     @ResponseBody
     public Result deleteMenu(String id){

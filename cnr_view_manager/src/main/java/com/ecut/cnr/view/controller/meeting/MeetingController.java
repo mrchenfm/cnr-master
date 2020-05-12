@@ -9,6 +9,7 @@ import com.ecut.cnr.framework.vo.CalendarTaskVo;
 import com.ecut.cnr.view.service.meeting.IMeetingRoomService;
 import com.ecut.cnr.view.service.meeting.IMeetingService;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -48,6 +49,7 @@ public class MeetingController {
     }
 
 
+    @RequiresPermissions("MEETING_ADD")
     @RequestMapping("/meeting/create")
     @ResponseBody
     public ResultBean<String> createMeeting(@RequestBody MeetingInfo meetingInfo){
@@ -77,6 +79,8 @@ public class MeetingController {
         List<CalendarTaskVo> list = meetingService.getErpCalendarTaskByParams(roomId, st, et);
         return new ResultBean<List<CalendarTaskVo>>(list);
     }
+
+    @RequiresPermissions("MEETING_UPDATE")
     @RequestMapping(value = "/meeting/update", method = RequestMethod.POST)
     @ResponseBody
     public ResultBean<Boolean> update(@RequestBody @Validated MeetingInfo item) {
@@ -87,6 +91,8 @@ public class MeetingController {
         boolean b = meetingService.updateById(item);
         return new ResultBean<Boolean>(b);
     }
+
+    @RequiresPermissions("MEETING_DELETE")
     @RequestMapping(value = "/meeting/deleteByID", method = RequestMethod.POST)
     @ResponseBody
     public ResultBean<Boolean> delete(String id) {

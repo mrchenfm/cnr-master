@@ -15,6 +15,7 @@ import com.ecut.cnr.view.service.sys.ISysMenuService;
 import com.ecut.cnr.view.service.sys.ISysRoleService;
 import com.ecut.cnr.view.service.sys.ISysUserService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -60,6 +61,7 @@ public class SysRoleController extends BaseController {
         return result;
     }
 
+    @RequiresPermissions("ROLE_ADD")
     @RequestMapping("/addRole")
     public String  toAddPage(Model model){
         List<SysMenu> list = sysMenuService.list(null);
@@ -67,6 +69,7 @@ public class SysRoleController extends BaseController {
         return "sys/role/addRole";
     }
 
+   // @RequiresPermissions("ROLE_UPDATE")
     @RequestMapping("/updateRole")
     public String  toUpdatePage(Model model,String id){
         try {
@@ -77,6 +80,7 @@ public class SysRoleController extends BaseController {
         }
     }
 
+    @RequiresPermissions("ROLE_DELETE")
     @RequestMapping("/delete/role")
     @ResponseBody
     public Result deleteById(String id){
@@ -88,11 +92,13 @@ public class SysRoleController extends BaseController {
         return new Result();
     }
 
+    @RequiresPermissions("ROLE_ADD")
     @GetMapping("/roleAdd")
     public String toRoleAdd(){
         return "sys/role/roleAdd";
     }
 
+    //@RequiresPermissions("ROLE_UPDATE")
     @GetMapping("/roleUpdate")
     public String toRoleUpdate(Model model,@RequestParam String id){
         RoleInfoBO roleInfoBO = sysRoleService.findAllById(id);
@@ -101,6 +107,7 @@ public class SysRoleController extends BaseController {
         return "sys/role/roleUpdate";
     }
 
+    @RequiresPermissions("ROLE_ADD")
     @RequestMapping("/save/role")
     @ResponseBody
     public Result saveRole(@RequestBody RoleInfoBO roleInfoBO){
@@ -119,6 +126,7 @@ public class SysRoleController extends BaseController {
      * @param roleInfoBO
      * @return
      */
+    //@RequiresPermissions("ROLE_UPDATE")
     @RequestMapping("/update/role")
     @ResponseBody
     public Result updateRole(@RequestBody RoleInfoBO roleInfoBO){

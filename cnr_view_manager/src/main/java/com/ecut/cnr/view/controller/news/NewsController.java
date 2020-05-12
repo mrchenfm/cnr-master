@@ -18,6 +18,7 @@ import com.ecut.cnr.framework.request.sys.QueryRequest;
 import com.ecut.cnr.view.service.news.INewsService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,6 +65,7 @@ public class NewsController extends BaseController {
      * @param newsBO
      * @return
      */
+    @RequiresPermissions("NEW_ADD")
     @RequestMapping("/add/new")
     @ResponseBody
     public Result addNews(@RequestBody NewsBO newsBO){
@@ -85,6 +87,7 @@ public class NewsController extends BaseController {
      * @param model
      * @return
      */
+    @RequiresPermissions("NEW_ADD")
     @RequestMapping("/addNews")
     public String toAddNews(Model model){
         List<NewsType> typeList = newsService.listAllTypes();
@@ -93,6 +96,7 @@ public class NewsController extends BaseController {
         return "news/addNews";
     }
 
+    @RequiresPermissions("NEW_TYPE_ADD")
     @RequestMapping("/add/type")
     @ResponseBody
     public Result addType(@RequestBody NewsType newsType){
@@ -142,6 +146,7 @@ public class NewsController extends BaseController {
      * 查询所有新闻信息
      * @return
      */
+    @RequiresPermissions("NEW_SHOW")
     @RequestMapping("/show")
     public String showContext(Model model,@RequestParam("id") String id){
         //model.addAttribute("context",context);
@@ -155,6 +160,7 @@ public class NewsController extends BaseController {
      * 驳回新闻呢
      * @return
      */
+    @RequiresPermissions("NEW_REJECT")
     @RequestMapping("/audit/reject/page")
     public String auditRejectPage(Model model,@RequestParam("id") String id){
         List<NewsContext> contexts = newsService.findContextByTitleId(id);
@@ -169,6 +175,7 @@ public class NewsController extends BaseController {
      * @param newsTitle
      * @return
      */
+    @RequiresPermissions("NEW_REJECT")
     @RequestMapping("/audit/reject")
     @ResponseBody
     public Result auditReject(@RequestBody NewsTitle newsTitle){
@@ -192,6 +199,7 @@ public class NewsController extends BaseController {
      * @param newsTitle
      * @return
      */
+    @RequiresPermissions("NEW_SURE")
     @PostMapping("/audit/sure")
     @ResponseBody
     public Result auditNews( @RequestBody NewsTitle newsTitle){
@@ -214,6 +222,7 @@ public class NewsController extends BaseController {
      *修改页面跳转
      * @return
      */
+    @RequiresPermissions("NEW_UPDATE")
     @RequestMapping("/update/page")
     public String toUpdateNewsPage(Model model,@RequestParam("id") String id){
         NewsBO byTitleId = newsService.findByTitleId(id);
@@ -228,6 +237,7 @@ public class NewsController extends BaseController {
      * 修改新闻信息
      * @return
      */
+    @RequiresPermissions("NEW_UPDATE")
     @RequestMapping("/update")
     @ResponseBody
     public Result updateNews(@RequestBody NewsBO newsBO){

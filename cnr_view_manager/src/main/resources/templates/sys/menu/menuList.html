@@ -78,10 +78,12 @@
                         {field: 'orderNum', title: '排序',width: 80},
                         {field: 'type', title: '类型',
                             templet: function(d){
-                                if(d.type==0){
+                                if(d.type==1){
+                                    return '菜单';
+                                }else if(d.type==2){
                                     return '按钮';
                                 }else{
-                                    return '菜单';
+                                    return '链接';
                                 }
                             },width: 100
                         },

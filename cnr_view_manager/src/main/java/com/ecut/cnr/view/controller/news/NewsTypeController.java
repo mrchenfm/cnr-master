@@ -8,6 +8,7 @@ import com.ecut.cnr.framework.entity.news.NewsType;
 import com.ecut.cnr.framework.request.sys.QueryRequest;
 import com.ecut.cnr.view.service.news.INewsService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -61,11 +62,13 @@ public class NewsTypeController extends BaseController {
      * 转到添加新闻类别页面
      * @return
      */
+    @RequiresPermissions("NEW_TYPE_ADD")
     @RequestMapping("/addNewsType")
     public String toAddNewsType(){
         return "news/addNewsType";
     }
 
+    @RequiresPermissions("NEW_TYPE_UPDATE")
     @RequestMapping("/updateType/page")
     public String toUpdatePage(Model model,@RequestParam("id") String id){
 
@@ -74,6 +77,7 @@ public class NewsTypeController extends BaseController {
         return "news/newsTypeUpdate";
     }
 
+    @RequiresPermissions("NEW_TYPE_DELETE")
     @RequestMapping("/delete/type")
     @ResponseBody
     public Result toUpdatePage(String id){
@@ -87,6 +91,7 @@ public class NewsTypeController extends BaseController {
         return new Result();
     }
 
+    @RequiresPermissions("NEW_TYPE_UPDATE")
     @RequestMapping("/update/type")
     @ResponseBody
     public Result updateType(@RequestBody NewsType newsType){

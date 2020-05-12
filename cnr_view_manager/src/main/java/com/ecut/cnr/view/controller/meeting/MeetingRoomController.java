@@ -10,6 +10,7 @@ import com.ecut.cnr.framework.entity.meeting.MeetingRoomInfo;
 import com.ecut.cnr.framework.request.sys.QueryRequest;
 import com.ecut.cnr.view.service.meeting.IMeetingRoomService;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -55,10 +56,13 @@ public class MeetingRoomController extends BaseController {
         return result;
     }
 
+    @RequiresPermissions("ROOM_ADD")
     @RequestMapping("/roomAdd")
     public String toAddRoom(){
         return "meeting/addRoom";
     }
+
+    @RequiresPermissions("ROOM_ADD")
     @RequestMapping("/addRoom")
     @ResponseBody
     public Result addRoom(@RequestBody MeetingRoomInfo meetingRoomInfo){
@@ -77,6 +81,8 @@ public class MeetingRoomController extends BaseController {
         }
         return result;
     }
+
+    @RequiresPermissions("ROOM_UPDATE")
     @RequestMapping("/roomUpdate")
     public String toUpdateRoom(Model model,String id){
         MeetingRoomInfo byId = meetingRoomService.getById(id);
@@ -84,6 +90,7 @@ public class MeetingRoomController extends BaseController {
         return "meeting/updateRoom";
     }
 
+    @RequiresPermissions("ROOM_UPDATE")
     @RequestMapping("/update/room")
     @ResponseBody
     public Result updateRoom(@RequestBody MeetingRoomInfo meetingRoomInfo){
@@ -100,6 +107,7 @@ public class MeetingRoomController extends BaseController {
         return result;
     }
 
+    @RequiresPermissions("ROOM_DELETE")
     @RequestMapping("/delete/room")
     @ResponseBody
     public Result deleteRoom(String id){

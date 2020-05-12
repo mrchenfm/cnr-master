@@ -9,6 +9,7 @@ import com.ecut.cnr.framework.entity.sys.SysUser;
 import com.ecut.cnr.view.service.sys.IDeptService;
 import com.ecut.cnr.view.service.sys.ISysUserService;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -51,6 +52,7 @@ public class DeptController {
         return new Result().put("data",toJSON);
     }
 
+    @RequiresPermissions("DEPT_ADD")
     @GetMapping("/deptAdd")
     public String toDeptAdd(Model model){
         List<SysUser> list = sysUserService.list(null);
@@ -58,6 +60,7 @@ public class DeptController {
         return "sys/dept/addDept";
     }
 
+    @RequiresPermissions("DEPT_ADD")
     @GetMapping("/deptAddChildren")
     public String toDeptAddChildren(Model model, String id){
         List<SysUser> list = sysUserService.list(null);
@@ -67,6 +70,7 @@ public class DeptController {
         return "sys/dept/addChildrenDept";
     }
 
+    @RequiresPermissions("DEPT_UPDATE")
     @GetMapping("/deptUpdate")
     public String toDeptUpdate(Model model,String id){
         List<SysUser> list = sysUserService.list(null);
@@ -76,6 +80,7 @@ public class DeptController {
         return "sys/dept/addDeptMaster";
     }
 
+    @RequiresPermissions("DEPT_ADD")
     @PostMapping("/save/dept")
     @ResponseBody
     public Result saveDept(@RequestBody Dept dept){
@@ -104,6 +109,7 @@ public class DeptController {
         sysUser.setDeptId(dept.getId());
     }
 
+    @RequiresPermissions("DEPT_UPDATE")
     @PostMapping("/update/dept/master")
     @ResponseBody
     public Result saveDeptMaster(@RequestBody Dept dept){
@@ -127,6 +133,7 @@ public class DeptController {
     }
 
 
+    @RequiresPermissions("DEPT_DELETE")
     @PostMapping("/delete/dept")
     @ResponseBody
     public Result deleteDept(String id){
