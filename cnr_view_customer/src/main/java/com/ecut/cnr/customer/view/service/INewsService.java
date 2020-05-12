@@ -22,5 +22,23 @@ public interface INewsService {
      */
     IPage<NewQueryBO> listAllNewsPage(NewsSearchDto newsSearchDto);
 
+    /**
+     * 获取所有新闻信息
+     * @return
+     */
     List<NewQueryBO> getAll();
+
+    /**
+     * 根据类型获取新闻信息
+     * @param id
+     * @return
+     */
+    List<NewQueryBO> getAllByType(String id);
+
+    /**
+     * 根据id获取新闻详情
+     * @param id
+     * @return
+     */
+    NewQueryBO getById(String id);
 }

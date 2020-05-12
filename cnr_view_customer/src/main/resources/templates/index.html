@@ -2,11 +2,11 @@
 <html lang="en" class="x-admin-sm" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"><head>
   <meta charset="UTF-8">
-  <title>微新闻</title>
+  <title>校园新闻</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
   <link rel="stylesheet" type="text/css" th:href="@{/static/layui/css/layui.css}">
   <link rel="stylesheet" type="text/css" th:href="@{/static/css/main.css}">
-  <script th:src="@{/static/lib/layui/layui.js}" charset="utf-8"></script>
+  <script th:src="@{/static/layui/layui.js}" charset="utf-8"></script>
   <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 </head>
 <body class="micronews">
@@ -19,8 +19,8 @@
         </a>
       </h1>
       <p class="nav">
-        <a href="index.html" class="active">最新</a>
-        <a href="" class="active" th:each="types : ${newsTypes}" th:text="${types.typeName}"></a>
+        <a href="/news/new/index" class="active">最新</a>
+        <a th:each="types : ${newsTypes}"  th:href="@{'/new/get/byType?id='+${types.id}}" th:text="${types.typeName}"></a>
       </p>
       <div class="search-bar">
         <form class="layui-form" action="">
@@ -64,7 +64,7 @@
                   <img th:src="${newInfo.newsPic}">
                 </a>
                 <div class="item-info">
-                  <h4><a th:href="'new/detail?id='+${newInfo.id}" th:text="${newInfo.title}"></a></h4>
+                  <h4><a th:href="@{'new/detail?id='+${newInfo.id}}" th:text="${newInfo.title}"></a></h4>
                   <div class="b-txt">
                     <span class="label" th:text="${newInfo.typeName}"></span>
                     <span class="icon message">

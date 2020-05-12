@@ -76,4 +76,56 @@
         LEFT JOIN news_type t ON t.id = nt.type_id
         where 1=1
     </select>
+    <select id="getAllByType" resultType="com.ecut.cnr.framework.bo.news.NewQueryBO">
+         SELECT
+        nt.id AS id,
+        nt.title AS title,
+        nt.audit_time AS auditTime,
+        nt.audit_status AS auditStatus,
+        nt.audit_count AS auditCount,
+        t.type_name AS typeName,
+        nt.pub_time AS pubTime,
+        nt.news_pic AS newsPic,
+        nt.read_times AS readTimes,
+        nt.comment_times AS commentTimes,
+        nt.news_pic ASnewsPic,
+        nc.context AS context,
+        nt.reject_reason AS rejectReason,
+        u1.username AS userName,
+        u2.username AS auditName
+        FROM
+        news_title nt
+        LEFT JOIN news_context nc ON nt.id = nc.title_id
+        LEFT JOIN t_sys_user u1 ON u1.id = nt.user_id
+        LEFT JOIN t_sys_user u2 ON u2.id = nt.audit_id
+        LEFT JOIN news_type t ON t.id = nt.type_id
+        where 1=1
+        and nt.type_id = #{id}
+    </select>
+    <select id="getById" resultType="com.ecut.cnr.framework.bo.news.NewQueryBO">
+        SELECT
+        nt.id AS id,
+        nt.title AS title,
+        nt.audit_time AS auditTime,
+        nt.audit_status AS auditStatus,
+        nt.audit_count AS auditCount,
+        t.type_name AS typeName,
+        nt.pub_time AS pubTime,
+        nt.news_pic AS newsPic,
+        nt.read_times AS readTimes,
+        nt.comment_times AS commentTimes,
+        nt.news_pic ASnewsPic,
+        nc.context AS context,
+        nt.reject_reason AS rejectReason,
+        u1.username AS userName,
+        u2.username AS auditName
+        FROM
+        news_title nt
+        LEFT JOIN news_context nc ON nt.id = nc.title_id
+        LEFT JOIN t_sys_user u1 ON u1.id = nt.user_id
+        LEFT JOIN t_sys_user u2 ON u2.id = nt.audit_id
+        LEFT JOIN news_type t ON t.id = nt.type_id
+        where 1=1
+        and nt.id = #{id}
+    </select>
 </mapper>

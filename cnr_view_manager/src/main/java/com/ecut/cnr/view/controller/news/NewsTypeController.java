@@ -71,7 +71,7 @@ public class NewsTypeController extends BaseController {
 
         NewsType newsType = newsService.findTypeById(id);
         model.addAttribute("newsType",newsType);
-        return "/news/newsTypeUpdate";
+        return "news/newsTypeUpdate";
     }
 
     @RequestMapping("/delete/type")

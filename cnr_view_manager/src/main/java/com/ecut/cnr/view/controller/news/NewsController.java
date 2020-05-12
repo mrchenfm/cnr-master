@@ -161,7 +161,7 @@ public class NewsController extends BaseController {
         if(!ObjectUtils.isEmpty(contexts)){
             model.addAttribute("context",contexts.get(0));
         }
-        return "/news/newsReject";
+        return "news/newsReject";
     }
 
     /**
@@ -221,7 +221,7 @@ public class NewsController extends BaseController {
         //log.info("【新闻类别】：{}", JSONUtils.toJSONString(typeList));
         model.addAttribute("types",typeList);
         model.addAttribute("news",byTitleId);
-        return "/news/updateNews";
+        return "news/updateNews";
     }
 
     /**

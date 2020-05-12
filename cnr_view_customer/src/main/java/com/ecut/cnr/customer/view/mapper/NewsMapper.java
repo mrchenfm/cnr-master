@@ -37,4 +37,8 @@ public interface NewsMapper {
      * @return
      */
     List<NewQueryBO> findAll();
+
+    List<NewQueryBO> getAllByType(@Param("id") String id);
+
+    NewQueryBO getById(String id);
 }

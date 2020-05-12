@@ -33,7 +33,7 @@ public class CommentController extends BaseController {
      */
     @RequestMapping("/list/newComment")
     public String toCommentListPage(){
-        return "/comment/listNewsComment";
+        return "comment/listNewsComment";
     }
 
     /**
@@ -42,7 +42,7 @@ public class CommentController extends BaseController {
      */
     @RequestMapping("/list/commentReply")
     public String toCommentReplyPage(){
-        return "/comment/listCommentReply";
+        return "comment/listCommentReply";
     }
 
     /**

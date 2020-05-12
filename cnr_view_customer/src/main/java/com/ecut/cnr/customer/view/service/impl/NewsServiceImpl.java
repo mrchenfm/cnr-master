@@ -41,4 +41,14 @@ public class NewsServiceImpl implements INewsService {
     public List<NewQueryBO> getAll() {
         return newsMapper.findAll();
     }
+
+    @Override
+    public List<NewQueryBO> getAllByType(String id) {
+        return newsMapper.getAllByType(id);
+    }
+
+    @Override
+    public NewQueryBO getById(String id) {
+        return newsMapper.getById(id);
+    }
 }

@@ -2,6 +2,7 @@ package com.ecut.cnr.customer.view.controller;
 
 import com.ecut.cnr.customer.view.service.INewsService;
 import com.ecut.cnr.customer.view.service.INewsTypeService;
+import com.ecut.cnr.framework.bo.news.NewQueryBO;
 import com.ecut.cnr.framework.entity.news.NewsType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,8 +33,22 @@ public class NewsController {
     public String toDetail(Model model,String id){
         List<NewsType> newsTypes = newsTypeService.getAll();
         model.addAttribute("newsTypes",newsTypes);
+        NewQueryBO newQueryBO = newsService.getById(id);
+        model.addAttribute("newDetail",newQueryBO);
         return "details";
     }
+
+    @RequestMapping("/get/byType")
+    public String getByTy(Model model,String id){
+
+        List<NewsType> newsTypes = newsTypeService.getAll();
+        List<NewQueryBO>  newQueryBOS=  newsService.getAllByType(id);
+        model.addAttribute("typeId",id);
+        model.addAttribute("newsTypes",newsTypes);
+        model.addAttribute("news",newQueryBOS);
+        return "list";
+    }
+
 
 
 }
