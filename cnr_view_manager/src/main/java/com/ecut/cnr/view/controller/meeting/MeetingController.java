@@ -2,6 +2,7 @@ package com.ecut.cnr.view.controller.meeting;
 
 import com.ecut.cnr.framework.bo.sys.UserInfoBO;
 import com.ecut.cnr.framework.common.ResultBean;
+import com.ecut.cnr.framework.common.anno.ControllerEndpoint;
 import com.ecut.cnr.framework.common.utils.IdUtils;
 import com.ecut.cnr.framework.entity.meeting.MeetingInfo;
 import com.ecut.cnr.framework.entity.meeting.MeetingRoomInfo;
@@ -49,6 +50,7 @@ public class MeetingController {
     }
 
 
+    @ControllerEndpoint(operation = "添加会议", exceptionMessage = "添加会议异常")
     @RequiresPermissions("MEETING_ADD")
     @RequestMapping("/meeting/create")
     @ResponseBody
@@ -80,6 +82,7 @@ public class MeetingController {
         return new ResultBean<List<CalendarTaskVo>>(list);
     }
 
+    @ControllerEndpoint(operation = "修改会议", exceptionMessage = "修改会议异常")
     @RequiresPermissions("MEETING_UPDATE")
     @RequestMapping(value = "/meeting/update", method = RequestMethod.POST)
     @ResponseBody
@@ -92,6 +95,7 @@ public class MeetingController {
         return new ResultBean<Boolean>(b);
     }
 
+    @ControllerEndpoint(operation = "删除会议", exceptionMessage = "删除会议异常")
     @RequiresPermissions("MEETING_DELETE")
     @RequestMapping(value = "/meeting/deleteByID", method = RequestMethod.POST)
     @ResponseBody

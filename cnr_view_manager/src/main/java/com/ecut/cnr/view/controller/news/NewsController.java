@@ -6,6 +6,7 @@ import com.ecut.cnr.framework.bo.news.NewQueryBO;
 import com.ecut.cnr.framework.bo.news.NewsBO;
 import com.ecut.cnr.framework.bo.sys.UserInfoBO;
 import com.ecut.cnr.framework.common.Result;
+import com.ecut.cnr.framework.common.anno.ControllerEndpoint;
 import com.ecut.cnr.framework.common.base.BaseController;
 import com.ecut.cnr.framework.common.constants.CnrContants;
 import com.ecut.cnr.framework.common.enums.AuditEnum;
@@ -65,6 +66,7 @@ public class NewsController extends BaseController {
      * @param newsBO
      * @return
      */
+    @ControllerEndpoint(operation = "添加新闻信息", exceptionMessage = "添加新闻信息异常")
     @RequiresPermissions("NEW_ADD")
     @RequestMapping("/add/new")
     @ResponseBody
@@ -96,6 +98,7 @@ public class NewsController extends BaseController {
         return "news/addNews";
     }
 
+    @ControllerEndpoint(operation = "添加新闻类别", exceptionMessage = "添加新闻类别异常")
     @RequiresPermissions("NEW_TYPE_ADD")
     @RequestMapping("/add/type")
     @ResponseBody
@@ -175,6 +178,7 @@ public class NewsController extends BaseController {
      * @param newsTitle
      * @return
      */
+    @ControllerEndpoint(operation = "驳回新闻", exceptionMessage = "驳回新闻异常")
     @RequiresPermissions("NEW_REJECT")
     @RequestMapping("/audit/reject")
     @ResponseBody
@@ -199,6 +203,7 @@ public class NewsController extends BaseController {
      * @param newsTitle
      * @return
      */
+    @ControllerEndpoint(operation = "审核通过新闻信息", exceptionMessage = "审核通过新闻信息异常")
     @RequiresPermissions("NEW_SURE")
     @PostMapping("/audit/sure")
     @ResponseBody
@@ -237,6 +242,7 @@ public class NewsController extends BaseController {
      * 修改新闻信息
      * @return
      */
+    @ControllerEndpoint(operation = "修改新闻信息", exceptionMessage = "修改新闻信息异常")
     @RequiresPermissions("NEW_UPDATE")
     @RequestMapping("/update")
     @ResponseBody

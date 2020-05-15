@@ -2,6 +2,7 @@ package com.ecut.cnr.view.controller.sys;
 
 import com.alibaba.fastjson.JSONArray;
 import com.ecut.cnr.framework.common.Result;
+import com.ecut.cnr.framework.common.anno.ControllerEndpoint;
 import com.ecut.cnr.framework.common.utils.IdUtils;
 import com.ecut.cnr.framework.MenuUtils;
 import com.ecut.cnr.framework.entity.sys.SysMenu;
@@ -75,7 +76,7 @@ public class SysMenuController {
         model.addAttribute("icon", JSONArray.toJSON(menu.getIcon()));
         return "sys/menu/menuUpdate";
     }
-
+    @ControllerEndpoint(operation = "添加权限菜单", exceptionMessage = "添加权限菜单异常")
     @RequiresPermissions("MENU_ADD")
     @PostMapping("/save/menu")
     @ResponseBody
@@ -88,6 +89,7 @@ public class SysMenuController {
         return new Result();
     }
 
+    @ControllerEndpoint(operation = "修改权限菜单", exceptionMessage = "修改权限菜单异常")
     @RequiresPermissions("MENU_UPDATE")
     @PostMapping("/update/menu")
     @ResponseBody
@@ -99,6 +101,7 @@ public class SysMenuController {
         return new Result();
     }
 
+    @ControllerEndpoint(operation = "删除权限菜单", exceptionMessage = "删除权限菜单异常")
     @RequiresPermissions("MENU_DELETE")
     @PostMapping("/delete/menu")
     @ResponseBody

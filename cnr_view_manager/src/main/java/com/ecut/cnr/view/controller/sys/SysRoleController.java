@@ -3,6 +3,7 @@ package com.ecut.cnr.view.controller.sys;
 import com.alibaba.druid.support.json.JSONUtils;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.ecut.cnr.framework.common.Result;
+import com.ecut.cnr.framework.common.anno.ControllerEndpoint;
 import com.ecut.cnr.framework.common.base.BaseController;
 import com.ecut.cnr.framework.common.utils.IdUtils;
 import com.ecut.cnr.framework.dto.sys.RoleSearchDto;
@@ -60,26 +61,7 @@ public class SysRoleController extends BaseController {
 
         return result;
     }
-
-    @RequiresPermissions("ROLE_ADD")
-    @RequestMapping("/addRole")
-    public String  toAddPage(Model model){
-        List<SysMenu> list = sysMenuService.list(null);
-        model.addAttribute("allRole",list);
-        return "sys/role/addRole";
-    }
-
-   // @RequiresPermissions("ROLE_UPDATE")
-    @RequestMapping("/updateRole")
-    public String  toUpdatePage(Model model,String id){
-        try {
-            return "sys/role/updateRole";
-        } catch (Exception e) {
-            log.info("转到修改页面出错：{}",e);
-            return "common/500";
-        }
-    }
-
+    @ControllerEndpoint(operation = "删除角色", exceptionMessage = "删除角色异常")
     @RequiresPermissions("ROLE_DELETE")
     @RequestMapping("/delete/role")
     @ResponseBody
@@ -107,6 +89,7 @@ public class SysRoleController extends BaseController {
         return "sys/role/roleUpdate";
     }
 
+    @ControllerEndpoint(operation = "添加角色", exceptionMessage = "添加角色异常")
     @RequiresPermissions("ROLE_ADD")
     @RequestMapping("/save/role")
     @ResponseBody
@@ -126,6 +109,7 @@ public class SysRoleController extends BaseController {
      * @param roleInfoBO
      * @return
      */
+    @ControllerEndpoint(operation = "修改角色", exceptionMessage = "修改角色异常")
     @RequiresPermissions("ROLE_UPDATE")
     @RequestMapping("/update/role")
     @ResponseBody

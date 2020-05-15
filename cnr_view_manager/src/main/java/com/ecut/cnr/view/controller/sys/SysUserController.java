@@ -110,6 +110,7 @@ public class SysUserController extends BaseController{
         model.addAttribute("depts",list);
         return "sys/user/operateUser";
     }
+    @ControllerEndpoint(operation = "添加管理员用户账号", exceptionMessage = "添加管理员用户账号异常")
     @RequiresPermissions("USER_SAVER")
     @RequestMapping("/save/user")
     @ResponseBody
@@ -150,6 +151,7 @@ public class SysUserController extends BaseController{
      * @param userInfoBO
      * @return
      */
+    @ControllerEndpoint(operation = "修改管理员用户账号", exceptionMessage = "修改管理员用户账号异常")
     @RequiresPermissions("USER_UPDATE")
     @RequestMapping("/update/user")
     @ResponseBody
@@ -165,6 +167,7 @@ public class SysUserController extends BaseController{
         return Result.error("管理员修改失败");
     }
 
+    @ControllerEndpoint(operation = "激活管理员用户账号", exceptionMessage = "激活管理员用户账号异常")
     @RequiresPermissions("USER_ACTIVE")
     @RequestMapping("/update/status")
     @ResponseBody
@@ -220,6 +223,7 @@ public class SysUserController extends BaseController{
         return "sys/user/updatePic";
     }
 
+    @ControllerEndpoint(operation = "修改头像", exceptionMessage = "修改头像异常")
     @RequestMapping("/update/pic")
     @ResponseBody
     public Result updatePic(@RequestParam("file") MultipartFile file){
@@ -252,6 +256,7 @@ public class SysUserController extends BaseController{
         return "sys/user/updatePassword";
     }
 
+    @ControllerEndpoint(operation = "修改密码", exceptionMessage = "修改密码异常")
     @RequestMapping("/update/password")
     @ResponseBody
     public Result updatePassword(@RequestBody SysUser sysUser){

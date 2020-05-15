@@ -3,6 +3,7 @@ package com.ecut.cnr.view.controller.sys;
 import com.alibaba.fastjson.JSONArray;
 import com.ecut.cnr.framework.bo.sys.UserInfoBO;
 import com.ecut.cnr.framework.common.Result;
+import com.ecut.cnr.framework.common.anno.ControllerEndpoint;
 import com.ecut.cnr.framework.common.utils.IdUtils;
 import com.ecut.cnr.framework.entity.sys.Dept;
 import com.ecut.cnr.framework.entity.sys.SysUser;
@@ -80,6 +81,7 @@ public class DeptController {
         return "sys/dept/addDeptMaster";
     }
 
+    @ControllerEndpoint(operation = "添加部门", exceptionMessage = "添加部门异常")
     @RequiresPermissions("DEPT_ADD")
     @PostMapping("/save/dept")
     @ResponseBody
@@ -109,6 +111,7 @@ public class DeptController {
         sysUser.setDeptId(dept.getId());
     }
 
+    @ControllerEndpoint(operation = "修改部门", exceptionMessage = "修改部门异常")
     @RequiresPermissions("DEPT_UPDATE")
     @PostMapping("/update/dept/master")
     @ResponseBody
@@ -133,6 +136,7 @@ public class DeptController {
     }
 
 
+    @ControllerEndpoint(operation = "删除部门", exceptionMessage = "删除部门异常")
     @RequiresPermissions("DEPT_DELETE")
     @PostMapping("/delete/dept")
     @ResponseBody

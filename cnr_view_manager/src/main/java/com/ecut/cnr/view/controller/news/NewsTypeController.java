@@ -2,6 +2,7 @@ package com.ecut.cnr.view.controller.news;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.ecut.cnr.framework.common.Result;
+import com.ecut.cnr.framework.common.anno.ControllerEndpoint;
 import com.ecut.cnr.framework.common.base.BaseController;
 import com.ecut.cnr.framework.common.enums.ErrorEnum;
 import com.ecut.cnr.framework.entity.news.NewsType;
@@ -77,6 +78,7 @@ public class NewsTypeController extends BaseController {
         return "news/newsTypeUpdate";
     }
 
+    @ControllerEndpoint(operation = "删除新闻类型", exceptionMessage = "删除新闻类型异常")
     @RequiresPermissions("NEW_TYPE_DELETE")
     @RequestMapping("/delete/type")
     @ResponseBody
@@ -91,6 +93,7 @@ public class NewsTypeController extends BaseController {
         return new Result();
     }
 
+    @ControllerEndpoint(operation = "修改新闻类型", exceptionMessage = "修改新闻类型异常")
     @RequiresPermissions("NEW_TYPE_UPDATE")
     @RequestMapping("/update/type")
     @ResponseBody

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ecut.cnr.framework.bo.sys.UserInfoBO;
 import com.ecut.cnr.framework.common.Result;
+import com.ecut.cnr.framework.common.anno.ControllerEndpoint;
 import com.ecut.cnr.framework.common.base.BaseController;
 import com.ecut.cnr.framework.common.utils.IdUtils;
 import com.ecut.cnr.framework.entity.meeting.MeetingRoomInfo;
@@ -62,6 +63,7 @@ public class MeetingRoomController extends BaseController {
         return "meeting/addRoom";
     }
 
+    @ControllerEndpoint(operation = "会议室添加", exceptionMessage = "会议室添加异常")
     @RequiresPermissions("ROOM_ADD")
     @RequestMapping("/addRoom")
     @ResponseBody
@@ -90,6 +92,7 @@ public class MeetingRoomController extends BaseController {
         return "meeting/updateRoom";
     }
 
+    @ControllerEndpoint(operation = "会议室修改", exceptionMessage = "会议室修改异常")
     @RequiresPermissions("ROOM_UPDATE")
     @RequestMapping("/update/room")
     @ResponseBody
@@ -107,6 +110,7 @@ public class MeetingRoomController extends BaseController {
         return result;
     }
 
+    @ControllerEndpoint(operation = "会议室删除", exceptionMessage = "会议室删除异常")
     @RequiresPermissions("ROOM_DELETE")
     @RequestMapping("/delete/room")
     @ResponseBody
