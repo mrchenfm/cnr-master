@@ -29,7 +29,7 @@
         <java.version>1.8</java.version>
         <mybaits.version>1.3.2</mybaits.version>
         <mybatisplus.version>3.0.1</mybatisplus.version>
-        <shiro.version>1.4.0</shiro.version>
+        <shiro.version>1.7.0</shiro.version>
         <redis.pool.version>2.6.0</redis.pool.version>
         <commons.lang.version>2.6</commons.lang.version>
         <commons.fileupload.version>[1.3.3,)</commons.fileupload.version>
